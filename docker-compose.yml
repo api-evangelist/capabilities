@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  # The "dev" service can be used to develop without
+  #   installing node on your PC. Just run the container
+  #   in background and enter into it.
+  #
+  # $ docker-compose up -d dev
+  # $ docker exec -ti -w /code api-oas-checker_dev_1 /bin/bash
+  dev:
+    image: node:16.15
+    user: $UID:$GID
+    working_dir: /code
+    volumes:
+    - .:/code:z
+    - ./.devbashrc:/root/.bashrc
+    command: ["tail", "-f", "/etc/hosts"]
+  start:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    user: $UID:$GID
+  build:
+    build:
+      context: .
+    entrypoint:
+      - make
+    user: $UID:$GID
+    volumes:
+      - .:/app
