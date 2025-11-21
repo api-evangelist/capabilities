@@ -43,10 +43,6 @@ tags:
       Pay for bookings using a card or bank account, and view payment
       status and history.
 
-      > warn
-      > Bookings usually expire within 1 hour so you'll need to make your payment
-      > before the expiry date 
-
 paths:
   /stations:
     get:
