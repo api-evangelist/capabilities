@@ -1,0 +1,244 @@
+{
+  "rules": {
+    "name-negative": {
+      "description": "Ensures there is a name property.",
+      "message": "You MUST HAVE a name property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "name-positive": {
+      "description": "Ensures there is a name property.",
+      "message": "There is a name property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "description-negative": {
+      "description": "Ensures there is a description property.",
+      "message": "You MUST HAVE a description property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "description-positive": {
+      "description": "Ensures there is a description property.",
+      "message": "There is a description property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "benefits-negative": {
+      "description": "Ensures there is a benefits property.",
+      "message": "You MUST HAVE a benefits property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "benefits",
+        "function": "truthy"
+      }
+    },
+    "benefits-positive": {
+      "description": "Ensures there is a benefits property.",
+      "message": "There is a benefits property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "benefits",
+        "function": "falsy"
+      }
+    },
+    "pain-negative": {
+      "description": "Ensures there is a pain property.",
+      "message": "You MUST HAVE a pain property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "pain",
+        "function": "truthy"
+      }
+    },
+    "pain-positive": {
+      "description": "Ensures there is a pain property.",
+      "message": "There is a pain property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "pain",
+        "function": "falsy"
+      }
+    },
+    "pain-title-negative": {
+      "description": "Ensures there is a pain[*].title property.",
+      "message": "You MUST HAVE a pain[*].title property.",
+      "given": "$.pain[*]",
+      "severity": "error",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      }
+    },
+    "pain-title-positive": {
+      "description": "Ensures there is a pain[*].title property.",
+      "message": "There is a pain[*].title property.",
+      "given": "$.pain[*]",
+      "severity": "info",
+      "then": {
+        "field": "title",
+        "function": "falsy"
+      }
+    },
+    "pain-targets-negative": {
+      "description": "Ensures there is a pain[*].targets property.",
+      "message": "You MUST HAVE a pain[*].targets property.",
+      "given": "$.pain[*]",
+      "severity": "error",
+      "then": {
+        "field": "targets",
+        "function": "truthy"
+      }
+    },
+    "pain-targets-positive": {
+      "description": "Ensures there is a pain[*].targets property.",
+      "message": "There is a pain[*].targets property.",
+      "given": "$.pain[*]",
+      "severity": "info",
+      "then": {
+        "field": "targets",
+        "function": "falsy"
+      }
+    },
+    "gains-negative": {
+      "description": "Ensures there is a gains property.",
+      "message": "You MUST HAVE a gains property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "gains",
+        "function": "truthy"
+      }
+    },
+    "gains-positive": {
+      "description": "Ensures there is a gains property.",
+      "message": "There is a gains property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "gains",
+        "function": "falsy"
+      }
+    },
+    "gains-title-negative": {
+      "description": "Ensures there is a gains[*].title property.",
+      "message": "You MUST HAVE a gains[*].title property.",
+      "given": "$.gains[*]",
+      "severity": "error",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      }
+    },
+    "gains-title-positive": {
+      "description": "Ensures there is a gains[*].title property.",
+      "message": "There is a gains[*].title property.",
+      "given": "$.gains[*]",
+      "severity": "info",
+      "then": {
+        "field": "title",
+        "function": "falsy"
+      }
+    },
+    "narratives-negative": {
+      "description": "Ensures there is a narratives property.",
+      "message": "You MUST HAVE a narratives property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "narratives",
+        "function": "truthy"
+      }
+    },
+    "narratives-positive": {
+      "description": "Ensures there is a narratives property.",
+      "message": "There is a narratives property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "narratives",
+        "function": "falsy"
+      }
+    },
+    "narratives-title-negative": {
+      "description": "Ensures there is a narratives[*].title property.",
+      "message": "You MUST HAVE a narratives[*].title property.",
+      "given": "$.narratives[*]",
+      "severity": "error",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      }
+    },
+    "narratives-title-positive": {
+      "description": "Ensures there is a narratives[*].title property.",
+      "message": "There is a narratives[*].title property.",
+      "given": "$.narratives[*]",
+      "severity": "info",
+      "then": {
+        "field": "title",
+        "function": "falsy"
+      }
+    },
+    "narratives-body-negative": {
+      "description": "Ensures there is a narratives[*].body property.",
+      "message": "You MUST HAVE a narratives[*].body property.",
+      "given": "$.narratives[*]",
+      "severity": "error",
+      "then": {
+        "field": "body",
+        "function": "truthy"
+      }
+    },
+    "narratives-body-positive": {
+      "description": "Ensures there is a narratives[*].body property.",
+      "message": "There is a narratives[*].body property.",
+      "given": "$.narratives[*]",
+      "severity": "info",
+      "then": {
+        "field": "body",
+        "function": "falsy"
+      }
+    },
+    "narratives-targets-negative": {
+      "description": "Ensures there is a narratives[*].targets property.",
+      "message": "You MUST HAVE a narratives[*].targets property.",
+      "given": "$.narratives[*]",
+      "severity": "error",
+      "then": {
+        "field": "targets",
+        "function": "truthy"
+      }
+    },
+    "narratives-targets-positive": {
+      "description": "Ensures there is a narratives[*].targets property.",
+      "message": "There is a narratives[*].targets property.",
+      "given": "$.narratives[*]",
+      "severity": "info",
+      "then": {
+        "field": "targets",
+        "function": "falsy"
+      }
+    }
+  }
+}

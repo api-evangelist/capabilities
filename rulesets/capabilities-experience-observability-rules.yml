@@ -1,0 +1,205 @@
+#	Ruleset name: Experience - Observability - Capabilities
+#	Ruleset version: 1.1
+rules:
+  metrics-negative:
+    description: Ensures there is a metrics property.
+    message: You MUST HAVE a metrics property.
+    given: $
+    severity: error
+    then:
+      field: metrics
+      function: truthy
+    tags:
+      - Observability
+  metrics-positive:
+    description: Ensures there is a metrics property.
+    message: There is a metrics property.
+    given: $
+    severity: info
+    then:
+      field: metrics
+      function: falsy
+    tags:
+      - Observability
+  metrics-weaving-score-negative:
+    description: Ensures there is a metrics.weavingScore property.
+    message: You MUST HAVE a metrics.weavingScore property.
+    given: $.metrics
+    severity: error
+    then:
+      field: weavingScore
+      function: truthy
+    tags:
+      - Observability
+  metrics-weaving-score-positive:
+    description: Ensures there is a metrics.weavingScore property.
+    message: There is a metrics.weavingScore property.
+    given: $.metrics
+    severity: info
+    then:
+      field: weavingScore
+      function: falsy
+    tags:
+      - Observability
+  metrics-maturity-score-negative:
+    description: Ensures there is a metrics.maturityScore property.
+    message: You MUST HAVE a metrics.maturityScore property.
+    given: $.metrics
+    severity: error
+    then:
+      field: maturityScore
+      function: truthy
+    tags:
+      - Observability
+  metrics-maturity-score-positive:
+    description: Ensures there is a metrics.maturityScore property.
+    message: There is a metrics.maturityScore property.
+    given: $.metrics
+    severity: info
+    then:
+      field: maturityScore
+      function: falsy
+    tags:
+      - Observability
+  metrics-rating-negative:
+    description: Ensures there is a metrics.rating property.
+    message: You MUST HAVE a metrics.rating property.
+    given: $.metrics
+    severity: error
+    then:
+      field: rating
+      function: truthy
+    tags:
+      - Observability
+  metrics-rating-positive:
+    description: Ensures there is a metrics.rating property.
+    message: There is a metrics.rating property.
+    given: $.metrics
+    severity: info
+    then:
+      field: rating
+      function: falsy
+    tags:
+      - Observability
+  metrics-number-of-downloads-negative:
+    description: Ensures there is a metrics.numberOfDownloads property.
+    message: You MUST HAVE a metrics.numberOfDownloads property.
+    given: $.metrics
+    severity: error
+    then:
+      field: numberOfDownloads
+      function: truthy
+    tags:
+      - Observability
+  metrics-number-of-downloads-positive:
+    description: Ensures there is a metrics.numberOfDownloads property.
+    message: There is a metrics.numberOfDownloads property.
+    given: $.metrics
+    severity: info
+    then:
+      field: numberOfDownloads
+      function: falsy
+    tags:
+      - Observability
+  metrics-forks-negative:
+    description: Ensures there is a metrics.forks property.
+    message: You MUST HAVE a metrics.forks property.
+    given: $.metrics
+    severity: error
+    then:
+      field: forks
+      function: truthy
+    tags:
+      - Observability
+      - Reusability
+  metrics-forks-positive:
+    description: Ensures there is a metrics.forks property.
+    message: There is a metrics.forks property.
+    given: $.metrics
+    severity: info
+    then:
+      field: forks
+      function: falsy
+    tags:
+      - Observability
+      - Reusability
+  metrics-watches-negative:
+    description: Ensures there is a metrics.watches property.
+    message: You MUST HAVE a metrics.watches property.
+    given: $.metrics
+    severity: error
+    then:
+      field: watches
+      function: truthy
+    tags:
+      - Observability
+  metrics-watches-positive:
+    description: Ensures there is a metrics.watches property.
+    message: There is a metrics.watches property.
+    given: $.metrics
+    severity: info
+    then:
+      field: watches
+      function: falsy
+    tags:
+      - Observability
+  metrics-likes-negative:
+    description: Ensures there is a metrics.likes property.
+    message: You MUST HAVE a metrics.likes property.
+    given: $.metrics
+    severity: error
+    then:
+      field: likes
+      function: truthy
+    tags:
+      - Observability
+  metrics-likes-positive:
+    description: Ensures there is a metrics.likes property.
+    message: There is a metrics.likes property.
+    given: $.metrics
+    severity: info
+    then:
+      field: likes
+      function: falsy
+    tags:
+      - Observability
+  observability-negative:
+    description: Ensures there is a observability property.
+    message: You MUST HAVE a observability property.
+    given: $
+    severity: error
+    then:
+      field: observability
+      function: truthy
+    tags:
+      - Observability
+  observability-positive:
+    description: Ensures there is a observability property.
+    message: There is a observability property.
+    given: $
+    severity: info
+    then:
+      field: observability
+      function: falsy
+    tags:
+      - Observability
+  observability-visibility-negative:
+    description: Ensures there is a observability.visibility property.
+    message: You MUST HAVE a observability.visibility property.
+    given: $.observability
+    severity: error
+    then:
+      field: visibility
+      function: truthy
+    tags:
+      - Observability
+  observability-visibility-positive:
+    description: Ensures there is a observability.visibility property.
+    message: There is a observability.visibility property.
+    given: $.observability
+    severity: info
+    then:
+      field: visibility
+      function: falsy
+    tags:
+      - Observability

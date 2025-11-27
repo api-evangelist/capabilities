@@ -1,0 +1,157 @@
+#	Ruleset name: Experience - Discovery - Capabilities
+#	Ruleset version: 1.1
+rules:
+  info-negative:
+    description: Ensures there is a info property.
+    message: You MUST HAVE a info property.
+    given: $
+    severity: error
+    then:
+      field: info
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-positive:
+    description: Ensures there is a info property.
+    message: There is a info property.
+    given: $
+    severity: info
+    then:
+      field: info
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-name-negative:
+    description: Ensures there is a info.name property.
+    message: You MUST HAVE a info.name property.
+    given: $.info
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-name-positive:
+    description: Ensures there is a info.name property.
+    message: There is a info.name property.
+    given: $.info
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-description-negative:
+    description: Ensures there is a info.description property.
+    message: You MUST HAVE a info.description property.
+    given: $.info
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-description-positive:
+    description: Ensures there is a info.description property.
+    message: There is a info.description property.
+    given: $.info
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-tags-negative:
+    description: Ensures there is a info.tags property.
+    message: You MUST HAVE a info.tags property.
+    given: $.info
+    severity: error
+    then:
+      field: tags
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization
+  info-tags-positive:
+    description: Ensures there is a info.tags property.
+    message: There is a info.tags property.
+    given: $.info
+    severity: info
+    then:
+      field: tags
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization
+  info-json-ld-negative:
+    description: Ensures there is a info.jsonLd property.
+    message: You MUST HAVE a info.jsonLd property.
+    given: $.info
+    severity: error
+    then:
+      field: jsonLd
+      function: truthy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization
+  info-json-ld-positive:
+    description: Ensures there is a info.jsonLd property.
+    message: There is a info.jsonLd property.
+    given: $.info
+    severity: info
+    then:
+      field: jsonLd
+      function: falsy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization
+  info-pinned-negative:
+    description: Ensures there is a info.pinned property.
+    message: You MUST HAVE a info.pinned property.
+    given: $.info
+    severity: error
+    then:
+      field: pinned
+      function: truthy
+    tags:
+      - Discovery
+  info-pinned-positive:
+    description: Ensures there is a info.pinned property.
+    message: There is a info.pinned property.
+    given: $.info
+    severity: info
+    then:
+      field: pinned
+      function: falsy
+    tags:
+      - Discovery
+  info-featured-negative:
+    description: Ensures there is a info.featured property.
+    message: You MUST HAVE a info.featured property.
+    given: $.info
+    severity: error
+    then:
+      field: featured
+      function: truthy
+    tags:
+      - Discovery
+  info-featured-positive:
+    description: Ensures there is a info.featured property.
+    message: There is a info.featured property.
+    given: $.info
+    severity: info
+    then:
+      field: featured
+      function: falsy
+    tags:
+      - Discovery

@@ -1,0 +1,164 @@
+{
+  "rules": {
+    "name-negative": {
+      "description": "Ensures there is a name property.",
+      "message": "You MUST HAVE a name property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "name-positive": {
+      "description": "Ensures there is a name property.",
+      "message": "There is a name property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "type-negative": {
+      "description": "Ensures there is a type property.",
+      "message": "You MUST HAVE a type property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "type-positive": {
+      "description": "Ensures there is a type property.",
+      "message": "There is a type property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "limit-negative": {
+      "description": "Ensures there is a limit property.",
+      "message": "You MUST HAVE a limit property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "limit",
+        "function": "truthy"
+      }
+    },
+    "limit-positive": {
+      "description": "Ensures there is a limit property.",
+      "message": "There is a limit property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "limit",
+        "function": "falsy"
+      }
+    },
+    "metric-negative": {
+      "description": "Ensures there is a metric property.",
+      "message": "You MUST HAVE a metric property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "metric",
+        "function": "truthy"
+      }
+    },
+    "metric-positive": {
+      "description": "Ensures there is a metric property.",
+      "message": "There is a metric property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "metric",
+        "function": "falsy"
+      }
+    },
+    "domains-negative": {
+      "description": "Ensures there is a domains property.",
+      "message": "You MUST HAVE a domains property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "domains",
+        "function": "truthy"
+      }
+    },
+    "domains-positive": {
+      "description": "Ensures there is a domains property.",
+      "message": "There is a domains property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "domains",
+        "function": "falsy"
+      }
+    },
+    "timeframe-negative": {
+      "description": "Ensures there is a timeframe property.",
+      "message": "You MUST HAVE a timeframe property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "timeframe",
+        "function": "truthy"
+      }
+    },
+    "timeframe-positive": {
+      "description": "Ensures there is a timeframe property.",
+      "message": "There is a timeframe property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "timeframe",
+        "function": "falsy"
+      }
+    },
+    "description-negative": {
+      "description": "Ensures there is a description property.",
+      "message": "You MUST HAVE a description property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "description-positive": {
+      "description": "Ensures there is a description property.",
+      "message": "There is a description property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "user-multiplied-negative": {
+      "description": "Ensures there is a userMultiplied property.",
+      "message": "You MUST HAVE a userMultiplied property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "userMultiplied",
+        "function": "truthy"
+      }
+    },
+    "user-multiplied-positive": {
+      "description": "Ensures there is a userMultiplied property.",
+      "message": "There is a userMultiplied property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "userMultiplied",
+        "function": "falsy"
+      }
+    }
+  }
+}

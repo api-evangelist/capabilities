@@ -1,0 +1,143 @@
+#	Ruleset name: Experience - Changes - Capabilities
+#	Ruleset version: 1.1
+rules:
+  events-specversion-negative:
+    description: Ensures there is a events[*].specversion property.
+    message: You MUST HAVE a events[*].specversion property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: specversion
+      function: truthy
+    tags:
+      - Changes
+  events-specversion-positive:
+    description: Ensures there is a events[*].specversion property.
+    message: There is a events[*].specversion property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: specversion
+      function: falsy
+    tags:
+      - Changes
+  change-negative:
+    description: Ensures there is a change property.
+    message: You MUST HAVE a change property.
+    given: $
+    severity: error
+    then:
+      field: change
+      function: truthy
+    tags:
+      - Changes
+  change-positive:
+    description: Ensures there is a change property.
+    message: There is a change property.
+    given: $
+    severity: info
+    then:
+      field: change
+      function: falsy
+    tags:
+      - Changes
+  change-state-negative:
+    description: Ensures there is a change.state property.
+    message: You MUST HAVE a change.state property.
+    given: $.change
+    severity: error
+    then:
+      field: state
+      function: truthy
+    tags:
+      - Changes
+  change-state-positive:
+    description: Ensures there is a change.state property.
+    message: There is a change.state property.
+    given: $.change
+    severity: info
+    then:
+      field: state
+      function: falsy
+    tags:
+      - Changes
+  change-schema-version-negative:
+    description: Ensures there is a change.schemaVersion property.
+    message: You MUST HAVE a change.schemaVersion property.
+    given: $.change
+    severity: error
+    then:
+      field: schemaVersion
+      function: truthy
+    tags:
+      - Changes
+  change-schema-version-positive:
+    description: Ensures there is a change.schemaVersion property.
+    message: There is a change.schemaVersion property.
+    given: $.change
+    severity: info
+    then:
+      field: schemaVersion
+      function: falsy
+    tags:
+      - Changes
+  change-capability-version-negative:
+    description: Ensures there is a change.capabilityVersion property.
+    message: You MUST HAVE a change.capabilityVersion property.
+    given: $.change
+    severity: error
+    then:
+      field: capabilityVersion
+      function: truthy
+    tags:
+      - Changes
+  change-capability-version-positive:
+    description: Ensures there is a change.capabilityVersion property.
+    message: There is a change.capabilityVersion property.
+    given: $.change
+    severity: info
+    then:
+      field: capabilityVersion
+      function: falsy
+    tags:
+      - Changes
+  change-updated-negative:
+    description: Ensures there is a change.updated property.
+    message: You MUST HAVE a change.updated property.
+    given: $.change
+    severity: error
+    then:
+      field: updated
+      function: truthy
+    tags:
+      - Changes
+  change-updated-positive:
+    description: Ensures there is a change.updated property.
+    message: There is a change.updated property.
+    given: $.change
+    severity: info
+    then:
+      field: updated
+      function: falsy
+    tags:
+      - Changes
+  change-created-negative:
+    description: Ensures there is a change.created property.
+    message: You MUST HAVE a change.created property.
+    given: $.change
+    severity: error
+    then:
+      field: created
+      function: truthy
+    tags:
+      - Changes
+  change-created-positive:
+    description: Ensures there is a change.created property.
+    message: There is a change.created property.
+    given: $.change
+    severity: info
+    then:
+      field: created
+      function: falsy
+    tags:
+      - Changes

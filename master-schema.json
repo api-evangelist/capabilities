@@ -1,0 +1,1984 @@
+{
+  "$id": "https://github.com/naftiko/capabilities/blob/main/schema.yml",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Master",
+  "description": "This is the master JSON Schema.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/Capabilities"
+    },
+    {
+      "$ref": "#/$defs/OpenAPI"
+    }
+  ],
+  "$defs": {
+    "Capabilities": {
+      "title": "Capability",
+      "description": "Capabilities are open-source, declarative, standards-based integrations that are aligned with business outcomes within specific domains, providing what is needed to deliver and automate integrations across a variety of use cases.",
+      "type": "object",
+      "required": [
+        "naftiko"
+      ],
+      "properties": {
+        "info": {
+          "type": "object",
+          "required": [
+            "name",
+            "description"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the capability",
+              "defaultSnippets": [
+                  {
+                      "label": "Choice One",
+                      "description": "KEY",
+                      "body": "Simple Title"
+                  },
+                  {
+                      "label": "Choice Two",
+                      "description": "KEY",
+                      "body": "A More Complex and Refined Title"
+                  }                  
+              ],
+              "markdownDescription": "This message is unique to this property and can be linked anywhere to support inline within IDE, or anywhere else this schema is used. [See the documentation](https://example.com)"  
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the capability",
+              "defaultSnippets": [
+                  {
+                      "label": "Choice One",
+                      "description": "KEY2",
+                      "body": "Needs a description."
+                  },
+                  {
+                      "label": "Choice Two",
+                      "description": "KEY2",
+                      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                  }                  
+              ],
+              "markdownDescription": "This message is unique to this property and can be linked anywhere to support inline within IDE, or anywhere else this schema is used. [See the documentation](https://example.com)"  
+            },
+            "icon": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the capability icon"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Tags for categorizing the capability"
+            },
+            "jsonLd": {
+              "type": "string",
+              "description": "JSON-LD structured data"
+            },
+            "pinned": {
+              "type": "boolean",
+              "description": "Whether the capability is pinned"
+            },
+            "featured": {
+              "type": "boolean",
+              "description": "Whether the capability is featured"
+            }
+          }
+        },
+        "useCase": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "description": "Reference to use case definition file"
+              }
+            }
+          },
+          "description": "Use cases for this capability"
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "FN"
+            ],
+            "properties": {
+              "FN": {
+                "type": "string",
+                "description": "Full name of the stakeholder"
+              },
+              "ROLE": {
+                "type": "string",
+                "description": "Role or title of the stakeholder"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address of the stakeholder"
+              },
+              "SOCIALPROFILE": {
+                "type": "string",
+                "format": "uri",
+                "description": "Social profile URL (e.g., LinkedIn)"
+              }
+            }
+          },
+          "description": "Stakeholders associated with this capability"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "description": "Reference to sub-capability definition file"
+              }
+            }
+          },
+          "description": "Sub-capabilities that compose this capability"
+        },
+        "ports": {
+          "type": "object",
+          "properties": {
+            "artificialIntelligence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "adapter",
+                  "title"
+                ],
+                "properties": {
+                  "adapter": {
+                    "type": "string",
+                    "enum": [
+                      "MCP"
+                    ],
+                    "description": "AI adapter type (e.g., Model Context Protocol)"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the AI integration"
+                  },
+                  "jsonSchema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "description": "Reference to JSON Schema file"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "source": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "adapter",
+                  "title"
+                ],
+                "properties": {
+                  "adapter": {
+                    "type": "string",
+                    "description": "Source adapter type (e.g., HTTP API)"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the source integration"
+                  },
+                  "openApi": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "description": "Reference to OpenAPI specification file"
+                        }
+                      }
+                    }
+                  },
+                  "brunoCollection": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "description": "Reference to Bruno collection file"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Integration ports for AI and source systems"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "specversion",
+              "type",
+              "source"
+            ],
+            "properties": {
+              "specversion": {
+                "type": "string",
+                "description": "CloudEvents specification version"
+              },
+              "type": {
+                "type": "string",
+                "description": "Event type identifier"
+              },
+              "source": {
+                "type": "string",
+                "format": "uri",
+                "description": "Event source URI"
+              },
+              "datacontenttype": {
+                "type": "string",
+                "description": "Content type of the event data"
+              },
+              "dataschema": {
+                "type": "string",
+                "format": "uri",
+                "description": "URI to the schema for event data"
+              }
+            }
+          },
+          "description": "CloudEvents definitions"
+        },
+        "virtualization": {
+          "type": "object",
+          "properties": {
+            "sandboxes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "url"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the sandbox environment"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to the sandbox"
+                  }
+                }
+              }
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "url"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the data set"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to the data set"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Virtualization resources including sandboxes and synthetic data"
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "weavingScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Weaving score metric"
+            },
+            "maturityScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Maturity score metric"
+            },
+            "rating": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10,
+              "description": "Overall rating"
+            },
+            "numberOfDownloads": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of downloads"
+            },
+            "forks": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of forks"
+            },
+            "watches": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of watches"
+            },
+            "likes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of likes"
+            }
+          },
+          "description": "Metrics and statistics for the capability"
+        },
+        "change": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "New",
+                "Active",
+                "Deprecated",
+                "Retired"
+              ],
+              "description": "Current state of the capability"
+            },
+            "schemaVersion": {
+              "type": "string",
+              "pattern": "^\\d+\\.\\d+\\.\\d+$",
+              "description": "Schema version (semver)"
+            },
+            "capabilityVersion": {
+              "type": "string",
+              "pattern": "^\\d+\\.\\d+\\.\\d+$",
+              "description": "Capability version (semver)"
+            },
+            "updated": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last updated timestamp"
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creation timestamp"
+            }
+          },
+          "description": "Change management and versioning information"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "httpUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "HTTP URL to the source repository"
+            },
+            "sshUrl": {
+              "type": "string",
+              "description": "SSH URL to the source repository"
+            },
+            "dockertHub": {
+              "type": "string",
+              "format": "uri",
+              "description": "Docker Hub URL"
+            }
+          },
+          "description": "Source code and artifact repositories"
+        },
+        "support": {
+          "type": "object",
+          "properties": {
+            "issues": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the issues tracker"
+            },
+            "discussions": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to discussions forum"
+            },
+            "slack": {
+              "type": "string",
+              "format": "uri",
+              "description": "Slack channel URL"
+            }
+          },
+          "description": "Support channels and resources"
+        },
+        "license": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "required": [
+                "type",
+                "attribution"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "License type URL"
+                },
+                "attribution": {
+                  "type": "string",
+                  "description": "License attribution text"
+                },
+                "instance": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to specific license instance"
+                }
+              }
+            },
+            "code": {
+              "type": "object",
+              "required": [
+                "type",
+                "attribution"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "License type URL"
+                },
+                "attribution": {
+                  "type": "string",
+                  "description": "License attribution text"
+                },
+                "instance": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to specific license instance"
+                }
+              }
+            },
+            "api": {
+              "type": "object",
+              "required": [
+                "type",
+                "attribution"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "License type URL"
+                },
+                "attribution": {
+                  "type": "string",
+                  "description": "License attribution text"
+                },
+                "instance": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to specific license instance"
+                }
+              }
+            }
+          },
+          "description": "Licensing information for data, code, and API"
+        },
+        "standards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the standard"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of how the standard is used"
+              },
+              "docUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to standard documentation"
+              }
+            }
+          },
+          "description": "Standards and specifications used"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the security mechanism"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the security mechanism"
+              },
+              "docUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to security documentation"
+              }
+            }
+          },
+          "description": "Security mechanisms and standards"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the service"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the service"
+              },
+              "docUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to service documentation"
+              },
+              "apisJson": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to APIs.json file"
+              }
+            }
+          },
+          "description": "External services integrated with this capability"
+        },
+        "observability": {
+          "type": "object",
+          "properties": {
+            "visibility": {
+              "type": "string",
+              "enum": [
+                "Public",
+                "Private",
+                "Internal"
+              ],
+              "description": "Visibility level of the capability"
+            }
+          },
+          "description": "Observability and visibility settings"
+        }
+      }
+    },
+    "OpenAPI": {
+      "type": "object",
+      "properties": {
+        "openapi": {
+          "type": "string",
+          "pattern": "^3\\.1\\.\\d+(-.+)?$"
+        },
+        "info": {
+          "$ref": "#/$defs/info"
+        },
+        "jsonSchemaDialect": {
+          "type": "string",
+          "format": "uri-reference",
+          "default": "https://spec.openapis.org/oas/3.1/dialect/2024-11-10"
+        },
+        "servers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/server"
+          },
+          "default": [
+            {
+              "url": "/"
+            }
+          ]
+        },
+        "paths": {
+          "$ref": "#/$defs/paths"
+        },
+        "webhooks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path-item"
+          }
+        },
+        "components": {
+          "$ref": "#/$defs/components"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/security-requirement"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tag"
+          }
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/external-documentation"
+        }
+      }
+    },
+    "info": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#info-object",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "termsOfService": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "contact": {
+          "$ref": "#/$defs/contact"
+        },
+        "license": {
+          "$ref": "#/$defs/license"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "version"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "contact": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#contact-object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "license": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#license-object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri-reference"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "dependentSchemas": {
+        "identifier": {
+          "not": {
+            "required": [
+              "url"
+            ]
+          }
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "server": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#server-object",
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "variables": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/server-variable"
+          }
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "server-variable": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#server-variable-object",
+      "type": "object",
+      "properties": {
+        "enum": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "default": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "default"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "components": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#components-object",
+      "type": "object",
+      "properties": {
+        "schemas": {
+          "type": "object",
+          "additionalProperties": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "responses": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/response-or-reference"
+          }
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/parameter-or-reference"
+          }
+        },
+        "examples": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/example-or-reference"
+          }
+        },
+        "requestBodies": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/request-body-or-reference"
+          }
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/header-or-reference"
+          }
+        },
+        "securitySchemes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/security-scheme-or-reference"
+          }
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/link-or-reference"
+          }
+        },
+        "callbacks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/callbacks-or-reference"
+          }
+        },
+        "pathItems": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path-item"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(schemas|responses|parameters|examples|requestBodies|headers|securitySchemes|links|callbacks|pathItems)$": {
+          "$comment": "Enumerating all of the property names in the regex above is necessary for unevaluatedProperties to work as expected",
+          "propertyNames": {
+            "pattern": "^[a-zA-Z0-9._-]+$"
+          }
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "paths": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#paths-object",
+      "type": "object",
+      "patternProperties": {
+        "^/": {
+          "$ref": "#/$defs/path-item"
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "path-item": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#path-item-object",
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "servers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/server"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameter-or-reference"
+          }
+        },
+        "get": {
+          "$ref": "#/$defs/operation"
+        },
+        "put": {
+          "$ref": "#/$defs/operation"
+        },
+        "post": {
+          "$ref": "#/$defs/operation"
+        },
+        "delete": {
+          "$ref": "#/$defs/operation"
+        },
+        "options": {
+          "$ref": "#/$defs/operation"
+        },
+        "head": {
+          "$ref": "#/$defs/operation"
+        },
+        "patch": {
+          "$ref": "#/$defs/operation"
+        },
+        "trace": {
+          "$ref": "#/$defs/operation"
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "operation": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#operation-object",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/external-documentation"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameter-or-reference"
+          }
+        },
+        "requestBody": {
+          "$ref": "#/$defs/request-body-or-reference"
+        },
+        "responses": {
+          "$ref": "#/$defs/responses"
+        },
+        "callbacks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/callbacks-or-reference"
+          }
+        },
+        "deprecated": {
+          "default": false,
+          "type": "boolean"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/security-requirement"
+          }
+        },
+        "servers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/server"
+          }
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "external-documentation": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#external-documentation-object",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri-reference"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "parameter": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#parameter-object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "in": {
+          "enum": [
+            "query",
+            "header",
+            "path",
+            "cookie"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "type": "boolean"
+        },
+        "deprecated": {
+          "default": false,
+          "type": "boolean"
+        },
+        "schema": {
+          "$dynamicRef": "#meta"
+        },
+        "content": {
+          "$ref": "#/$defs/content",
+          "minProperties": 1,
+          "maxProperties": 1
+        }
+      },
+      "required": [
+        "name",
+        "in"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "schema"
+          ]
+        },
+        {
+          "required": [
+            "content"
+          ]
+        }
+      ],
+      "if": {
+        "properties": {
+          "in": {
+            "const": "query"
+          }
+        },
+        "required": [
+          "in"
+        ]
+      },
+      "then": {
+        "properties": {
+          "allowEmptyValue": {
+            "default": false,
+            "type": "boolean"
+          }
+        }
+      },
+      "dependentSchemas": {
+        "schema": {
+          "properties": {
+            "style": {
+              "type": "string"
+            },
+            "explode": {
+              "type": "boolean"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/examples"
+            },
+            {
+              "$ref": "#/$defs/styles-for-form"
+            }
+          ],
+          "$defs": {
+            "styles-for-path": {
+              "if": {
+                "properties": {
+                  "in": {
+                    "const": "path"
+                  }
+                },
+                "required": [
+                  "in"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "style": {
+                    "default": "simple",
+                    "enum": [
+                      "matrix",
+                      "label",
+                      "simple"
+                    ]
+                  },
+                  "required": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "required"
+                ]
+              }
+            },
+            "styles-for-header": {
+              "if": {
+                "properties": {
+                  "in": {
+                    "const": "header"
+                  }
+                },
+                "required": [
+                  "in"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "style": {
+                    "default": "simple",
+                    "const": "simple"
+                  }
+                }
+              }
+            },
+            "styles-for-query": {
+              "if": {
+                "properties": {
+                  "in": {
+                    "const": "query"
+                  }
+                },
+                "required": [
+                  "in"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "style": {
+                    "default": "form",
+                    "enum": [
+                      "form",
+                      "spaceDelimited",
+                      "pipeDelimited",
+                      "deepObject"
+                    ]
+                  },
+                  "allowReserved": {
+                    "default": false,
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "styles-for-cookie": {
+              "if": {
+                "properties": {
+                  "in": {
+                    "const": "cookie"
+                  }
+                },
+                "required": [
+                  "in"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "style": {
+                    "default": "form",
+                    "const": "form"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "parameter-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/parameter"
+      }
+    },
+    "request-body": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#request-body-object",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "required": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "content"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "request-body-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/request-body"
+      }
+    },
+    "content": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#fixed-fields-10",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/media-type"
+      },
+      "propertyNames": {
+        "format": "media-range"
+      }
+    },
+    "media-type": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#media-type-object",
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$dynamicRef": "#meta"
+        },
+        "encoding": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/encoding"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/specification-extensions"
+        },
+        {
+          "$ref": "#/$defs/examples"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "encoding": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#encoding-object",
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "format": "media-range"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/header-or-reference"
+          }
+        },
+        "style": {
+          "default": "form",
+          "enum": [
+            "form",
+            "spaceDelimited",
+            "pipeDelimited",
+            "deepObject"
+          ]
+        },
+        "explode": {
+          "type": "boolean"
+        },
+        "allowReserved": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/specification-extensions"
+        },
+        {
+          "$ref": "#/$defs/styles-for-form"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "responses": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#responses-object",
+      "type": "object",
+      "properties": {
+        "default": {
+          "$ref": "#/$defs/response-or-reference"
+        }
+      },
+      "patternProperties": {
+        "^[1-5](?:[0-9]{2}|XX)$": {
+          "$ref": "#/$defs/response-or-reference"
+        }
+      },
+      "minProperties": 1,
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false,
+      "if": {
+        "$comment": "either default, or at least one response code property must exist",
+        "patternProperties": {
+          "^[1-5](?:[0-9]{2}|XX)$": false
+        }
+      },
+      "then": {
+        "required": [
+          "default"
+        ]
+      }
+    },
+    "response": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#response-object",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/header-or-reference"
+          }
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/link-or-reference"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "response-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/response"
+      }
+    },
+    "callbacks": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#callback-object",
+      "type": "object",
+      "$ref": "#/$defs/specification-extensions",
+      "additionalProperties": {
+        "$ref": "#/$defs/path-item"
+      }
+    },
+    "callbacks-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/callbacks"
+      }
+    },
+    "example": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#example-object",
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "value": true,
+        "externalValue": {
+          "type": "string",
+          "format": "uri-reference"
+        }
+      },
+      "not": {
+        "required": [
+          "value",
+          "externalValue"
+        ]
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "example-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/example"
+      }
+    },
+    "link": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#link-object",
+      "type": "object",
+      "properties": {
+        "operationRef": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/map-of-strings"
+        },
+        "requestBody": true,
+        "description": {
+          "type": "string"
+        },
+        "body": {
+          "$ref": "#/$defs/server"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "operationRef"
+          ]
+        },
+        {
+          "required": [
+            "operationId"
+          ]
+        }
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "link-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/link"
+      }
+    },
+    "header": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#header-object",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "type": "boolean"
+        },
+        "deprecated": {
+          "default": false,
+          "type": "boolean"
+        },
+        "schema": {
+          "$dynamicRef": "#meta"
+        },
+        "content": {
+          "$ref": "#/$defs/content",
+          "minProperties": 1,
+          "maxProperties": 1
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "schema"
+          ]
+        },
+        {
+          "required": [
+            "content"
+          ]
+        }
+      ],
+      "dependentSchemas": {
+        "schema": {
+          "properties": {
+            "style": {
+              "default": "simple",
+              "const": "simple"
+            },
+            "explode": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          "$ref": "#/$defs/examples"
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "header-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/header"
+      }
+    },
+    "tag": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#tag-object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/external-documentation"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false
+    },
+    "reference": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#reference-object",
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "schema": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#schema-object",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ]
+    },
+    "security-scheme": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#security-scheme-object",
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "apiKey",
+            "http",
+            "mutualTLS",
+            "oauth2",
+            "openIdConnect"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/specification-extensions"
+        },
+        {
+          "$ref": "#/$defs/security-scheme/$defs/type-apikey"
+        },
+        {
+          "$ref": "#/$defs/security-scheme/$defs/type-http"
+        },
+        {
+          "$ref": "#/$defs/security-scheme/$defs/type-http-bearer"
+        },
+        {
+          "$ref": "#/$defs/security-scheme/$defs/type-oauth2"
+        },
+        {
+          "$ref": "#/$defs/security-scheme/$defs/type-oidc"
+        }
+      ],
+      "unevaluatedProperties": false,
+      "$defs": {
+        "type-apikey": {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "apiKey"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "in": {
+                "enum": [
+                  "query",
+                  "header",
+                  "cookie"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "in"
+            ]
+          }
+        },
+        "type-http": {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "http"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scheme": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "scheme"
+            ]
+          }
+        },
+        "type-http-bearer": {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "http"
+              },
+              "scheme": {
+                "type": "string",
+                "pattern": "^[Bb][Ee][Aa][Rr][Ee][Rr]$"
+              }
+            },
+            "required": [
+              "type",
+              "scheme"
+            ]
+          },
+          "then": {
+            "properties": {
+              "bearerFormat": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "type-oauth2": {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "oauth2"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "flows": {
+                "$ref": "#/$defs/oauth-flows"
+              }
+            },
+            "required": [
+              "flows"
+            ]
+          }
+        },
+        "type-oidc": {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "openIdConnect"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "openIdConnectUrl": {
+                "type": "string",
+                "format": "uri-reference"
+              }
+            },
+            "required": [
+              "openIdConnectUrl"
+            ]
+          }
+        }
+      }
+    },
+    "security-scheme-or-reference": {
+      "if": {
+        "type": "object",
+        "required": [
+          "$ref"
+        ]
+      },
+      "then": {
+        "$ref": "#/$defs/reference"
+      },
+      "else": {
+        "$ref": "#/$defs/security-scheme"
+      }
+    },
+    "oauth-flows": {
+      "type": "object",
+      "properties": {
+        "implicit": {
+          "$ref": "#/$defs/oauth-flows/$defs/implicit"
+        },
+        "password": {
+          "$ref": "#/$defs/oauth-flows/$defs/password"
+        },
+        "clientCredentials": {
+          "$ref": "#/$defs/oauth-flows/$defs/client-credentials"
+        },
+        "authorizationCode": {
+          "$ref": "#/$defs/oauth-flows/$defs/authorization-code"
+        }
+      },
+      "$ref": "#/$defs/specification-extensions",
+      "unevaluatedProperties": false,
+      "$defs": {
+        "implicit": {
+          "type": "object",
+          "properties": {
+            "authorizationUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "refreshUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "scopes": {
+              "$ref": "#/$defs/map-of-strings"
+            }
+          },
+          "required": [
+            "authorizationUrl",
+            "scopes"
+          ],
+          "$ref": "#/$defs/specification-extensions",
+          "unevaluatedProperties": false
+        },
+        "password": {
+          "type": "object",
+          "properties": {
+            "tokenUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "refreshUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "scopes": {
+              "$ref": "#/$defs/map-of-strings"
+            }
+          },
+          "required": [
+            "tokenUrl",
+            "scopes"
+          ],
+          "$ref": "#/$defs/specification-extensions",
+          "unevaluatedProperties": false
+        },
+        "client-credentials": {
+          "type": "object",
+          "properties": {
+            "tokenUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "refreshUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "scopes": {
+              "$ref": "#/$defs/map-of-strings"
+            }
+          },
+          "required": [
+            "tokenUrl",
+            "scopes"
+          ],
+          "$ref": "#/$defs/specification-extensions",
+          "unevaluatedProperties": false
+        },
+        "authorization-code": {
+          "type": "object",
+          "properties": {
+            "authorizationUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "tokenUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "refreshUrl": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "scopes": {
+              "$ref": "#/$defs/map-of-strings"
+            }
+          },
+          "required": [
+            "authorizationUrl",
+            "tokenUrl",
+            "scopes"
+          ],
+          "$ref": "#/$defs/specification-extensions",
+          "unevaluatedProperties": false
+        }
+      }
+    },
+    "security-requirement": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#security-requirement-object",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "specification-extensions": {
+      "$comment": "https://spec.openapis.org/oas/v3.1#specification-extensions",
+      "patternProperties": {
+        "^x-": true
+      }
+    },
+    "examples": {
+      "properties": {
+        "example": true,
+        "examples": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/example-or-reference"
+          }
+        }
+      }
+    },
+    "map-of-strings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "styles-for-form": {
+      "if": {
+        "properties": {
+          "style": {
+            "const": "form"
+          }
+        },
+        "required": [
+          "style"
+        ]
+      },
+      "then": {
+        "properties": {
+          "explode": {
+            "default": true
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "explode": {
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

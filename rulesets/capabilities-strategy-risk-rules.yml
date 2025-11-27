@@ -1,0 +1,91 @@
+#	Ruleset name: Strategy - Risk - Capabilities
+#	Ruleset version: 1.1
+rules:
+  security-negative:
+    description: Ensures there is a security property.
+    message: You MUST HAVE a security property.
+    given: $
+    severity: error
+    then:
+      field: security
+      function: truthy
+    tags:
+      - Security
+      - Risk
+  security-positive:
+    description: Ensures there is a security property.
+    message: There is a security property.
+    given: $
+    severity: info
+    then:
+      field: security
+      function: falsy
+    tags:
+      - Security
+      - Risk
+  security-name-negative:
+    description: Ensures there is a security[*].name property.
+    message: You MUST HAVE a security[*].name property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Security
+      - Risk
+  security-name-positive:
+    description: Ensures there is a security[*].name property.
+    message: There is a security[*].name property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Security
+      - Risk
+  security-description-negative:
+    description: Ensures there is a security[*].description property.
+    message: You MUST HAVE a security[*].description property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Security
+      - Risk
+  security-description-positive:
+    description: Ensures there is a security[*].description property.
+    message: There is a security[*].description property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Security
+      - Risk
+  security-doc-url-negative:
+    description: Ensures there is a security[*].docUrl property.
+    message: You MUST HAVE a security[*].docUrl property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: docUrl
+      function: truthy
+    tags:
+      - Security
+      - Risk
+  security-doc-url-positive:
+    description: Ensures there is a security[*].docUrl property.
+    message: There is a security[*].docUrl property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: docUrl
+      function: falsy
+    tags:
+      - Security
+      - Risk

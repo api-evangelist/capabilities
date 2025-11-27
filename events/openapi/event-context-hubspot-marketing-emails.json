@@ -1,0 +1,1089 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HubSpot Marketing Emails API",
+    "version": "v3",
+    "description": "API for managing marketing emails in HubSpot. This API allows you to retrieve, \nfilter, and manage marketing email campaigns.\n\nThe Marketing Emails API is closely integrated with HubSpot's Lists and Workflows tools,\nenabling comprehensive email marketing automation.\n",
+    "contact": {
+      "name": "HubSpot API Support",
+      "url": "https://developers.hubspot.com"
+    },
+    "termsOfService": "https://legal.hubspot.com/api-terms-of-service"
+  },
+  "servers": [
+    {
+      "url": "https://api.hubapi.com",
+      "description": "HubSpot API Server"
+    }
+  ],
+  "security": [
+    {
+      "oauth2": []
+    },
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/marketing/v3/emails/": {
+      "get": {
+        "operationId": "getAllMarketingEmails",
+        "summary": "Get all marketing emails",
+        "description": "Retrieve a collection of marketing emails with optional filtering and pagination.\nThe results can be filtered by various criteria including publication status,\ncampaign, creation/update times, and email type.\n",
+        "tags": [
+          "Marketing Emails"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/after"
+          },
+          {
+            "$ref": "#/components/parameters/archived"
+          },
+          {
+            "$ref": "#/components/parameters/campaign"
+          },
+          {
+            "$ref": "#/components/parameters/createdAfter"
+          },
+          {
+            "$ref": "#/components/parameters/createdAt"
+          },
+          {
+            "$ref": "#/components/parameters/createdBefore"
+          },
+          {
+            "$ref": "#/components/parameters/includedProperties"
+          },
+          {
+            "$ref": "#/components/parameters/includeStats"
+          },
+          {
+            "$ref": "#/components/parameters/isPublished"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/marketingCampaignNames"
+          },
+          {
+            "$ref": "#/components/parameters/publishedAfter"
+          },
+          {
+            "$ref": "#/components/parameters/publishedAt"
+          },
+          {
+            "$ref": "#/components/parameters/publishedBefore"
+          },
+          {
+            "$ref": "#/components/parameters/sort"
+          },
+          {
+            "$ref": "#/components/parameters/type"
+          },
+          {
+            "$ref": "#/components/parameters/updatedAfter"
+          },
+          {
+            "$ref": "#/components/parameters/updatedAt"
+          },
+          {
+            "$ref": "#/components/parameters/updatedBefore"
+          },
+          {
+            "$ref": "#/components/parameters/workflowNames"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation - returns a collection of marketing emails",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailCollectionResponse"
+                },
+                "examples": {
+                  "marketingEmailsResponse": {
+                    "$ref": "#/components/examples/marketingEmailsExample"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitExceeded"
+          },
+          "default": {
+            "$ref": "#/components/responses/DefaultError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authorization",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://app.hubspot.com/oauth/authorize",
+            "tokenUrl": "https://api.hubapi.com/oauth/v1/token",
+            "scopes": {
+              "content": "Access to marketing content including emails"
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token",
+        "description": "Bearer token authentication"
+      }
+    },
+    "parameters": {
+      "after": {
+        "name": "after",
+        "in": "query",
+        "description": "The cursor token value to get the next set of results. You can get this \nfrom the paging.next.after JSON property of a paged response containing more results.\n",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "example": "MjA%3D"
+      },
+      "archived": {
+        "name": "archived",
+        "in": "query",
+        "description": "Specifies whether to return archived emails. Defaults to false.",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "campaign": {
+        "name": "campaign",
+        "in": "query",
+        "description": "Filter by campaign GUID. All emails will be returned if not present.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "createdAfter": {
+        "name": "createdAfter",
+        "in": "query",
+        "description": "Only return emails created after the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "example": "2024-01-01T00:00:00.000Z"
+      },
+      "createdAt": {
+        "name": "createdAt",
+        "in": "query",
+        "description": "Only return emails created at exactly the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "createdBefore": {
+        "name": "createdBefore",
+        "in": "query",
+        "description": "Only return emails created before the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "includedProperties": {
+        "name": "includedProperties",
+        "in": "query",
+        "description": "Limit the response to only include this specified list of properties.",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "style": "form",
+        "explode": true,
+        "example": [
+          "name",
+          "subject",
+          "createdAt"
+        ]
+      },
+      "includeStats": {
+        "name": "includeStats",
+        "in": "query",
+        "description": "Include statistics with emails.",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "isPublished": {
+        "name": "isPublished",
+        "in": "query",
+        "description": "Filter by published/draft emails. All emails will be returned if not present.",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "The maximum number of results to return. Default is 10.",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "marketingCampaignNames": {
+        "name": "marketingCampaignNames",
+        "in": "query",
+        "description": "Include the names for any associated marketing campaigns.",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "publishedAfter": {
+        "name": "publishedAfter",
+        "in": "query",
+        "description": "Only return emails published after the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "publishedAt": {
+        "name": "publishedAt",
+        "in": "query",
+        "description": "Only return emails published at exactly the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "publishedBefore": {
+        "name": "publishedBefore",
+        "in": "query",
+        "description": "Only return emails published before the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "Specifies which fields to use for sorting results. Valid fields are \nname, createdAt, updatedAt, createdBy, updatedBy. createdAt will be used by default.\n",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "name",
+              "createdAt",
+              "updatedAt",
+              "createdBy",
+              "updatedBy",
+              "-name",
+              "-createdAt",
+              "-updatedAt",
+              "-createdBy",
+              "-updatedBy"
+            ]
+          }
+        },
+        "style": "form",
+        "explode": true
+      },
+      "type": {
+        "name": "type",
+        "in": "query",
+        "description": "Email types to be filtered by. Multiple types can be included. \nAll emails will be returned if not present.\n",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "AB_EMAIL",
+              "AUTOMATED_AB_EMAIL",
+              "AUTOMATED_EMAIL",
+              "BATCH_EMAIL",
+              "BLOG_EMAIL",
+              "BLOG_EMAIL_CHILD",
+              "FEEDBACK_CES_EMAIL",
+              "FEEDBACK_CUSTOM_EMAIL",
+              "FEEDBACK_CUSTOM_SURVEY_EMAIL",
+              "FEEDBACK_NPS_EMAIL",
+              "FOLLOWUP_EMAIL",
+              "LEADFLOW_EMAIL",
+              "LOCALTIME_EMAIL",
+              "MARKETING_SINGLE_SEND_API",
+              "MEMBERSHIP_EMAIL_VERIFICATION_EMAIL",
+              "MEMBERSHIP_FOLLOW_UP_EMAIL",
+              "MEMBERSHIP_OTP_LOGIN_EMAIL",
+              "MEMBERSHIP_PASSWORD_RESET_EMAIL",
+              "MEMBERSHIP_PASSWORD_SAVED_EMAIL",
+              "MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL",
+              "MEMBERSHIP_REGISTRATION_EMAIL",
+              "MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL",
+              "MEMBERSHIP_VERIFICATION_EMAIL",
+              "OPTIN_EMAIL",
+              "OPTIN_FOLLOWUP_EMAIL",
+              "RESUBSCRIBE_EMAIL",
+              "RSS_EMAIL",
+              "RSS_EMAIL_CHILD",
+              "SINGLE_SEND_API",
+              "SMTP_TOKEN",
+              "TICKET_EMAIL"
+            ]
+          }
+        },
+        "style": "form",
+        "explode": true
+      },
+      "updatedAfter": {
+        "name": "updatedAfter",
+        "in": "query",
+        "description": "Only return emails last updated after the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "updatedAt": {
+        "name": "updatedAt",
+        "in": "query",
+        "description": "Only return emails last updated at exactly the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "updatedBefore": {
+        "name": "updatedBefore",
+        "in": "query",
+        "description": "Only return emails last updated before the specified time.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "workflowNames": {
+        "name": "workflowNames",
+        "in": "query",
+        "description": "Include the names of any workflows associated with the returned emails.",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "schemas": {
+      "EmailCollectionResponse": {
+        "type": "object",
+        "required": [
+          "results",
+          "total"
+        ],
+        "properties": {
+          "results": {
+            "type": "array",
+            "description": "Collection of marketing emails",
+            "items": {
+              "$ref": "#/components/schemas/MarketingEmail"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of content emails",
+            "example": 1
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        }
+      },
+      "MarketingEmail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the email",
+            "example": "4613448134"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the email",
+            "example": "Fail dmarc"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Email subject line",
+            "example": "Subject"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "AB_EMAIL",
+              "AUTOMATED_AB_EMAIL",
+              "AUTOMATED_EMAIL",
+              "BATCH_EMAIL",
+              "BLOG_EMAIL",
+              "BLOG_EMAIL_CHILD",
+              "FEEDBACK_CES_EMAIL",
+              "FEEDBACK_CUSTOM_EMAIL",
+              "FEEDBACK_CUSTOM_SURVEY_EMAIL",
+              "FEEDBACK_NPS_EMAIL",
+              "FOLLOWUP_EMAIL",
+              "LEADFLOW_EMAIL",
+              "LOCALTIME_EMAIL",
+              "MARKETING_SINGLE_SEND_API",
+              "MEMBERSHIP_EMAIL_VERIFICATION_EMAIL",
+              "MEMBERSHIP_FOLLOW_UP_EMAIL",
+              "MEMBERSHIP_OTP_LOGIN_EMAIL",
+              "MEMBERSHIP_PASSWORD_RESET_EMAIL",
+              "MEMBERSHIP_PASSWORD_SAVED_EMAIL",
+              "MEMBERSHIP_PASSWORDLESS_AUTH_EMAIL",
+              "MEMBERSHIP_REGISTRATION_EMAIL",
+              "MEMBERSHIP_REGISTRATION_FOLLOW_UP_EMAIL",
+              "MEMBERSHIP_VERIFICATION_EMAIL",
+              "OPTIN_EMAIL",
+              "OPTIN_FOLLOWUP_EMAIL",
+              "RESUBSCRIBE_EMAIL",
+              "RSS_EMAIL",
+              "RSS_EMAIL_CHILD",
+              "SINGLE_SEND_API",
+              "SMTP_TOKEN",
+              "TICKET_EMAIL"
+            ],
+            "example": "BATCH_EMAIL"
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Email subcategory",
+            "example": "batch"
+          },
+          "state": {
+            "type": "string",
+            "description": "Current state of the email",
+            "enum": [
+              "DRAFT",
+              "PUBLISHED",
+              "ARCHIVED"
+            ],
+            "example": "PUBLISHED"
+          },
+          "isPublished": {
+            "type": "boolean",
+            "description": "Whether the email is published",
+            "example": true
+          },
+          "isTransactional": {
+            "type": "boolean",
+            "description": "Whether the email is transactional",
+            "example": false
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Whether the email is archived",
+            "example": false
+          },
+          "sendOnPublish": {
+            "type": "boolean",
+            "description": "Whether to send the email when published",
+            "example": true
+          },
+          "activeDomain": {
+            "type": "string",
+            "description": "Active domain for the email",
+            "example": ""
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the email was created",
+            "example": "2017-02-16T13:05:18.390Z"
+          },
+          "createdById": {
+            "type": "integer",
+            "description": "ID of the user who created the email",
+            "example": 2983922
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the email was last updated",
+            "example": "2017-02-16T13:08:24.853Z"
+          },
+          "updatedById": {
+            "type": "integer",
+            "description": "ID of the user who last updated the email",
+            "example": 2983922
+          },
+          "from": {
+            "$ref": "#/components/schemas/EmailFrom"
+          },
+          "to": {
+            "$ref": "#/components/schemas/EmailTo"
+          },
+          "content": {
+            "$ref": "#/components/schemas/EmailContent"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/EmailStats"
+          },
+          "subscriptionDetails": {
+            "$ref": "#/components/schemas/SubscriptionDetails"
+          }
+        }
+      },
+      "EmailFrom": {
+        "type": "object",
+        "description": "Sender information for the email",
+        "properties": {
+          "fromName": {
+            "type": "string",
+            "description": "Display name of the sender",
+            "example": "Bruce Wayne"
+          },
+          "replyTo": {
+            "type": "string",
+            "format": "email",
+            "description": "Reply-to email address",
+            "example": "test@yahoo.com"
+          }
+        }
+      },
+      "EmailTo": {
+        "type": "object",
+        "description": "Recipient information for the email",
+        "properties": {
+          "contactIds": {
+            "type": "object",
+            "properties": {
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "example": [
+                  51
+                ]
+              }
+            }
+          },
+          "contactIlsLists": {
+            "type": "object",
+            "description": "Contact lists to include"
+          },
+          "suppressGraymail": {
+            "type": "boolean",
+            "description": "Whether to suppress graymail",
+            "example": true
+          }
+        }
+      },
+      "EmailContent": {
+        "type": "object",
+        "description": "Content structure of the email",
+        "properties": {
+          "templatePath": {
+            "type": "string",
+            "description": "Path to the email template",
+            "example": "generated_layouts/4701002617.html"
+          },
+          "widgets": {
+            "type": "object",
+            "description": "Email widgets and their configurations",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/EmailWidget"
+            }
+          }
+        }
+      },
+      "EmailWidget": {
+        "type": "object",
+        "description": "Individual widget in the email",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Widget identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Widget name"
+          },
+          "type": {
+            "type": "string",
+            "description": "Widget type",
+            "enum": [
+              "rich_text",
+              "logo",
+              "social_sharing",
+              "text"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "description": "Widget label"
+          },
+          "body": {
+            "type": "object",
+            "description": "Widget body content",
+            "additionalProperties": true
+          },
+          "css": {
+            "type": "object",
+            "description": "CSS styles for the widget"
+          },
+          "child_css": {
+            "type": "object",
+            "description": "CSS styles for child elements"
+          }
+        }
+      },
+      "EmailStats": {
+        "type": "object",
+        "description": "Email performance statistics",
+        "properties": {
+          "counters": {
+            "$ref": "#/components/schemas/EmailCounters"
+          },
+          "ratios": {
+            "$ref": "#/components/schemas/EmailRatios"
+          },
+          "deviceBreakdown": {
+            "$ref": "#/components/schemas/DeviceBreakdown"
+          },
+          "qualifierStats": {
+            "type": "object",
+            "description": "Additional qualifier statistics"
+          }
+        }
+      },
+      "EmailCounters": {
+        "type": "object",
+        "description": "Absolute counts for email metrics",
+        "properties": {
+          "bounce": {
+            "type": "integer",
+            "example": 1
+          },
+          "click": {
+            "type": "integer",
+            "example": 0
+          },
+          "contactslost": {
+            "type": "integer",
+            "example": 0
+          },
+          "delivered": {
+            "type": "integer",
+            "example": 0
+          },
+          "dropped": {
+            "type": "integer",
+            "example": 0
+          },
+          "hardbounced": {
+            "type": "integer",
+            "example": 0
+          },
+          "notsent": {
+            "type": "integer",
+            "example": 0
+          },
+          "open": {
+            "type": "integer",
+            "example": 0
+          },
+          "pending": {
+            "type": "integer",
+            "example": 0
+          },
+          "reply": {
+            "type": "integer",
+            "example": 0
+          },
+          "selected": {
+            "type": "integer",
+            "example": 1
+          },
+          "sent": {
+            "type": "integer",
+            "example": 1
+          },
+          "softbounced": {
+            "type": "integer",
+            "example": 1
+          },
+          "spamreport": {
+            "type": "integer",
+            "example": 0
+          },
+          "suppressed": {
+            "type": "integer",
+            "example": 0
+          },
+          "unsubscribed": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      },
+      "EmailRatios": {
+        "type": "object",
+        "description": "Percentage-based email metrics",
+        "properties": {
+          "bounceratio": {
+            "type": "number",
+            "format": "double",
+            "example": 100
+          },
+          "clickratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "clickthroughratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "contactslostratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "deliveredratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "hardbounceratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "notsentratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "openratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "pendingratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "replyratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "softbounceratio": {
+            "type": "number",
+            "format": "double",
+            "example": 100
+          },
+          "spamreportratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "unsubscribedratio": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          }
+        }
+      },
+      "DeviceBreakdown": {
+        "type": "object",
+        "description": "Breakdown of email interactions by device type",
+        "properties": {
+          "click_device_type": {
+            "$ref": "#/components/schemas/DeviceTypeStats"
+          },
+          "open_device_type": {
+            "$ref": "#/components/schemas/DeviceTypeStats"
+          }
+        }
+      },
+      "DeviceTypeStats": {
+        "type": "object",
+        "properties": {
+          "computer": {
+            "type": "integer",
+            "example": 0
+          },
+          "mobile": {
+            "type": "integer",
+            "example": 0
+          },
+          "unknown": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      },
+      "SubscriptionDetails": {
+        "type": "object",
+        "description": "Subscription-related information",
+        "properties": {
+          "officeLocationId": {
+            "type": "string",
+            "example": "4701002382"
+          },
+          "subscriptionId": {
+            "type": "integer",
+            "example": 1264909
+          }
+        }
+      },
+      "Paging": {
+        "type": "object",
+        "description": "Pagination information for the result set",
+        "properties": {
+          "next": {
+            "$ref": "#/components/schemas/PagingLink"
+          },
+          "prev": {
+            "$ref": "#/components/schemas/PagingLink"
+          }
+        }
+      },
+      "PagingLink": {
+        "type": "object",
+        "description": "Link to the next or previous page of results",
+        "properties": {
+          "after": {
+            "type": "string",
+            "description": "Cursor token for pagination",
+            "example": "MjA%3D"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Full URL to the next/previous page",
+            "example": "https://api.hubapi.com/marketing/v3/emails/emails?after=MjA%3D"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Unique identifier for tracking the error"
+          },
+          "category": {
+            "type": "string",
+            "description": "Error category"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Unauthorized - Invalid or missing authentication token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "status": "error",
+              "message": "This request requires authentication",
+              "category": "UNAUTHORIZED"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden - Insufficient permissions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "status": "error",
+              "message": "You do not have permission to access this resource",
+              "category": "FORBIDDEN"
+            }
+          }
+        }
+      },
+      "RateLimitExceeded": {
+        "description": "Rate limit exceeded",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "status": "error",
+              "message": "Rate limit exceeded",
+              "category": "RATE_LIMIT"
+            }
+          }
+        }
+      },
+      "DefaultError": {
+        "description": "Unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "marketingEmailsExample": {
+        "summary": "Example response with a single batch email",
+        "value": {
+          "paging": {
+            "next": {
+              "after": "MjA%3D",
+              "link": "https://api.hubapi.com/marketing/v3/emails/emails?after=MjA%3D"
+            },
+            "prev": {
+              "before": "MTA%3D",
+              "link": "https://api.hubapi.com/marketing/v3/emails/emails?after=MTA%3D"
+            }
+          },
+          "results": [
+            {
+              "activeDomain": "",
+              "archived": false,
+              "content": {
+                "templatePath": "generated_layouts/4701002617.html",
+                "widgets": {
+                  "hs_email_body": {
+                    "body": {
+                      "html": "<p>Hi {{contact.firstname}},</p>\n<p>This is an example of an email in HubSpot.</p>"
+                    },
+                    "id": "hs_email_body",
+                    "label": "Main Email Body",
+                    "name": "hs_email_body",
+                    "type": "rich_text"
+                  }
+                }
+              },
+              "createdAt": "2017-02-16T13:05:18.390Z",
+              "createdById": 2983922,
+              "from": {
+                "fromName": "Bruce Wayne",
+                "replyTo": "test@yahoo.com"
+              },
+              "id": "4613448134",
+              "isPublished": true,
+              "isTransactional": false,
+              "name": "Fail dmarc",
+              "sendOnPublish": true,
+              "state": "PUBLISHED",
+              "stats": {
+                "counters": {
+                  "bounce": 1,
+                  "click": 0,
+                  "delivered": 0,
+                  "open": 0,
+                  "sent": 1
+                },
+                "ratios": {
+                  "bounceratio": 100,
+                  "clickratio": 0,
+                  "openratio": 0
+                }
+              },
+              "subcategory": "batch",
+              "subject": "Subject",
+              "subscriptionDetails": {
+                "officeLocationId": "4701002382",
+                "subscriptionId": 1264909
+              },
+              "to": {
+                "contactIds": {
+                  "include": [
+                    51
+                  ]
+                },
+                "suppressGraymail": true
+              },
+              "type": "BATCH_EMAIL",
+              "updatedAt": "2017-02-16T13:08:24.853Z",
+              "updatedById": 2983922
+            }
+          ],
+          "total": 1
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Marketing Emails",
+      "description": "Operations for managing marketing emails in HubSpot"
+    }
+  ],
+  "x-hubspot-products": [
+    "Marketing Hub",
+    "Sales Hub",
+    "Service Hub",
+    "Content Hub"
+  ]
+}

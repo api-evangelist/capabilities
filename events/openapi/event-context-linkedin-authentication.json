@@ -1,0 +1,506 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LinkedIn OAuth 2.0 API",
+    "description": "LinkedIn's Authorization Code Flow (3-legged OAuth) API for requesting permission from LinkedIn members to access their account data.\n\nThis API allows applications to:\n- Request authorization from LinkedIn members\n- Exchange authorization codes for access tokens\n- Make authenticated API calls on behalf of members\n- Refresh access tokens\n\nThe level of access is explicitly requested using the scope parameter during the authorization process.\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LinkedIn Developer Support",
+      "url": "https://www.linkedin.com/help/linkedin"
+    },
+    "termsOfService": "https://www.linkedin.com/legal/api-terms-of-use"
+  },
+  "servers": [
+    {
+      "url": "https://www.linkedin.com",
+      "description": "LinkedIn OAuth Server"
+    },
+    {
+      "url": "https://api.linkedin.com",
+      "description": "LinkedIn API Server"
+    }
+  ],
+  "paths": {
+    "/oauth/v2/authorization": {
+      "get": {
+        "summary": "Request Authorization Code",
+        "description": "Direct the member's browser to LinkedIn's OAuth 2.0 authorization page where the member either accepts or denies your application's permission request.\n\nThe member may first be asked to log in to LinkedIn. Once authenticated, they will see a consent screen identifying your application and the permissions being requested.\n\n**Important:** Social login (Google/Apple) and passkey login are currently supported on desktop and Android web browsers only. To enable these on other platforms, include the query parameter `enable_extended_login=true`.\n",
+        "operationId": "requestAuthorizationCode",
+        "tags": [
+          "OAuth Authorization"
+        ],
+        "parameters": [
+          {
+            "name": "response_type",
+            "in": "query",
+            "required": true,
+            "description": "The value of this field should always be `code`",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "code"
+              ]
+            },
+            "example": "code"
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "description": "The API Key value generated when you registered your application",
+            "schema": {
+              "type": "string"
+            },
+            "example": "86your_client_id"
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": true,
+            "description": "The URI your users are sent back to after authorization. This value must match one of the Redirect URLs defined in your application configuration.\n\nRequirements:\n- Must be absolute URLs (e.g., `https://dev.example.com/auth/linkedin/callback`)\n- Must use HTTPS (except localhost for testing)\n- Parameters are ignored\n- Cannot include a # fragment\n",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": "https://dev.example.com/auth/linkedin/callback"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "A unique string value of your choice that is hard to guess. Used to prevent CSRF attacks.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "DCEeFWf45A53sdfKef424"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": true,
+            "description": "URL-encoded, space-delimited list of member permissions your application is requesting on behalf of the user.\n\nAvailable scopes depend on which Products or Partner Programs your app has access to. Check the Auth tab in the LinkedIn Developer Portal for current scopes.\n",
+            "schema": {
+              "type": "string"
+            },
+            "example": "r_liteprofile%20r_emailaddress%20w_member_social"
+          },
+          {
+            "name": "enable_extended_login",
+            "in": "query",
+            "required": false,
+            "description": "Set to `true` to enable social login (Google/Apple) and passkey login on platforms beyond desktop and Android web browsers",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": true
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to the specified redirect_uri with authorization code or error.\n\n**Success:** Redirects with `code` and `state` parameters\n**Failure:** Redirects with `error`, `error_description`, and `state` parameters\n",
+            "headers": {
+              "Location": {
+                "description": "Redirect URL with query parameters",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "success": {
+                    "value": "https://dev.example.com/auth/linkedin/callback?state=foobar&code=AQTQmah11lalyH65DAIivsjsAQV5P",
+                    "description": "Successful authorization"
+                  },
+                  "user_cancelled_login": {
+                    "value": "https://dev.example.com/auth/linkedin/callback?error=user_cancelled_login&error_description=The+member+declined+to+log+in&state=foobar",
+                    "description": "Member declined to log in"
+                  },
+                  "user_cancelled_authorize": {
+                    "value": "https://dev.example.com/auth/linkedin/callback?error=user_cancelled_authorize&error_description=The+member+refused+to+authorize&state=foobar",
+                    "description": "Member refused to authorize"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials or configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "invalid_redirect_uri": {
+                    "value": {
+                      "error": "Redirect_uri doesn't match",
+                      "error_description": "Redirect URI passed in the request does not match the redirect URI added to the developer application"
+                    }
+                  },
+                  "invalid_client_id": {
+                    "value": {
+                      "error": "Client_id doesn't match",
+                      "error_description": "Client ID passed in the request does not match the client ID of the developer application"
+                    }
+                  },
+                  "invalid_scope": {
+                    "value": {
+                      "error": "Invalid scope",
+                      "error_description": "Permissions passed in the request is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/v2/accessToken": {
+      "post": {
+        "summary": "Exchange Authorization Code for Access Token",
+        "description": "Exchange the authorization code received from the authorization endpoint for an access token.\n\nThe authorization code has a 30-minute lifespan and must be used immediately. Access tokens are issued with a 60-day lifespan.\n",
+        "operationId": "exchangeAuthorizationCode",
+        "tags": [
+          "OAuth Token"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "grant_type",
+                  "code",
+                  "client_id",
+                  "client_secret",
+                  "redirect_uri"
+                ],
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "The value of this field should always be `authorization_code`",
+                    "enum": [
+                      "authorization_code"
+                    ],
+                    "example": "authorization_code"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "The authorization code received from the authorization endpoint",
+                    "example": "AQTQmah11lalyH65DAIivsjsAQV5P"
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "description": "The Client ID value generated in your application settings",
+                    "example": "86your_client_id"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "The Secret Key value generated in your application settings. Keep this value secure!",
+                    "example": "your_client_secret",
+                    "format": "password"
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "The same redirect_uri value that you passed in the authorization request",
+                    "format": "uri",
+                    "example": "https://dev.example.com/auth/linkedin/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful token exchange",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenResponse"
+                },
+                "example": {
+                  "access_token": "AQUvlL_DYEzvT2wz1QJiEPeLioeA",
+                  "expires_in": 5184000,
+                  "refresh_token": "AQVaBCdEfGhIjKlMnOpQrStUvWxYz",
+                  "refresh_token_expires_in": 31536000,
+                  "scope": "r_liteprofile r_emailaddress"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "missing_redirect_uri": {
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "A required parameter \"redirect_uri\" is missing"
+                    }
+                  },
+                  "missing_code": {
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "A required parameter \"code\" is missing"
+                    }
+                  },
+                  "missing_grant_type": {
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "A required parameter \"grant_type\" is missing"
+                    }
+                  },
+                  "missing_client_id": {
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "A required parameter \"client_id\" is missing"
+                    }
+                  },
+                  "missing_client_secret": {
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "A required parameter \"client_secret\" is missing"
+                    }
+                  },
+                  "invalid_redirect_uri": {
+                    "value": {
+                      "error": "invalid_redirect_uri",
+                      "error_description": "Unable to retrieve access token appid/redirect uri/code verifier does not match authorization code. Or authorization code expired. Or external member binding exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid authorization code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "invalid_request",
+                  "error_description": "Unable to retrieve access token authorization code not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/me": {
+      "get": {
+        "summary": "Get Current Member Profile",
+        "description": "Retrieve the authenticated member's profile information.\n\nThis is an example of making an authenticated API request using the access token obtained from the OAuth flow.\n",
+        "operationId": "getCurrentMember",
+        "tags": [
+          "Profile API"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "r_liteprofile"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with member profile data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier for the member"
+                    },
+                    "firstName": {
+                      "type": "object",
+                      "properties": {
+                        "localized": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "lastName": {
+                      "type": "object",
+                      "properties": {
+                        "localized": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or expired access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessTokenResponse": {
+        "type": "object",
+        "description": "Response containing the access token and related information",
+        "required": [
+          "access_token",
+          "expires_in"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The access token for the application. This value must be kept secure.\n\nToken length is approximately 500 characters, but applications should handle tokens up to 1000 characters.\n",
+            "example": "AQUvlL_DYEzvT2wz1QJiEPeLioeA"
+          },
+          "expires_in": {
+            "type": "integer",
+            "description": "The number of seconds remaining until the token expires. Currently, all access tokens are issued with a 60-day lifespan.",
+            "example": 5184000
+          },
+          "refresh_token": {
+            "type": "string",
+            "description": "Your refresh token for the application. This token must be kept secure. Available for select partners only.",
+            "example": "AQVaBCdEfGhIjKlMnOpQrStUvWxYz"
+          },
+          "refresh_token_expires_in": {
+            "type": "integer",
+            "description": "The number of seconds remaining until the refresh token expires. Refresh tokens usually have a longer lifespan than access tokens.",
+            "example": 31536000
+          },
+          "scope": {
+            "type": "string",
+            "description": "Space-delimited list of member permissions granted to your application",
+            "example": "r_liteprofile r_emailaddress"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Error response structure",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code indicating the type of error",
+            "enum": [
+              "invalid_request",
+              "invalid_client",
+              "invalid_grant",
+              "unauthorized_client",
+              "unsupported_grant_type",
+              "invalid_scope",
+              "invalid_redirect_uri",
+              "user_cancelled_login",
+              "user_cancelled_authorize",
+              "Redirect_uri doesn't match",
+              "Client_id doesn't match"
+            ]
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Human-readable description of the error",
+            "example": "A required parameter is missing"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "LinkedIn OAuth 2.0 Authorization Code Flow (3-legged OAuth)\n\nTo use this authentication:\n1. Register your application in the LinkedIn Developer Portal\n2. Configure redirect URIs\n3. Request authorization from users\n4. Exchange authorization code for access token\n5. Use access token in API requests\n",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://www.linkedin.com/oauth/v2/authorization",
+            "tokenUrl": "https://www.linkedin.com/oauth/v2/accessToken",
+            "refreshUrl": "https://www.linkedin.com/oauth/v2/authorization",
+            "scopes": {
+              "r_liteprofile": "Read access to lite profile (name, photo, headline)",
+              "r_emailaddress": "Read access to primary email address",
+              "r_basicprofile": "Read access to basic profile information",
+              "w_member_social": "Write access to share content on member's behalf",
+              "r_organization_social": "Read access to organization's posts and metrics",
+              "w_organization_social": "Write access to post on organization's behalf",
+              "rw_organization_admin": "Admin access to manage organization",
+              "r_ads": "Read access to advertising accounts",
+              "r_ads_reporting": "Read access to advertising reports",
+              "rw_ads": "Write access to advertising accounts",
+              "r_1st_connections_size": "Read total count of 1st degree connections"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "OAuth Authorization",
+      "description": "Endpoints for OAuth 2.0 authorization flow"
+    },
+    {
+      "name": "OAuth Token",
+      "description": "Endpoints for token management"
+    },
+    {
+      "name": "Profile API",
+      "description": "Example authenticated API endpoints"
+    }
+  ],
+  "externalDocs": {
+    "description": "LinkedIn OAuth 2.0 Documentation",
+    "url": "https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication"
+  },
+  "x-linkedin-docs": {
+    "best-practices": [
+      "Request the least number of scope permissions needed",
+      "Keep client_secret secure and never share it",
+      "Validate state parameter to prevent CSRF attacks",
+      "Refresh access tokens before they expire",
+      "Handle token length up to 1000 characters",
+      "Use HTTPS for all redirect URIs (except localhost for testing)"
+    ],
+    "token-generator": {
+      "description": "The LinkedIn Developer Portal has a token generator for manually creating tokens",
+      "url": "https://www.linkedin.com/developers/tools/oauth/token-generator"
+    },
+    "authorization-code-lifetime": "30 minutes",
+    "access-token-lifetime": "60 days",
+    "notes": [
+      "If scope permissions change in your app, users must re-authenticate",
+      "Multiple valid access tokens can be held simultaneously if the same scope is requested",
+      "If a different scope is requested, all previous access tokens are invalidated",
+      "Social login and passkey login require enable_extended_login=true on non-desktop/Android platforms"
+    ]
+  }
+}

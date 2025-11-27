@@ -1,0 +1,601 @@
+{
+  "$id": "https://github.com/naftiko/capabilities/blob/main/schema.yml",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Capability",
+  "description": "Capabilities are open-source, declarative, standards-based integrations that are aligned with business outcomes within specific domains, providing what is needed to deliver and automate integrations across a variety of use cases.",
+  "type": "object",
+  "required": [
+    "naftiko"
+  ],
+  "properties": {
+    "info": {
+      "type": "object",
+      "required": [
+        "name",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the capability",
+          "defaultSnippets": [
+              {
+                  "label": "Choice One",
+                  "description": "KEY",
+                  "body": "Simple Title"
+              },
+              {
+                  "label": "Choice Two",
+                  "description": "KEY",
+                  "body": "A More Complex and Refined Title"
+              }                  
+          ],
+          "markdownDescription": "This message is unique to this property and can be linked anywhere to support inline within IDE, or anywhere else this schema is used. [See the documentation](https://example.com)"  
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the capability",
+          "defaultSnippets": [
+              {
+                  "label": "Choice One",
+                  "description": "KEY2",
+                  "body": "Needs a description."
+              },
+              {
+                  "label": "Choice Two",
+                  "description": "KEY2",
+                  "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+              }                  
+          ],
+          "markdownDescription": "This message is unique to this property and can be linked anywhere to support inline within IDE, or anywhere else this schema is used. [See the documentation](https://example.com)"  
+        },
+        "icon": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the capability icon"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorizing the capability"
+        },
+        "jsonLd": {
+          "type": "string",
+          "description": "JSON-LD structured data"
+        },
+        "pinned": {
+          "type": "boolean",
+          "description": "Whether the capability is pinned"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether the capability is featured"
+        }
+      }
+    },
+    "useCase": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "$ref": {
+            "type": "string",
+            "description": "Reference to use case definition file"
+          }
+        }
+      },
+      "description": "Use cases for this capability"
+    },
+    "stakeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "FN"
+        ],
+        "properties": {
+          "FN": {
+            "type": "string",
+            "description": "Full name of the stakeholder"
+          },
+          "ROLE": {
+            "type": "string",
+            "description": "Role or title of the stakeholder"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the stakeholder"
+          },
+          "SOCIALPROFILE": {
+            "type": "string",
+            "format": "uri",
+            "description": "Social profile URL (e.g., LinkedIn)"
+          }
+        }
+      },
+      "description": "Stakeholders associated with this capability"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "$ref": {
+            "type": "string",
+            "description": "Reference to sub-capability definition file"
+          }
+        }
+      },
+      "description": "Sub-capabilities that compose this capability"
+    },
+    "ports": {
+      "type": "object",
+      "properties": {
+        "artificialIntelligence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "adapter",
+              "title"
+            ],
+            "properties": {
+              "adapter": {
+                "type": "string",
+                "enum": [
+                  "MCP"
+                ],
+                "description": "AI adapter type (e.g., Model Context Protocol)"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title of the AI integration"
+              },
+              "jsonSchema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "description": "Reference to JSON Schema file"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "source": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "adapter",
+              "title"
+            ],
+            "properties": {
+              "adapter": {
+                "type": "string",
+                "description": "Source adapter type (e.g., HTTP API)"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title of the source integration"
+              },
+              "openApi": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "description": "Reference to OpenAPI specification file"
+                    }
+                  }
+                }
+              },
+              "brunoCollection": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "description": "Reference to Bruno collection file"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "description": "Integration ports for AI and source systems"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "specversion",
+          "type",
+          "source"
+        ],
+        "properties": {
+          "specversion": {
+            "type": "string",
+            "description": "CloudEvents specification version"
+          },
+          "type": {
+            "type": "string",
+            "description": "Event type identifier"
+          },
+          "source": {
+            "type": "string",
+            "format": "uri",
+            "description": "Event source URI"
+          },
+          "datacontenttype": {
+            "type": "string",
+            "description": "Content type of the event data"
+          },
+          "dataschema": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI to the schema for event data"
+          }
+        }
+      },
+      "description": "CloudEvents definitions"
+    },
+    "virtualization": {
+      "type": "object",
+      "properties": {
+        "sandboxes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "url"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the sandbox environment"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the sandbox"
+              }
+            }
+          }
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "url"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the data set"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the data set"
+              }
+            }
+          }
+        }
+      },
+      "description": "Virtualization resources including sandboxes and synthetic data"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "weavingScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Weaving score metric"
+        },
+        "maturityScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Maturity score metric"
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Overall rating"
+        },
+        "numberOfDownloads": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of downloads"
+        },
+        "forks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of forks"
+        },
+        "watches": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of watches"
+        },
+        "likes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of likes"
+        }
+      },
+      "description": "Metrics and statistics for the capability"
+    },
+    "change": {
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "New",
+            "Active",
+            "Deprecated",
+            "Retired"
+          ],
+          "description": "Current state of the capability"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version (semver)"
+        },
+        "capabilityVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Capability version (semver)"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last updated timestamp"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "description": "Change management and versioning information"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "httpUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "HTTP URL to the source repository"
+        },
+        "sshUrl": {
+          "type": "string",
+          "description": "SSH URL to the source repository"
+        },
+        "dockertHub": {
+          "type": "string",
+          "format": "uri",
+          "description": "Docker Hub URL"
+        }
+      },
+      "description": "Source code and artifact repositories"
+    },
+    "support": {
+      "type": "object",
+      "properties": {
+        "issues": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the issues tracker"
+        },
+        "discussions": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to discussions forum"
+        },
+        "slack": {
+          "type": "string",
+          "format": "uri",
+          "description": "Slack channel URL"
+        }
+      },
+      "description": "Support channels and resources"
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "type",
+            "attribution"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "format": "uri",
+              "description": "License type URL"
+            },
+            "attribution": {
+              "type": "string",
+              "description": "License attribution text"
+            },
+            "instance": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to specific license instance"
+            }
+          }
+        },
+        "code": {
+          "type": "object",
+          "required": [
+            "type",
+            "attribution"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "format": "uri",
+              "description": "License type URL"
+            },
+            "attribution": {
+              "type": "string",
+              "description": "License attribution text"
+            },
+            "instance": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to specific license instance"
+            }
+          }
+        },
+        "api": {
+          "type": "object",
+          "required": [
+            "type",
+            "attribution"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "format": "uri",
+              "description": "License type URL"
+            },
+            "attribution": {
+              "type": "string",
+              "description": "License attribution text"
+            },
+            "instance": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to specific license instance"
+            }
+          }
+        }
+      },
+      "description": "Licensing information for data, code, and API"
+    },
+    "standards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the standard"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of how the standard is used"
+          },
+          "docUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to standard documentation"
+          }
+        }
+      },
+      "description": "Standards and specifications used"
+    },
+    "security": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the security mechanism"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the security mechanism"
+          },
+          "docUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to security documentation"
+          }
+        }
+      },
+      "description": "Security mechanisms and standards"
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the service"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the service"
+          },
+          "docUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to service documentation"
+          },
+          "apisJson": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to APIs.json file"
+          }
+        }
+      },
+      "description": "External services integrated with this capability"
+    },
+    "observability": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "Public",
+            "Private",
+            "Internal"
+          ],
+          "description": "Visibility level of the capability"
+        }
+      },
+      "description": "Observability and visibility settings"
+    }
+  }
+}

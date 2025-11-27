@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/2020-12/schema#",
+  "title": "Plans",
+  "description": "This is a schema for defining the plans associated with API consumption, providing a machine-readable way to describe plans, pricing, rate limiting, and other features.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for an API plan."
+    },
+    "name": {
+      "type": "string",
+      "description": "The title or name that is defining the API plan."
+    },
+    "description": {
+      "type": "string",
+      "description": "A more detailed description of what an API plan is."
+    },
+    "entries": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "A descriptive label for the entry."
+            },
+            "description": {
+              "type": "string",
+              "description": "A more detailed over for the entry."
+            },
+            "metric": {
+              "type": "string",
+              "description": "What metric is used to measure entry."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "The rate limit applied to this entry."
+            },
+            "timeFrame": {
+              "type": "string",
+              "description": "What time frame constrains the entry."
+            },
+            "geo": {
+              "type": "string",
+              "description": "Any geographic region that applies to entry."
+            },
+            "unit": {
+              "type": "integer",
+              "description": "The unit of measurement applied to entry."
+            },
+            "price": {
+              "type": "string",
+              "description": "The price being used to monetize entry."
+            }
+          },
+          "required": [
+            "label",
+            "description",
+            "metric",
+            "limit",
+            "timeFrame",
+            "geo",
+            "unit",
+            "price"
+          ]
+        }
+      ]
+    },
+    "elements": {
+      "type": "array",
+      "description": "An array of elements applied to tier.",
+      "items": [
+        {
+          "type": "object",
+          "description": "Each individual element that is applied.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the element in tier."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "description",
+    "entries",
+    "elements"
+  ]
+}

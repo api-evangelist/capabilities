@@ -1,0 +1,413 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://json-schema.org/draft/2020-12/schema",
+  "$vocabulary": {
+    "https://json-schema.org/draft/2020-12/vocab/core": true,
+    "https://json-schema.org/draft/2020-12/vocab/applicator": true,
+    "https://json-schema.org/draft/2020-12/vocab/unevaluated": true,
+    "https://json-schema.org/draft/2020-12/vocab/validation": true,
+    "https://json-schema.org/draft/2020-12/vocab/meta-data": true,
+    "https://json-schema.org/draft/2020-12/vocab/format-annotation": true,
+    "https://json-schema.org/draft/2020-12/vocab/content": true
+  },
+  "$dynamicAnchor": "meta",
+  "title": "Core and Validation specifications meta-schema",
+  "allOf": [
+    {
+      "$comment": "Core vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "$id": {
+          "type": "string",
+          "format": "uri-reference",
+          "$comment": "Non-empty fragments not allowed.",
+          "pattern": "^[^#]*#?$"
+        },
+        "$schema": {
+          "type": "string",
+          "format": "uri"
+        },
+        "$anchor": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$"
+        },
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "$dynamicRef": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "$dynamicAnchor": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$"
+        },
+        "$vocabulary": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "format": "uri"
+          },
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "$comment": {
+          "type": "string"
+        },
+        "$defs": {
+          "type": "object",
+          "additionalProperties": {
+            "$dynamicRef": "#meta"
+          },
+          "default": {}
+        }
+      }
+    },
+    {
+      "$comment": "Applicator vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "prefixItems": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "items": {
+          "$dynamicRef": "#meta"
+        },
+        "contains": {
+          "$dynamicRef": "#meta"
+        },
+        "additionalProperties": {
+          "$dynamicRef": "#meta"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "$dynamicRef": "#meta"
+          },
+          "default": {}
+        },
+        "patternProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "$dynamicRef": "#meta"
+          },
+          "propertyNames": {
+            "format": "regex"
+          },
+          "default": {}
+        },
+        "dependentSchemas": {
+          "type": "object",
+          "additionalProperties": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "propertyNames": {
+          "$dynamicRef": "#meta"
+        },
+        "if": {
+          "$dynamicRef": "#meta"
+        },
+        "then": {
+          "$dynamicRef": "#meta"
+        },
+        "else": {
+          "$dynamicRef": "#meta"
+        },
+        "allOf": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "anyOf": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "oneOf": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$dynamicRef": "#meta"
+          }
+        },
+        "not": {
+          "$dynamicRef": "#meta"
+        }
+      }
+    },
+    {
+      "$comment": "Unevaluated applicator vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "unevaluatedItems": {
+          "$dynamicRef": "#meta"
+        },
+        "unevaluatedProperties": {
+          "$dynamicRef": "#meta"
+        }
+      }
+    },
+    {
+      "$comment": "Validation vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "multipleOf": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "exclusiveMaximum": {
+          "type": "number"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "exclusiveMinimum": {
+          "type": "number"
+        },
+        "maxLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minLength": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "pattern": {
+          "type": "string",
+          "format": "regex"
+        },
+        "maxItems": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minItems": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "uniqueItems": {
+          "type": "boolean",
+          "default": false
+        },
+        "maxContains": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minContains": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1
+        },
+        "maxProperties": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minProperties": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "dependentRequired": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "default": []
+          }
+        },
+        "const": true,
+        "enum": {
+          "type": "array",
+          "items": true
+        },
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "array",
+                "boolean",
+                "integer",
+                "null",
+                "number",
+                "object",
+                "string"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "array",
+                  "boolean",
+                  "integer",
+                  "null",
+                  "number",
+                  "object",
+                  "string"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "$comment": "Meta-data vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "default": true,
+        "deprecated": {
+          "type": "boolean",
+          "default": false
+        },
+        "readOnly": {
+          "type": "boolean",
+          "default": false
+        },
+        "writeOnly": {
+          "type": "boolean",
+          "default": false
+        },
+        "examples": {
+          "type": "array",
+          "items": true
+        }
+      }
+    },
+    {
+      "$comment": "Format vocabulary meta-schema for annotation results",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "format": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "$comment": "Content vocabulary meta-schema",
+      "$dynamicAnchor": "meta",
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "contentMediaType": {
+          "type": "string"
+        },
+        "contentEncoding": {
+          "type": "string"
+        },
+        "contentSchema": {
+          "$dynamicRef": "#meta"
+        }
+      }
+    }
+  ],
+  "type": [
+    "object",
+    "boolean"
+  ],
+  "$comment": "This meta-schema also defines keywords that have appeared in previous drafts in order to prevent incompatible extensions as they remain in common use.",
+  "properties": {
+    "definitions": {
+      "$comment": "\"definitions\" has been replaced by \"$defs\".",
+      "type": "object",
+      "additionalProperties": {
+        "$dynamicRef": "#meta"
+      },
+      "deprecated": true,
+      "default": {}
+    },
+    "dependencies": {
+      "$comment": "\"dependencies\" has been split and replaced by \"dependentSchemas\" and \"dependentRequired\" in order to serve their differing semantics.",
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "$dynamicRef": "#meta"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "default": []
+          }
+        ]
+      },
+      "deprecated": true,
+      "default": {}
+    },
+    "$recursiveAnchor": {
+      "$comment": "\"$recursiveAnchor\" has been replaced by \"$dynamicAnchor\".",
+      "type": "string",
+      "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$",
+      "deprecated": true
+    },
+    "$recursiveRef": {
+      "$comment": "\"$recursiveRef\" has been replaced by \"$dynamicRef\".",
+      "type": "string",
+      "format": "uri-reference",
+      "deprecated": true
+    }
+  }
+}

@@ -1,0 +1,109 @@
+#	Ruleset name: Experience - Data - Capabilities
+#	Ruleset version: 1.1
+rules:
+  events-datacontenttype-negative:
+    description: Ensures there is a events[*].datacontenttype property.
+    message: You MUST HAVE a events[*].datacontenttype property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: datacontenttype
+      function: truthy
+    tags:
+      - Data
+  events-datacontenttype-positive:
+    description: Ensures there is a events[*].datacontenttype property.
+    message: There is a events[*].datacontenttype property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: datacontenttype
+      function: falsy
+    tags:
+      - Data
+  events-dataschema-negative:
+    description: Ensures there is a events[*].dataschema property.
+    message: You MUST HAVE a events[*].dataschema property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: dataschema
+      function: truthy
+    tags:
+      - Data
+  events-dataschema-positive:
+    description: Ensures there is a events[*].dataschema property.
+    message: There is a events[*].dataschema property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: dataschema
+      function: falsy
+    tags:
+      - Data
+  virtualization-data-negative:
+    description: Ensures there is a virtualization.data property.
+    message: You MUST HAVE a virtualization.data property.
+    given: $.virtualization
+    severity: error
+    then:
+      field: data
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-positive:
+    description: Ensures there is a virtualization.data property.
+    message: There is a virtualization.data property.
+    given: $.virtualization
+    severity: info
+    then:
+      field: data
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-name-negative:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: You MUST HAVE a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-name-positive:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: There is a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-url-negative:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: You MUST HAVE a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: url
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-url-positive:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: There is a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: url
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data

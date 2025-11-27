@@ -1,0 +1,1584 @@
+{
+  "rules": {
+    "arazzo-negative": {
+      "description": "Ensures there is a arazzo property.",
+      "message": "You MUST HAVE a arazzo property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "arazzo",
+        "function": "truthy"
+      }
+    },
+    "arazzo-positive": {
+      "description": "Ensures there is a arazzo property.",
+      "message": "There is a arazzo property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "arazzo",
+        "function": "falsy"
+      }
+    },
+    "info-negative": {
+      "description": "Ensures there is a info property.",
+      "message": "You MUST HAVE a info property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "info",
+        "function": "truthy"
+      }
+    },
+    "info-positive": {
+      "description": "Ensures there is a info property.",
+      "message": "There is a info property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "info",
+        "function": "falsy"
+      }
+    },
+    "source-descriptions-negative": {
+      "description": "Ensures there is a sourceDescriptions property.",
+      "message": "You MUST HAVE a sourceDescriptions property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "sourceDescriptions",
+        "function": "truthy"
+      }
+    },
+    "source-descriptions-positive": {
+      "description": "Ensures there is a sourceDescriptions property.",
+      "message": "There is a sourceDescriptions property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "sourceDescriptions",
+        "function": "falsy"
+      }
+    },
+    "workflows-negative": {
+      "description": "Ensures there is a workflows property.",
+      "message": "You MUST HAVE a workflows property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "workflows",
+        "function": "truthy"
+      }
+    },
+    "workflows-positive": {
+      "description": "Ensures there is a workflows property.",
+      "message": "There is a workflows property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "workflows",
+        "function": "falsy"
+      }
+    },
+    "components-negative": {
+      "description": "Ensures there is a components property.",
+      "message": "You MUST HAVE a components property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "components",
+        "function": "truthy"
+      }
+    },
+    "components-positive": {
+      "description": "Ensures there is a components property.",
+      "message": "There is a components property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "components",
+        "function": "falsy"
+      }
+    },
+    "info-title-negative": {
+      "description": "Ensures there is a info.title property.",
+      "message": "You MUST HAVE a info.title property.",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      }
+    },
+    "info-title-positive": {
+      "description": "Ensures there is a info.title property.",
+      "message": "There is a info.title property.",
+      "given": "$.info",
+      "severity": "info",
+      "then": {
+        "field": "title",
+        "function": "falsy"
+      }
+    },
+    "info-summary-negative": {
+      "description": "Ensures there is a info.summary property.",
+      "message": "You MUST HAVE a info.summary property.",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "summary",
+        "function": "truthy"
+      }
+    },
+    "info-summary-positive": {
+      "description": "Ensures there is a info.summary property.",
+      "message": "There is a info.summary property.",
+      "given": "$.info",
+      "severity": "info",
+      "then": {
+        "field": "summary",
+        "function": "falsy"
+      }
+    },
+    "info-description-negative": {
+      "description": "Ensures there is a info.description property.",
+      "message": "You MUST HAVE a info.description property.",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "info-description-positive": {
+      "description": "Ensures there is a info.description property.",
+      "message": "There is a info.description property.",
+      "given": "$.info",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "info-version-negative": {
+      "description": "Ensures there is a info.version property.",
+      "message": "You MUST HAVE a info.version property.",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "version",
+        "function": "truthy"
+      }
+    },
+    "info-version-positive": {
+      "description": "Ensures there is a info.version property.",
+      "message": "There is a info.version property.",
+      "given": "$.info",
+      "severity": "info",
+      "then": {
+        "field": "version",
+        "function": "falsy"
+      }
+    },
+    "source-description-object-negative": {
+      "description": "Ensures there is a source-description-object property.",
+      "message": "You MUST HAVE a source-description-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "source-description-object",
+        "function": "truthy"
+      }
+    },
+    "source-description-object-positive": {
+      "description": "Ensures there is a source-description-object property.",
+      "message": "There is a source-description-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "source-description-object",
+        "function": "falsy"
+      }
+    },
+    "source-description-object-name-negative": {
+      "description": "Ensures there is a source-description-object.name property.",
+      "message": "You MUST HAVE a source-description-object.name property.",
+      "given": "$.source-description-object",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "source-description-object-name-positive": {
+      "description": "Ensures there is a source-description-object.name property.",
+      "message": "There is a source-description-object.name property.",
+      "given": "$.source-description-object",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "source-description-object-url-negative": {
+      "description": "Ensures there is a source-description-object.url property.",
+      "message": "You MUST HAVE a source-description-object.url property.",
+      "given": "$.source-description-object",
+      "severity": "error",
+      "then": {
+        "field": "url",
+        "function": "truthy"
+      }
+    },
+    "source-description-object-url-positive": {
+      "description": "Ensures there is a source-description-object.url property.",
+      "message": "There is a source-description-object.url property.",
+      "given": "$.source-description-object",
+      "severity": "info",
+      "then": {
+        "field": "url",
+        "function": "falsy"
+      }
+    },
+    "source-description-object-type-negative": {
+      "description": "Ensures there is a source-description-object.type property.",
+      "message": "You MUST HAVE a source-description-object.type property.",
+      "given": "$.source-description-object",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "source-description-object-type-positive": {
+      "description": "Ensures there is a source-description-object.type property.",
+      "message": "There is a source-description-object.type property.",
+      "given": "$.source-description-object",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-negative": {
+      "description": "Ensures there is a workflow-object property.",
+      "message": "You MUST HAVE a workflow-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "workflow-object",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-positive": {
+      "description": "Ensures there is a workflow-object property.",
+      "message": "There is a workflow-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "workflow-object",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-workflow-id-negative": {
+      "description": "Ensures there is a workflow-object.workflowId property.",
+      "message": "You MUST HAVE a workflow-object.workflowId property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "workflowId",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-workflow-id-positive": {
+      "description": "Ensures there is a workflow-object.workflowId property.",
+      "message": "There is a workflow-object.workflowId property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "workflowId",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-summary-negative": {
+      "description": "Ensures there is a workflow-object.summary property.",
+      "message": "You MUST HAVE a workflow-object.summary property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "summary",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-summary-positive": {
+      "description": "Ensures there is a workflow-object.summary property.",
+      "message": "There is a workflow-object.summary property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "summary",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-description-negative": {
+      "description": "Ensures there is a workflow-object.description property.",
+      "message": "You MUST HAVE a workflow-object.description property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-description-positive": {
+      "description": "Ensures there is a workflow-object.description property.",
+      "message": "There is a workflow-object.description property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-inputs-negative": {
+      "description": "Ensures there is a workflow-object.inputs property.",
+      "message": "You MUST HAVE a workflow-object.inputs property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "inputs",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-inputs-positive": {
+      "description": "Ensures there is a workflow-object.inputs property.",
+      "message": "There is a workflow-object.inputs property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "inputs",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-depends-on-negative": {
+      "description": "Ensures there is a workflow-object.dependsOn property.",
+      "message": "You MUST HAVE a workflow-object.dependsOn property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "dependsOn",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-depends-on-positive": {
+      "description": "Ensures there is a workflow-object.dependsOn property.",
+      "message": "There is a workflow-object.dependsOn property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "dependsOn",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-steps-negative": {
+      "description": "Ensures there is a workflow-object.steps property.",
+      "message": "You MUST HAVE a workflow-object.steps property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "steps",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-steps-positive": {
+      "description": "Ensures there is a workflow-object.steps property.",
+      "message": "There is a workflow-object.steps property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "steps",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-success-actions-negative": {
+      "description": "Ensures there is a workflow-object.successActions property.",
+      "message": "You MUST HAVE a workflow-object.successActions property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "successActions",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-success-actions-positive": {
+      "description": "Ensures there is a workflow-object.successActions property.",
+      "message": "There is a workflow-object.successActions property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "successActions",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-failure-actions-negative": {
+      "description": "Ensures there is a workflow-object.failureActions property.",
+      "message": "You MUST HAVE a workflow-object.failureActions property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "failureActions",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-failure-actions-positive": {
+      "description": "Ensures there is a workflow-object.failureActions property.",
+      "message": "There is a workflow-object.failureActions property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "failureActions",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-outputs-negative": {
+      "description": "Ensures there is a workflow-object.outputs property.",
+      "message": "You MUST HAVE a workflow-object.outputs property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "outputs",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-outputs-positive": {
+      "description": "Ensures there is a workflow-object.outputs property.",
+      "message": "There is a workflow-object.outputs property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "outputs",
+        "function": "falsy"
+      }
+    },
+    "workflow-object-parameters-negative": {
+      "description": "Ensures there is a workflow-object.parameters property.",
+      "message": "You MUST HAVE a workflow-object.parameters property.",
+      "given": "$.workflow-object",
+      "severity": "error",
+      "then": {
+        "field": "parameters",
+        "function": "truthy"
+      }
+    },
+    "workflow-object-parameters-positive": {
+      "description": "Ensures there is a workflow-object.parameters property.",
+      "message": "There is a workflow-object.parameters property.",
+      "given": "$.workflow-object",
+      "severity": "info",
+      "then": {
+        "field": "parameters",
+        "function": "falsy"
+      }
+    },
+    "step-object-negative": {
+      "description": "Ensures there is a step-object property.",
+      "message": "You MUST HAVE a step-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "step-object",
+        "function": "truthy"
+      }
+    },
+    "step-object-positive": {
+      "description": "Ensures there is a step-object property.",
+      "message": "There is a step-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "step-object",
+        "function": "falsy"
+      }
+    },
+    "step-object-step-id-negative": {
+      "description": "Ensures there is a step-object.stepId property.",
+      "message": "You MUST HAVE a step-object.stepId property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "stepId",
+        "function": "truthy"
+      }
+    },
+    "step-object-step-id-positive": {
+      "description": "Ensures there is a step-object.stepId property.",
+      "message": "There is a step-object.stepId property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "stepId",
+        "function": "falsy"
+      }
+    },
+    "step-object-description-negative": {
+      "description": "Ensures there is a step-object.description property.",
+      "message": "You MUST HAVE a step-object.description property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "step-object-description-positive": {
+      "description": "Ensures there is a step-object.description property.",
+      "message": "There is a step-object.description property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "step-object-operation-id-negative": {
+      "description": "Ensures there is a step-object.operationId property.",
+      "message": "You MUST HAVE a step-object.operationId property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "operationId",
+        "function": "truthy"
+      }
+    },
+    "step-object-operation-id-positive": {
+      "description": "Ensures there is a step-object.operationId property.",
+      "message": "There is a step-object.operationId property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "operationId",
+        "function": "falsy"
+      }
+    },
+    "step-object-operation-path-negative": {
+      "description": "Ensures there is a step-object.operationPath property.",
+      "message": "You MUST HAVE a step-object.operationPath property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "operationPath",
+        "function": "truthy"
+      }
+    },
+    "step-object-operation-path-positive": {
+      "description": "Ensures there is a step-object.operationPath property.",
+      "message": "There is a step-object.operationPath property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "operationPath",
+        "function": "falsy"
+      }
+    },
+    "step-object-workflow-id-negative": {
+      "description": "Ensures there is a step-object.workflowId property.",
+      "message": "You MUST HAVE a step-object.workflowId property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "workflowId",
+        "function": "truthy"
+      }
+    },
+    "step-object-workflow-id-positive": {
+      "description": "Ensures there is a step-object.workflowId property.",
+      "message": "There is a step-object.workflowId property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "workflowId",
+        "function": "falsy"
+      }
+    },
+    "step-object-parameters-negative": {
+      "description": "Ensures there is a step-object.parameters property.",
+      "message": "You MUST HAVE a step-object.parameters property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "parameters",
+        "function": "truthy"
+      }
+    },
+    "step-object-parameters-positive": {
+      "description": "Ensures there is a step-object.parameters property.",
+      "message": "There is a step-object.parameters property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "parameters",
+        "function": "falsy"
+      }
+    },
+    "step-object-request-body-negative": {
+      "description": "Ensures there is a step-object.requestBody property.",
+      "message": "You MUST HAVE a step-object.requestBody property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      }
+    },
+    "step-object-request-body-positive": {
+      "description": "Ensures there is a step-object.requestBody property.",
+      "message": "There is a step-object.requestBody property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      }
+    },
+    "step-object-success-criteria-negative": {
+      "description": "Ensures there is a step-object.successCriteria property.",
+      "message": "You MUST HAVE a step-object.successCriteria property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "successCriteria",
+        "function": "truthy"
+      }
+    },
+    "step-object-success-criteria-positive": {
+      "description": "Ensures there is a step-object.successCriteria property.",
+      "message": "There is a step-object.successCriteria property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "successCriteria",
+        "function": "falsy"
+      }
+    },
+    "step-object-on-success-negative": {
+      "description": "Ensures there is a step-object.onSuccess property.",
+      "message": "You MUST HAVE a step-object.onSuccess property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "onSuccess",
+        "function": "truthy"
+      }
+    },
+    "step-object-on-success-positive": {
+      "description": "Ensures there is a step-object.onSuccess property.",
+      "message": "There is a step-object.onSuccess property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "onSuccess",
+        "function": "falsy"
+      }
+    },
+    "step-object-on-failure-negative": {
+      "description": "Ensures there is a step-object.onFailure property.",
+      "message": "You MUST HAVE a step-object.onFailure property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "onFailure",
+        "function": "truthy"
+      }
+    },
+    "step-object-on-failure-positive": {
+      "description": "Ensures there is a step-object.onFailure property.",
+      "message": "There is a step-object.onFailure property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "onFailure",
+        "function": "falsy"
+      }
+    },
+    "step-object-outputs-negative": {
+      "description": "Ensures there is a step-object.outputs property.",
+      "message": "You MUST HAVE a step-object.outputs property.",
+      "given": "$.step-object",
+      "severity": "error",
+      "then": {
+        "field": "outputs",
+        "function": "truthy"
+      }
+    },
+    "step-object-outputs-positive": {
+      "description": "Ensures there is a step-object.outputs property.",
+      "message": "There is a step-object.outputs property.",
+      "given": "$.step-object",
+      "severity": "info",
+      "then": {
+        "field": "outputs",
+        "function": "falsy"
+      }
+    },
+    "request-body-object-negative": {
+      "description": "Ensures there is a request-body-object property.",
+      "message": "You MUST HAVE a request-body-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "request-body-object",
+        "function": "truthy"
+      }
+    },
+    "request-body-object-positive": {
+      "description": "Ensures there is a request-body-object property.",
+      "message": "There is a request-body-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "request-body-object",
+        "function": "falsy"
+      }
+    },
+    "request-body-object-content-type-negative": {
+      "description": "Ensures there is a request-body-object.contentType property.",
+      "message": "You MUST HAVE a request-body-object.contentType property.",
+      "given": "$.request-body-object",
+      "severity": "error",
+      "then": {
+        "field": "contentType",
+        "function": "truthy"
+      }
+    },
+    "request-body-object-content-type-positive": {
+      "description": "Ensures there is a request-body-object.contentType property.",
+      "message": "There is a request-body-object.contentType property.",
+      "given": "$.request-body-object",
+      "severity": "info",
+      "then": {
+        "field": "contentType",
+        "function": "falsy"
+      }
+    },
+    "request-body-object-payload-negative": {
+      "description": "Ensures there is a request-body-object.payload property.",
+      "message": "You MUST HAVE a request-body-object.payload property.",
+      "given": "$.request-body-object",
+      "severity": "error",
+      "then": {
+        "field": "payload",
+        "function": "truthy"
+      }
+    },
+    "request-body-object-payload-positive": {
+      "description": "Ensures there is a request-body-object.payload property.",
+      "message": "There is a request-body-object.payload property.",
+      "given": "$.request-body-object",
+      "severity": "info",
+      "then": {
+        "field": "payload",
+        "function": "falsy"
+      }
+    },
+    "request-body-object-replacements-negative": {
+      "description": "Ensures there is a request-body-object.replacements property.",
+      "message": "You MUST HAVE a request-body-object.replacements property.",
+      "given": "$.request-body-object",
+      "severity": "error",
+      "then": {
+        "field": "replacements",
+        "function": "truthy"
+      }
+    },
+    "request-body-object-replacements-positive": {
+      "description": "Ensures there is a request-body-object.replacements property.",
+      "message": "There is a request-body-object.replacements property.",
+      "given": "$.request-body-object",
+      "severity": "info",
+      "then": {
+        "field": "replacements",
+        "function": "falsy"
+      }
+    },
+    "criterion-object-negative": {
+      "description": "Ensures there is a criterion-object property.",
+      "message": "You MUST HAVE a criterion-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "criterion-object",
+        "function": "truthy"
+      }
+    },
+    "criterion-object-positive": {
+      "description": "Ensures there is a criterion-object property.",
+      "message": "There is a criterion-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "criterion-object",
+        "function": "falsy"
+      }
+    },
+    "criterion-object-context-negative": {
+      "description": "Ensures there is a criterion-object.context property.",
+      "message": "You MUST HAVE a criterion-object.context property.",
+      "given": "$.criterion-object",
+      "severity": "error",
+      "then": {
+        "field": "context",
+        "function": "truthy"
+      }
+    },
+    "criterion-object-context-positive": {
+      "description": "Ensures there is a criterion-object.context property.",
+      "message": "There is a criterion-object.context property.",
+      "given": "$.criterion-object",
+      "severity": "info",
+      "then": {
+        "field": "context",
+        "function": "falsy"
+      }
+    },
+    "criterion-object-condition-negative": {
+      "description": "Ensures there is a criterion-object.condition property.",
+      "message": "You MUST HAVE a criterion-object.condition property.",
+      "given": "$.criterion-object",
+      "severity": "error",
+      "then": {
+        "field": "condition",
+        "function": "truthy"
+      }
+    },
+    "criterion-object-condition-positive": {
+      "description": "Ensures there is a criterion-object.condition property.",
+      "message": "There is a criterion-object.condition property.",
+      "given": "$.criterion-object",
+      "severity": "info",
+      "then": {
+        "field": "condition",
+        "function": "falsy"
+      }
+    },
+    "criterion-object-type-negative": {
+      "description": "Ensures there is a criterion-object.type property.",
+      "message": "You MUST HAVE a criterion-object.type property.",
+      "given": "$.criterion-object",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "criterion-object-type-positive": {
+      "description": "Ensures there is a criterion-object.type property.",
+      "message": "There is a criterion-object.type property.",
+      "given": "$.criterion-object",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "criterion-objectany-of0-type-negative": {
+      "description": "Ensures there is a criterion-object[anyOf:0].type property.",
+      "message": "You MUST HAVE a criterion-object[anyOf:0].type property.",
+      "given": "$.criterion-object[anyOf:0]",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "criterion-objectany-of0-type-positive": {
+      "description": "Ensures there is a criterion-object[anyOf:0].type property.",
+      "message": "There is a criterion-object[anyOf:0].type property.",
+      "given": "$.criterion-object[anyOf:0]",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "criterion-expression-type-object-negative": {
+      "description": "Ensures there is a criterion-expression-type-object property.",
+      "message": "You MUST HAVE a criterion-expression-type-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "criterion-expression-type-object",
+        "function": "truthy"
+      }
+    },
+    "criterion-expression-type-object-positive": {
+      "description": "Ensures there is a criterion-expression-type-object property.",
+      "message": "There is a criterion-expression-type-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "criterion-expression-type-object",
+        "function": "falsy"
+      }
+    },
+    "criterion-expression-type-object-type-negative": {
+      "description": "Ensures there is a criterion-expression-type-object.type property.",
+      "message": "You MUST HAVE a criterion-expression-type-object.type property.",
+      "given": "$.criterion-expression-type-object",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "criterion-expression-type-object-type-positive": {
+      "description": "Ensures there is a criterion-expression-type-object.type property.",
+      "message": "There is a criterion-expression-type-object.type property.",
+      "given": "$.criterion-expression-type-object",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "criterion-expression-type-object-version-negative": {
+      "description": "Ensures there is a criterion-expression-type-object.version property.",
+      "message": "You MUST HAVE a criterion-expression-type-object.version property.",
+      "given": "$.criterion-expression-type-object",
+      "severity": "error",
+      "then": {
+        "field": "version",
+        "function": "truthy"
+      }
+    },
+    "criterion-expression-type-object-version-positive": {
+      "description": "Ensures there is a criterion-expression-type-object.version property.",
+      "message": "There is a criterion-expression-type-object.version property.",
+      "given": "$.criterion-expression-type-object",
+      "severity": "info",
+      "then": {
+        "field": "version",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-negative": {
+      "description": "Ensures there is a success-action-object property.",
+      "message": "You MUST HAVE a success-action-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "success-action-object",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-positive": {
+      "description": "Ensures there is a success-action-object property.",
+      "message": "There is a success-action-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "success-action-object",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-name-negative": {
+      "description": "Ensures there is a success-action-object.name property.",
+      "message": "You MUST HAVE a success-action-object.name property.",
+      "given": "$.success-action-object",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-name-positive": {
+      "description": "Ensures there is a success-action-object.name property.",
+      "message": "There is a success-action-object.name property.",
+      "given": "$.success-action-object",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-type-negative": {
+      "description": "Ensures there is a success-action-object.type property.",
+      "message": "You MUST HAVE a success-action-object.type property.",
+      "given": "$.success-action-object",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-type-positive": {
+      "description": "Ensures there is a success-action-object.type property.",
+      "message": "There is a success-action-object.type property.",
+      "given": "$.success-action-object",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-workflow-id-negative": {
+      "description": "Ensures there is a success-action-object.workflowId property.",
+      "message": "You MUST HAVE a success-action-object.workflowId property.",
+      "given": "$.success-action-object",
+      "severity": "error",
+      "then": {
+        "field": "workflowId",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-workflow-id-positive": {
+      "description": "Ensures there is a success-action-object.workflowId property.",
+      "message": "There is a success-action-object.workflowId property.",
+      "given": "$.success-action-object",
+      "severity": "info",
+      "then": {
+        "field": "workflowId",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-step-id-negative": {
+      "description": "Ensures there is a success-action-object.stepId property.",
+      "message": "You MUST HAVE a success-action-object.stepId property.",
+      "given": "$.success-action-object",
+      "severity": "error",
+      "then": {
+        "field": "stepId",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-step-id-positive": {
+      "description": "Ensures there is a success-action-object.stepId property.",
+      "message": "There is a success-action-object.stepId property.",
+      "given": "$.success-action-object",
+      "severity": "info",
+      "then": {
+        "field": "stepId",
+        "function": "falsy"
+      }
+    },
+    "success-action-object-criteria-negative": {
+      "description": "Ensures there is a success-action-object.criteria property.",
+      "message": "You MUST HAVE a success-action-object.criteria property.",
+      "given": "$.success-action-object",
+      "severity": "error",
+      "then": {
+        "field": "criteria",
+        "function": "truthy"
+      }
+    },
+    "success-action-object-criteria-positive": {
+      "description": "Ensures there is a success-action-object.criteria property.",
+      "message": "There is a success-action-object.criteria property.",
+      "given": "$.success-action-object",
+      "severity": "info",
+      "then": {
+        "field": "criteria",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-negative": {
+      "description": "Ensures there is a failure-action-object property.",
+      "message": "You MUST HAVE a failure-action-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "failure-action-object",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-positive": {
+      "description": "Ensures there is a failure-action-object property.",
+      "message": "There is a failure-action-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "failure-action-object",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-name-negative": {
+      "description": "Ensures there is a failure-action-object.name property.",
+      "message": "You MUST HAVE a failure-action-object.name property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-name-positive": {
+      "description": "Ensures there is a failure-action-object.name property.",
+      "message": "There is a failure-action-object.name property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-type-negative": {
+      "description": "Ensures there is a failure-action-object.type property.",
+      "message": "You MUST HAVE a failure-action-object.type property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-type-positive": {
+      "description": "Ensures there is a failure-action-object.type property.",
+      "message": "There is a failure-action-object.type property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-workflow-id-negative": {
+      "description": "Ensures there is a failure-action-object.workflowId property.",
+      "message": "You MUST HAVE a failure-action-object.workflowId property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "workflowId",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-workflow-id-positive": {
+      "description": "Ensures there is a failure-action-object.workflowId property.",
+      "message": "There is a failure-action-object.workflowId property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "workflowId",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-step-id-negative": {
+      "description": "Ensures there is a failure-action-object.stepId property.",
+      "message": "You MUST HAVE a failure-action-object.stepId property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "stepId",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-step-id-positive": {
+      "description": "Ensures there is a failure-action-object.stepId property.",
+      "message": "There is a failure-action-object.stepId property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "stepId",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-retry-after-negative": {
+      "description": "Ensures there is a failure-action-object.retryAfter property.",
+      "message": "You MUST HAVE a failure-action-object.retryAfter property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "retryAfter",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-retry-after-positive": {
+      "description": "Ensures there is a failure-action-object.retryAfter property.",
+      "message": "There is a failure-action-object.retryAfter property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "retryAfter",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-retry-limit-negative": {
+      "description": "Ensures there is a failure-action-object.retryLimit property.",
+      "message": "You MUST HAVE a failure-action-object.retryLimit property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "retryLimit",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-retry-limit-positive": {
+      "description": "Ensures there is a failure-action-object.retryLimit property.",
+      "message": "There is a failure-action-object.retryLimit property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "retryLimit",
+        "function": "falsy"
+      }
+    },
+    "failure-action-object-criteria-negative": {
+      "description": "Ensures there is a failure-action-object.criteria property.",
+      "message": "You MUST HAVE a failure-action-object.criteria property.",
+      "given": "$.failure-action-object",
+      "severity": "error",
+      "then": {
+        "field": "criteria",
+        "function": "truthy"
+      }
+    },
+    "failure-action-object-criteria-positive": {
+      "description": "Ensures there is a failure-action-object.criteria property.",
+      "message": "There is a failure-action-object.criteria property.",
+      "given": "$.failure-action-object",
+      "severity": "info",
+      "then": {
+        "field": "criteria",
+        "function": "falsy"
+      }
+    },
+    "reusable-object-negative": {
+      "description": "Ensures there is a reusable-object property.",
+      "message": "You MUST HAVE a reusable-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "reusable-object",
+        "function": "truthy"
+      }
+    },
+    "reusable-object-positive": {
+      "description": "Ensures there is a reusable-object property.",
+      "message": "There is a reusable-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "reusable-object",
+        "function": "falsy"
+      }
+    },
+    "reusable-object-reference-negative": {
+      "description": "Ensures there is a reusable-object.reference property.",
+      "message": "You MUST HAVE a reusable-object.reference property.",
+      "given": "$.reusable-object",
+      "severity": "error",
+      "then": {
+        "field": "reference",
+        "function": "truthy"
+      }
+    },
+    "reusable-object-reference-positive": {
+      "description": "Ensures there is a reusable-object.reference property.",
+      "message": "There is a reusable-object.reference property.",
+      "given": "$.reusable-object",
+      "severity": "info",
+      "then": {
+        "field": "reference",
+        "function": "falsy"
+      }
+    },
+    "reusable-object-value-negative": {
+      "description": "Ensures there is a reusable-object.value property.",
+      "message": "You MUST HAVE a reusable-object.value property.",
+      "given": "$.reusable-object",
+      "severity": "error",
+      "then": {
+        "field": "value",
+        "function": "truthy"
+      }
+    },
+    "reusable-object-value-positive": {
+      "description": "Ensures there is a reusable-object.value property.",
+      "message": "There is a reusable-object.value property.",
+      "given": "$.reusable-object",
+      "severity": "info",
+      "then": {
+        "field": "value",
+        "function": "falsy"
+      }
+    },
+    "parameter-object-negative": {
+      "description": "Ensures there is a parameter-object property.",
+      "message": "You MUST HAVE a parameter-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "parameter-object",
+        "function": "truthy"
+      }
+    },
+    "parameter-object-positive": {
+      "description": "Ensures there is a parameter-object property.",
+      "message": "There is a parameter-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "parameter-object",
+        "function": "falsy"
+      }
+    },
+    "parameter-object-name-negative": {
+      "description": "Ensures there is a parameter-object.name property.",
+      "message": "You MUST HAVE a parameter-object.name property.",
+      "given": "$.parameter-object",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "parameter-object-name-positive": {
+      "description": "Ensures there is a parameter-object.name property.",
+      "message": "There is a parameter-object.name property.",
+      "given": "$.parameter-object",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "parameter-object-in-negative": {
+      "description": "Ensures there is a parameter-object.in property.",
+      "message": "You MUST HAVE a parameter-object.in property.",
+      "given": "$.parameter-object",
+      "severity": "error",
+      "then": {
+        "field": "in",
+        "function": "truthy"
+      }
+    },
+    "parameter-object-in-positive": {
+      "description": "Ensures there is a parameter-object.in property.",
+      "message": "There is a parameter-object.in property.",
+      "given": "$.parameter-object",
+      "severity": "info",
+      "then": {
+        "field": "in",
+        "function": "falsy"
+      }
+    },
+    "parameter-object-value-negative": {
+      "description": "Ensures there is a parameter-object.value property.",
+      "message": "You MUST HAVE a parameter-object.value property.",
+      "given": "$.parameter-object",
+      "severity": "error",
+      "then": {
+        "field": "value",
+        "function": "truthy"
+      }
+    },
+    "parameter-object-value-positive": {
+      "description": "Ensures there is a parameter-object.value property.",
+      "message": "There is a parameter-object.value property.",
+      "given": "$.parameter-object",
+      "severity": "info",
+      "then": {
+        "field": "value",
+        "function": "falsy"
+      }
+    },
+    "payload-replacement-object-negative": {
+      "description": "Ensures there is a payload-replacement-object property.",
+      "message": "You MUST HAVE a payload-replacement-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "payload-replacement-object",
+        "function": "truthy"
+      }
+    },
+    "payload-replacement-object-positive": {
+      "description": "Ensures there is a payload-replacement-object property.",
+      "message": "There is a payload-replacement-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "payload-replacement-object",
+        "function": "falsy"
+      }
+    },
+    "payload-replacement-object-target-negative": {
+      "description": "Ensures there is a payload-replacement-object.target property.",
+      "message": "You MUST HAVE a payload-replacement-object.target property.",
+      "given": "$.payload-replacement-object",
+      "severity": "error",
+      "then": {
+        "field": "target",
+        "function": "truthy"
+      }
+    },
+    "payload-replacement-object-target-positive": {
+      "description": "Ensures there is a payload-replacement-object.target property.",
+      "message": "There is a payload-replacement-object.target property.",
+      "given": "$.payload-replacement-object",
+      "severity": "info",
+      "then": {
+        "field": "target",
+        "function": "falsy"
+      }
+    },
+    "payload-replacement-object-value-negative": {
+      "description": "Ensures there is a payload-replacement-object.value property.",
+      "message": "You MUST HAVE a payload-replacement-object.value property.",
+      "given": "$.payload-replacement-object",
+      "severity": "error",
+      "then": {
+        "field": "value",
+        "function": "truthy"
+      }
+    },
+    "payload-replacement-object-value-positive": {
+      "description": "Ensures there is a payload-replacement-object.value property.",
+      "message": "There is a payload-replacement-object.value property.",
+      "given": "$.payload-replacement-object",
+      "severity": "info",
+      "then": {
+        "field": "value",
+        "function": "falsy"
+      }
+    },
+    "components-object-negative": {
+      "description": "Ensures there is a components-object property.",
+      "message": "You MUST HAVE a components-object property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "components-object",
+        "function": "truthy"
+      }
+    },
+    "components-object-positive": {
+      "description": "Ensures there is a components-object property.",
+      "message": "There is a components-object property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "components-object",
+        "function": "falsy"
+      }
+    },
+    "components-object-inputs-negative": {
+      "description": "Ensures there is a components-object.inputs property.",
+      "message": "You MUST HAVE a components-object.inputs property.",
+      "given": "$.components-object",
+      "severity": "error",
+      "then": {
+        "field": "inputs",
+        "function": "truthy"
+      }
+    },
+    "components-object-inputs-positive": {
+      "description": "Ensures there is a components-object.inputs property.",
+      "message": "There is a components-object.inputs property.",
+      "given": "$.components-object",
+      "severity": "info",
+      "then": {
+        "field": "inputs",
+        "function": "falsy"
+      }
+    },
+    "components-object-parameters-negative": {
+      "description": "Ensures there is a components-object.parameters property.",
+      "message": "You MUST HAVE a components-object.parameters property.",
+      "given": "$.components-object",
+      "severity": "error",
+      "then": {
+        "field": "parameters",
+        "function": "truthy"
+      }
+    },
+    "components-object-parameters-positive": {
+      "description": "Ensures there is a components-object.parameters property.",
+      "message": "There is a components-object.parameters property.",
+      "given": "$.components-object",
+      "severity": "info",
+      "then": {
+        "field": "parameters",
+        "function": "falsy"
+      }
+    },
+    "components-object-success-actions-negative": {
+      "description": "Ensures there is a components-object.successActions property.",
+      "message": "You MUST HAVE a components-object.successActions property.",
+      "given": "$.components-object",
+      "severity": "error",
+      "then": {
+        "field": "successActions",
+        "function": "truthy"
+      }
+    },
+    "components-object-success-actions-positive": {
+      "description": "Ensures there is a components-object.successActions property.",
+      "message": "There is a components-object.successActions property.",
+      "given": "$.components-object",
+      "severity": "info",
+      "then": {
+        "field": "successActions",
+        "function": "falsy"
+      }
+    },
+    "components-object-failure-actions-negative": {
+      "description": "Ensures there is a components-object.failureActions property.",
+      "message": "You MUST HAVE a components-object.failureActions property.",
+      "given": "$.components-object",
+      "severity": "error",
+      "then": {
+        "field": "failureActions",
+        "function": "truthy"
+      }
+    },
+    "components-object-failure-actions-positive": {
+      "description": "Ensures there is a components-object.failureActions property.",
+      "message": "There is a components-object.failureActions property.",
+      "given": "$.components-object",
+      "severity": "info",
+      "then": {
+        "field": "failureActions",
+        "function": "falsy"
+      }
+    },
+    "specification-extensions-negative": {
+      "description": "Ensures there is a specification-extensions property.",
+      "message": "You MUST HAVE a specification-extensions property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "specification-extensions",
+        "function": "truthy"
+      }
+    },
+    "specification-extensions-positive": {
+      "description": "Ensures there is a specification-extensions property.",
+      "message": "There is a specification-extensions property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "specification-extensions",
+        "function": "falsy"
+      }
+    },
+    "schema-negative": {
+      "description": "Ensures there is a schema property.",
+      "message": "You MUST HAVE a schema property.",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "schema",
+        "function": "truthy"
+      }
+    },
+    "schema-positive": {
+      "description": "Ensures there is a schema property.",
+      "message": "There is a schema property.",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "schema",
+        "function": "falsy"
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+#	Ruleset name: Strategy - Artificial Intelligence - Capabilities
+#	Ruleset version: 1.1
+rules:
+  ports-artificial-intelligence-negative:
+    description: Ensures there is a ports.artificialIntelligence property.
+    message: You MUST HAVE a ports.artificialIntelligence property.
+    given: $.ports
+    severity: error
+    then:
+      field: artificialIntelligence
+      function: truthy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-positive:
+    description: Ensures there is a ports.artificialIntelligence property.
+    message: There is a ports.artificialIntelligence property.
+    given: $.ports
+    severity: info
+    then:
+      field: artificialIntelligence
+      function: falsy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-adapter-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].adapter property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].adapter property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: adapter
+      function: truthy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-adapter-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].adapter property.
+    message: There is a ports.artificialIntelligence[*].adapter property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: adapter
+      function: falsy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-title-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].title property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].title property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: title
+      function: truthy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-title-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].title property.
+    message: There is a ports.artificialIntelligence[*].title property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: title
+      function: falsy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-json-schema-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].jsonSchema property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].jsonSchema property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: jsonSchema
+      function: truthy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-json-schema-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].jsonSchema property.
+    message: There is a ports.artificialIntelligence[*].jsonSchema property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: jsonSchema
+      function: falsy
+    tags:
+      - Artificial Intelligence
+  ports-artificial-intelligence-json-schema-ref-negative:
+    description: >-
+      Ensures there is a ports.artificialIntelligence[*].jsonSchema[].$ref
+      property.
+    message: >-
+      You MUST HAVE a ports.artificialIntelligence[*].jsonSchema[].$ref
+      property.
+    given: $.ports.artificialIntelligence[*].jsonSchema[]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Artificial Intelligence

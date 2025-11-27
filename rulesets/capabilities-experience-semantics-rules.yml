@@ -1,0 +1,27 @@
+#	Ruleset name: Experience - Semantics - Capabilities
+#	Ruleset version: 1.1
+rules:
+  info-json-ld-negative:
+    description: Ensures there is a info.jsonLd property.
+    message: You MUST HAVE a info.jsonLd property.
+    given: $.info
+    severity: error
+    then:
+      field: jsonLd
+      function: truthy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization
+  info-json-ld-positive:
+    description: Ensures there is a info.jsonLd property.
+    message: There is a info.jsonLd property.
+    given: $.info
+    severity: info
+    then:
+      field: jsonLd
+      function: falsy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization

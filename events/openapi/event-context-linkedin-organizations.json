@@ -1,0 +1,441 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LinkedIn Organization Lookup API",
+    "description": "The Organization Lookup API searches organizations and their profiles.\n\n**Important Notes:**\n- Organization lookup API is protected by 3-legged OAuth token\n- Some API calls require that the authenticated member has the role type `ADMINISTRATOR` \n  for the requested organization\n- APIs without administrative access return only limited fields: id, name, localizedName, \n  localizedWebsite, vanityName, logoV2, locations, primaryOrganizationType\n- APIs with administrative access return all available Organization fields\n\n**Input Parameter Rules:**\n- All strings are case-insensitive\n- Multiple words should be joined with a space (URL encoded as %20)\n- Complete string is searched when including multiple words\n- Wildcards and boolean logic not supported (*, ?, AND, OR)\n\nOrganization URNs are in the format `urn:li:organization:{organization id}` and \nrepresent a LinkedIn Company Page.\n\n**Deprecation Notice:** Marketing Version 202411 has been sunset. Migrate to the \nlatest versioned APIs to avoid disruptions.\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LinkedIn Developer Support",
+      "url": "https://developer.linkedin.com"
+    },
+    "termsOfService": "https://www.linkedin.com/legal/api-terms-of-use"
+  },
+  "servers": [
+    {
+      "url": "https://api.linkedin.com/rest",
+      "description": "LinkedIn REST API Production Server"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "paths": {
+    "/organizations/{organizationId}": {
+      "get": {
+        "summary": "Retrieve an Administered Organization",
+        "description": "Look up organization information on behalf of authenticated members with role type \n`ADMINISTRATOR` for that organization. \n\nAPI calls with insufficient permissions return 403 Forbidden.\n\nReturns all available Organization fields when authenticated member has admin access.\n",
+        "operationId": "getOrganizationById",
+        "tags": [
+          "Organizations"
+        ],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The unique identifier for the organization",
+            "example": 79988552
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with organization data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organization"
+                },
+                "example": {
+                  "vanityName": "firstdemocompany",
+                  "localizedName": "FirstDemoCompany",
+                  "groups": [],
+                  "versionTag": "111146657",
+                  "coverPhotoV2": {
+                    "cropped": "urn:li:digitalmediaAsset:C561BAQHqQYsCLYiAnA",
+                    "original": "urn:li:digitalmediaAsset:C561BAQHqQYsCLYiAnA",
+                    "cropInfo": {
+                      "x": 0,
+                      "width": 800,
+                      "y": 108,
+                      "height": 135
+                    }
+                  },
+                  "organizationType": "SELF_EMPLOYED",
+                  "defaultLocale": {
+                    "country": "US",
+                    "language": "en"
+                  },
+                  "alternativeNames": [],
+                  "specialties": [],
+                  "staffCountRange": "SIZE_1",
+                  "localizedSpecialties": [],
+                  "industries": [
+                    "urn:li:industry:4"
+                  ],
+                  "name": {
+                    "localized": {
+                      "en_US": "FirstDemoCompany"
+                    },
+                    "preferredLocale": {
+                      "country": "US",
+                      "language": "en"
+                    }
+                  },
+                  "primaryOrganizationType": "NONE",
+                  "locations": [],
+                  "id": 79988552,
+                  "$URN": "urn:li:organization:79988552"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid organization ID format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions (requires ADMINISTRATOR role)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Organization not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authentication using 3-legged Authorization Code Flow.\nRequires one of the specified permissions based on use case.\n",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://www.linkedin.com/oauth/v2/authorization",
+            "tokenUrl": "https://www.linkedin.com/oauth/v2/accessToken",
+            "scopes": {
+              "rw_organization_admin": "Manage organization pages and retrieve reporting data",
+              "r_compliance": "Retrieve posts, comments, and likes on behalf of an authenticated member for compliance monitoring and archiving (private permission)"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Organization": {
+        "type": "object",
+        "description": "LinkedIn organization (Company Page) information.\n\nNon-admin access returns only: id, name, localizedName, localizedWebsite, \nvanityName, logoV2, locations, primaryOrganizationType.\n\nAdmin access returns all fields.\n",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the organization",
+            "example": 79988552
+          },
+          "$URN": {
+            "type": "string",
+            "description": "URN reference for the organization",
+            "pattern": "^urn:li:organization:\\d+$",
+            "example": "urn:li:organization:79988552"
+          },
+          "name": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedName": {
+            "type": "string",
+            "description": "Localized version of the organization name",
+            "example": "FirstDemoCompany"
+          },
+          "vanityName": {
+            "type": "string",
+            "description": "The vanity name of the organization used for the public profile URL: \nwww.linkedin.com/company/{vanityName}\n",
+            "example": "firstdemocompany"
+          },
+          "localizedWebsite": {
+            "type": "string",
+            "description": "Localized website URL",
+            "format": "uri"
+          },
+          "logoV2": {
+            "$ref": "#/components/schemas/MediaAsset"
+          },
+          "coverPhotoV2": {
+            "$ref": "#/components/schemas/CoverPhoto"
+          },
+          "locations": {
+            "type": "array",
+            "description": "Organization locations",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          },
+          "primaryOrganizationType": {
+            "type": "string",
+            "description": "Primary organization type classification",
+            "enum": [
+              "NONE",
+              "EDUCATIONAL",
+              "GOVERNMENTAL",
+              "NONPROFIT",
+              "PARTNERSHIP",
+              "PRIVATELY_HELD",
+              "PUBLIC_COMPANY",
+              "SELF_EMPLOYED",
+              "SELF_OWNED",
+              "SOLE_PROPRIETORSHIP"
+            ],
+            "example": "NONE"
+          },
+          "organizationType": {
+            "type": "string",
+            "description": "Organization type (admin access required)",
+            "enum": [
+              "SELF_EMPLOYED",
+              "EDUCATIONAL",
+              "GOVERNMENTAL",
+              "NONPROFIT",
+              "PARTNERSHIP",
+              "PRIVATELY_HELD",
+              "PUBLIC_COMPANY",
+              "SELF_OWNED",
+              "SOLE_PROPRIETORSHIP"
+            ],
+            "example": "SELF_EMPLOYED"
+          },
+          "versionTag": {
+            "type": "string",
+            "description": "Version tag for the organization data (admin access required)",
+            "example": "111146657"
+          },
+          "defaultLocale": {
+            "$ref": "#/components/schemas/Locale"
+          },
+          "groups": {
+            "type": "array",
+            "description": "Groups associated with the organization (admin access required)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "alternativeNames": {
+            "type": "array",
+            "description": "Alternative names for the organization (admin access required)",
+            "items": {
+              "$ref": "#/components/schemas/MultiLocaleString"
+            }
+          },
+          "specialties": {
+            "type": "array",
+            "description": "Organization specialties (admin access required)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "localizedSpecialties": {
+            "type": "array",
+            "description": "Localized organization specialties (admin access required)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "staffCountRange": {
+            "type": "string",
+            "description": "Range indicating the number of staff (admin access required)",
+            "enum": [
+              "SIZE_1",
+              "SIZE_2_10",
+              "SIZE_11_50",
+              "SIZE_51_200",
+              "SIZE_201_500",
+              "SIZE_501_1000",
+              "SIZE_1001_5000",
+              "SIZE_5001_10000",
+              "SIZE_10001_PLUS"
+            ],
+            "example": "SIZE_1"
+          },
+          "industries": {
+            "type": "array",
+            "description": "Industry URNs associated with the organization (admin access required)",
+            "items": {
+              "type": "string",
+              "pattern": "^urn:li:industry:\\d+$"
+            },
+            "example": [
+              "urn:li:industry:4"
+            ]
+          }
+        }
+      },
+      "MultiLocaleString": {
+        "type": "object",
+        "description": "Localizable string object type",
+        "properties": {
+          "localized": {
+            "type": "object",
+            "description": "Localized values keyed by locale",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "en_US": "Example Text"
+            }
+          },
+          "preferredLocale": {
+            "$ref": "#/components/schemas/Locale"
+          }
+        }
+      },
+      "Locale": {
+        "type": "object",
+        "description": "Locale information with country and language codes",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Two-letter country code (ISO 3166-1 alpha-2)",
+            "pattern": "^[A-Z]{2}$",
+            "example": "US"
+          },
+          "language": {
+            "type": "string",
+            "description": "Two-letter language code (ISO 639-1)",
+            "pattern": "^[a-z]{2}$",
+            "example": "en"
+          }
+        }
+      },
+      "MediaAsset": {
+        "type": "object",
+        "description": "Reference to a media asset (image, logo, etc.)",
+        "properties": {
+          "displayImage": {
+            "type": "string",
+            "description": "URN reference to the display image",
+            "pattern": "^urn:li:digitalmediaAsset:[A-Za-z0-9_-]+$"
+          },
+          "displayImageReference": {
+            "type": "object",
+            "description": "Reference information for the display image"
+          }
+        }
+      },
+      "CoverPhoto": {
+        "type": "object",
+        "description": "Cover photo information with cropping details",
+        "properties": {
+          "cropped": {
+            "type": "string",
+            "description": "URN reference to the cropped cover photo",
+            "pattern": "^urn:li:digitalmediaAsset:[A-Za-z0-9_-]+$",
+            "example": "urn:li:digitalmediaAsset:C561BAQHqQYsCLYiAnA"
+          },
+          "original": {
+            "type": "string",
+            "description": "URN reference to the original cover photo",
+            "pattern": "^urn:li:digitalmediaAsset:[A-Za-z0-9_-]+$",
+            "example": "urn:li:digitalmediaAsset:C561BAQHqQYsCLYiAnA"
+          },
+          "cropInfo": {
+            "$ref": "#/components/schemas/CropInfo"
+          }
+        }
+      },
+      "CropInfo": {
+        "type": "object",
+        "description": "Cropping information for images",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": "X-coordinate of the crop starting point",
+            "example": 0
+          },
+          "y": {
+            "type": "integer",
+            "description": "Y-coordinate of the crop starting point",
+            "example": 108
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width of the cropped area",
+            "example": 800
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height of the cropped area",
+            "example": 135
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "description": "Organization location information",
+        "properties": {
+          "address": {
+            "type": "object",
+            "description": "Physical address details"
+          },
+          "geoLocation": {
+            "type": "object",
+            "description": "Geographic coordinates"
+          },
+          "description": {
+            "type": "string",
+            "description": "Location description"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "serviceErrorCode": {
+            "type": "integer",
+            "description": "LinkedIn service error code"
+          }
+        }
+      }
+    }
+  }
+}

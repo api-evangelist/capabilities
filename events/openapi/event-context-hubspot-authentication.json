@@ -1,0 +1,471 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HubSpot OAuth 2.0 API",
+    "version": "v1",
+    "description": "HubSpot's OAuth 2.0 implementation provides secure authorization for applications \nto access HubSpot resources on behalf of users.\n\nHubSpot supports the OAuth 2.0 Authorization Code grant type, which consists of:\n1. Directing users to HubSpot's authorization server\n2. Users reviewing and granting permissions\n3. Receiving an authorization code via redirect\n4. Exchanging the code for access and refresh tokens\n5. Using access tokens to make API calls\n6. Refreshing expired access tokens\n\n## Key Features\n- Access tokens expire after 30 minutes (1800 seconds)\n- Refresh tokens can be used to obtain new access tokens\n- Scopes define the level of access granted to your application\n- State parameter helps prevent CSRF attacks\n\n## Important Notes\n- The user installing the app must be a Super Admin\n- Access tokens reflect app scopes, not individual user permissions\n- HTTPS is required for production redirect URIs\n",
+    "contact": {
+      "name": "HubSpot Developer Support",
+      "url": "https://developers.hubspot.com"
+    },
+    "termsOfService": "https://legal.hubspot.com/api-terms-of-service",
+    "license": {
+      "name": "HubSpot API Terms",
+      "url": "https://legal.hubspot.com/api-terms-of-service"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://app.hubspot.com",
+      "description": "HubSpot Authorization Server"
+    },
+    {
+      "url": "https://api.hubapi.com",
+      "description": "HubSpot API Server"
+    }
+  ],
+  "paths": {
+    "/oauth/authorize": {
+      "get": {
+        "operationId": "authorizeApp",
+        "summary": "Authorization endpoint",
+        "description": "Initiates the OAuth 2.0 authorization flow by directing the user to HubSpot's \nauthorization page. The user will review the requested permissions and either \ngrant or deny access to your application.\n\nThis endpoint should be called by redirecting the user's browser to the \nconstructed URL with the required parameters.\n\n## Flow\n1. Build authorization URL with required parameters\n2. Redirect user's browser to this endpoint\n3. User logs in (if needed) and reviews permissions\n4. User grants or denies access\n5. User is redirected to your redirect_uri with code or error\n\n## Important\n- Users must have access to all requested scopes or installation will fail\n- Super Admin access is required to install apps\n- Use the state parameter to prevent CSRF attacks\n",
+        "tags": [
+          "OAuth Authorization"
+        ],
+        "servers": [
+          {
+            "url": "https://app.hubspot.com"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "description": "The client ID that identifies your app. You can find this on your \napp's settings page in the HubSpot developer portal.\n",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7fff1e36-2d40-4ae1-bbb1-5266d59564fb"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": true,
+            "description": "The scopes your application is requesting, separated by URL-encoded \nspaces (%20). These define what resources your app can access.\n\nCommon scopes include:\n- oauth: Basic OAuth access\n- crm.objects.contacts.read: Read contacts\n- crm.objects.contacts.write: Write contacts\n- crm.objects.companies.read: Read companies\n- content: Access to content tools\n- automation: Access to automation features\n",
+            "schema": {
+              "type": "string"
+            },
+            "example": "oauth%20crm.objects.contacts.read"
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": true,
+            "description": "The URL that the user will be redirected to after they authorize your \napp. This must match one of the redirect URIs configured in your app \nsettings. HTTPS is required for production applications.\n",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": "https://www.example.com/auth-callback"
+          },
+          {
+            "name": "optional_scope",
+            "in": "query",
+            "required": false,
+            "description": "Optional scopes that will be dropped if the selected HubSpot account \ndoes not have access to those products. Use this for scopes that would \nbe nice to have but aren't required for your app to function.\n",
+            "schema": {
+              "type": "string"
+            },
+            "example": "automation"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "A unique string value that can be used to maintain the user's state \nwhen they're redirected back to your app. This helps prevent CSRF \nattacks. You should generate a random nonce and validate it matches \nwhen you receive the callback.\n",
+            "schema": {
+              "type": "string"
+            },
+            "example": "WeHH_yy2irpl8UYAvv-my"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to authorization page or back to redirect_uri.\n\nAfter user grants access, redirects to redirect_uri with:\n- code: Authorization code (on success)\n- state: The state value you provided (if any)\n\nIf user denies access, no redirect occurs.\n",
+            "headers": {
+              "Location": {
+                "description": "Redirect URL",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "successRedirect": {
+                    "value": "https://www.example.com/auth-callback?code=5771f587-2fe7-40e8-8784-042fb4bc2c31&state=WeHH_yy2irpl8UYAvv-my",
+                    "summary": "Successful authorization redirect"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - User doesn't have required permissions.\nThe user must be a Super Admin or have access to all requested scopes.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/v1/token": {
+      "post": {
+        "operationId": "exchangeToken",
+        "summary": "Token endpoint",
+        "description": "Exchange an authorization code for access and refresh tokens, or refresh \nan expired access token using a refresh token.\n\nThis endpoint supports two grant types:\n1. authorization_code: Exchange authorization code for tokens\n2. refresh_token: Exchange refresh token for new access token\n\n## Access Token Lifecycle\n- Access tokens expire after 30 minutes (1800 seconds)\n- Use the refresh token to obtain a new access token\n- Each token exchange returns a new refresh token\n- Store tokens securely\n",
+        "tags": [
+          "OAuth Token"
+        ],
+        "servers": [
+          {
+            "url": "https://api.hubapi.com"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AuthorizationCodeRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RefreshTokenRequest"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "grant_type",
+                  "mapping": {
+                    "authorization_code": "#/components/schemas/AuthorizationCodeRequest",
+                    "refresh_token": "#/components/schemas/RefreshTokenRequest"
+                  }
+                }
+              },
+              "examples": {
+                "authorizationCode": {
+                  "summary": "Exchange authorization code for tokens",
+                  "value": {
+                    "grant_type": "authorization_code",
+                    "client_id": "7fff1e36-2d40-4ae1-bbb1-5266d59564fb",
+                    "client_secret": "7c3ce02c-0f0c-4c9f-9700-92440c9bdf2d",
+                    "redirect_uri": "https://www.example.com/auth-callback",
+                    "code": "5771f587-2fe7-40e8-8784-042fb4bc2c31"
+                  }
+                },
+                "refreshToken": {
+                  "summary": "Refresh an expired access token",
+                  "value": {
+                    "grant_type": "refresh_token",
+                    "client_id": "7fff1e36-2d40-4ae1-bbb1-5266d59564fb",
+                    "client_secret": "7c3ce02c-0f0c-4c9f-9700-92440c9bdf2d",
+                    "redirect_uri": "https://www.example.com/auth-callback",
+                    "refresh_token": "b9443019-30fe-4df1-a67e-3d75cbd0f726"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful token exchange. Returns access token, refresh token, \nand expiration time.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                },
+                "examples": {
+                  "tokenResponse": {
+                    "summary": "Successful token response",
+                    "value": {
+                      "refresh_token": "6f18f21e-a743-4509-b7fd-1a5e632fffa1",
+                      "access_token": "CN2zlYnmLBICAQIYgZXFLyCWp1Yoy_9GMhkAgddk-zDc-H_rOad1X2s6Qv3fmG1spSY0Og0ACgJBAAADAIADAAABQhkAgddk-03q2qdkwdXbYWCoB9g3LA97OJ9I",
+                      "expires_in": 1800
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid request parameters.\nCommon causes:\n- Invalid or expired authorization code\n- Invalid or expired refresh token\n- Mismatched redirect_uri\n- Invalid grant_type\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthError"
+                },
+                "examples": {
+                  "invalidCode": {
+                    "summary": "Invalid authorization code",
+                    "value": {
+                      "status": "error",
+                      "message": "invalid authorization code",
+                      "category": "INVALID_GRANT"
+                    }
+                  },
+                  "expiredCode": {
+                    "summary": "Expired authorization code",
+                    "value": {
+                      "status": "error",
+                      "message": "authorization code has expired",
+                      "category": "INVALID_GRANT"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid client credentials.\nCheck that your client_id and client_secret are correct.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthError"
+                },
+                "examples": {
+                  "invalidClient": {
+                    "summary": "Invalid client credentials",
+                    "value": {
+                      "status": "error",
+                      "message": "invalid client credentials",
+                      "category": "INVALID_CLIENT"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthorizationCodeRequest": {
+        "type": "object",
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "redirect_uri",
+          "code"
+        ],
+        "properties": {
+          "grant_type": {
+            "type": "string",
+            "enum": [
+              "authorization_code"
+            ],
+            "description": "Must be \"authorization_code\"",
+            "example": "authorization_code"
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Your app's client ID from the app settings",
+            "example": "7fff1e36-2d40-4ae1-bbb1-5266d59564fb"
+          },
+          "client_secret": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Your app's client secret (keep this secure!)",
+            "example": "7c3ce02c-0f0c-4c9f-9700-92440c9bdf2d"
+          },
+          "redirect_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The redirect URI used when the user authorized your app",
+            "example": "https://www.example.com/auth-callback"
+          },
+          "code": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The authorization code received from the OAuth server",
+            "example": "5771f587-2fe7-40e8-8784-042fb4bc2c31"
+          }
+        }
+      },
+      "RefreshTokenRequest": {
+        "type": "object",
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "redirect_uri",
+          "refresh_token"
+        ],
+        "properties": {
+          "grant_type": {
+            "type": "string",
+            "enum": [
+              "refresh_token"
+            ],
+            "description": "Must be \"refresh_token\"",
+            "example": "refresh_token"
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Your app's client ID from the app settings",
+            "example": "7fff1e36-2d40-4ae1-bbb1-5266d59564fb"
+          },
+          "client_secret": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Your app's client secret (keep this secure!)",
+            "example": "7c3ce02c-0f0c-4c9f-9700-92440c9bdf2d"
+          },
+          "redirect_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The redirect URI used when the user authorized your app",
+            "example": "https://www.example.com/auth-callback"
+          },
+          "refresh_token": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The refresh token received when the user authorized your app",
+            "example": "b9443019-30fe-4df1-a67e-3d75cbd0f726"
+          }
+        }
+      },
+      "TokenResponse": {
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token",
+          "expires_in"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The access token to use for API requests. Include this in the \nAuthorization header as a Bearer token. Expires after the time \nspecified in expires_in (currently 30 minutes).\n",
+            "example": "CN2zlYnmLBICAQIYgZXFLyCWp1Yoy_9GMhkAgddk-zDc-H_rOad1X2s6Qv3fmG1spSY0Og0ACgJBAAADAIADAAABQhkAgddk-03q2qdkwdXbYWCoB9g3LA97OJ9I"
+          },
+          "refresh_token": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The refresh token to use for obtaining new access tokens. Store this \nsecurely as it can be used to generate new access tokens without user \ninteraction.\n",
+            "example": "6f18f21e-a743-4509-b7fd-1a5e632fffa1"
+          },
+          "expires_in": {
+            "type": "integer",
+            "description": "The number of seconds until the access token expires. Currently set \nto 1800 seconds (30 minutes). Your app should refresh the token \nbefore this time elapses.\n",
+            "example": 1800,
+            "minimum": 1
+          }
+        }
+      },
+      "OAuthError": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Error status",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "invalid authorization code"
+          },
+          "category": {
+            "type": "string",
+            "description": "Error category for programmatic handling",
+            "enum": [
+              "INVALID_GRANT",
+              "INVALID_CLIENT",
+              "INVALID_REQUEST",
+              "UNAUTHORIZED_CLIENT",
+              "UNSUPPORTED_GRANT_TYPE",
+              "INVALID_SCOPE",
+              "ACCESS_DENIED"
+            ],
+            "example": "INVALID_GRANT"
+          },
+          "correlationId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for tracking the error",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token",
+        "description": "Use the access token obtained from the OAuth flow in the Authorization \nheader as a Bearer token.\n\nExample: Authorization: Bearer YOUR_ACCESS_TOKEN\n\n## Important Notes\n- Access tokens expire after 30 minutes\n- Tokens reflect app scopes, not individual user permissions\n- Store tokens securely and never expose them in client-side code\n"
+      }
+    },
+    "examples": {
+      "authorizationUrlExample": {
+        "summary": "Complete authorization URL",
+        "description": "Example of a fully constructed authorization URL",
+        "value": "https://app.hubspot.com/oauth/authorize?client_id=7fff1e36-2d40-4ae1-bbb1-5266d59564fb&scope=oauth%20crm.objects.contacts.read&redirect_uri=https://www.example.com/auth-callback&state=WeHH_yy2irpl8UYAvv-my"
+      },
+      "callbackUrlExample": {
+        "summary": "Authorization callback URL",
+        "description": "Example of the redirect URL after successful authorization",
+        "value": "https://www.example.com/auth-callback?code=5771f587-2fe7-40e8-8784-042fb4bc2c31&state=WeHH_yy2irpl8UYAvv-my"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "OAuth Authorization",
+      "description": "Authorization endpoints for initiating the OAuth 2.0 flow and obtaining \nuser consent for your application.\n"
+    },
+    {
+      "name": "OAuth Token",
+      "description": "Token management endpoints for exchanging authorization codes and \nrefreshing access tokens.\n"
+    }
+  ],
+  "x-hubspot-documentation": {
+    "quickstart": "https://developers.hubspot.com/docs/api/oauth-quickstart",
+    "reference": "https://developers.hubspot.com/docs/api/oauth/overview",
+    "scopes": "https://developers.hubspot.com/docs/api/oauth-scopes"
+  },
+  "x-hubspot-best-practices": [
+    "Store client_secret securely and never expose it in client-side code",
+    "Always validate the state parameter to prevent CSRF attacks",
+    "Implement token refresh before access tokens expire",
+    "Handle authorization errors gracefully",
+    "Request only the scopes your app actually needs",
+    "Use HTTPS for all redirect URIs in production",
+    "Store refresh tokens securely",
+    "Implement proper error handling for expired or invalid tokens"
+  ]
+}

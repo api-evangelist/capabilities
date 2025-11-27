@@ -1,0 +1,113 @@
+#	Ruleset name: Experience - Documentation - Capabilities
+#	Ruleset version: 1.1
+rules:
+  info-negative:
+    description: Ensures there is a info property.
+    message: You MUST HAVE a info property.
+    given: $
+    severity: error
+    then:
+      field: info
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-positive:
+    description: Ensures there is a info property.
+    message: There is a info property.
+    given: $
+    severity: info
+    then:
+      field: info
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-name-negative:
+    description: Ensures there is a info.name property.
+    message: You MUST HAVE a info.name property.
+    given: $.info
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-name-positive:
+    description: Ensures there is a info.name property.
+    message: There is a info.name property.
+    given: $.info
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-description-negative:
+    description: Ensures there is a info.description property.
+    message: You MUST HAVE a info.description property.
+    given: $.info
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+  info-description-positive:
+    description: Ensures there is a info.description property.
+    message: There is a info.description property.
+    given: $.info
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+  info-icon-negative:
+    description: Ensures there is a info.icon property.
+    message: You MUST HAVE a info.icon property.
+    given: $.info
+    severity: error
+    then:
+      field: icon
+      function: truthy
+    tags:
+      - Documentation
+  info-icon-positive:
+    description: Ensures there is a info.icon property.
+    message: There is a info.icon property.
+    given: $.info
+    severity: info
+    then:
+      field: icon
+      function: falsy
+    tags:
+      - Documentation
+  info-tags-negative:
+    description: Ensures there is a info.tags property.
+    message: You MUST HAVE a info.tags property.
+    given: $.info
+    severity: error
+    then:
+      field: tags
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization
+  info-tags-positive:
+    description: Ensures there is a info.tags property.
+    message: There is a info.tags property.
+    given: $.info
+    severity: info
+    then:
+      field: tags
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization

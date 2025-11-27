@@ -1,0 +1,87 @@
+#	Ruleset name: Experience - Support - Capabilities
+#	Ruleset version: 1.1
+rules:
+  support-negative:
+    description: Ensures there is a support property.
+    message: You MUST HAVE a support property.
+    given: $
+    severity: error
+    then:
+      field: support
+      function: truthy
+    tags:
+      - Support
+  support-positive:
+    description: Ensures there is a support property.
+    message: There is a support property.
+    given: $
+    severity: info
+    then:
+      field: support
+      function: falsy
+    tags:
+      - Support
+  support-issues-negative:
+    description: Ensures there is a support.issues property.
+    message: You MUST HAVE a support.issues property.
+    given: $.support
+    severity: error
+    then:
+      field: issues
+      function: truthy
+    tags:
+      - Support
+  support-issues-positive:
+    description: Ensures there is a support.issues property.
+    message: There is a support.issues property.
+    given: $.support
+    severity: info
+    then:
+      field: issues
+      function: falsy
+    tags:
+      - Support
+  support-discussions-negative:
+    description: Ensures there is a support.discussions property.
+    message: You MUST HAVE a support.discussions property.
+    given: $.support
+    severity: error
+    then:
+      field: discussions
+      function: truthy
+    tags:
+      - Support
+      - Communication
+  support-discussions-positive:
+    description: Ensures there is a support.discussions property.
+    message: There is a support.discussions property.
+    given: $.support
+    severity: info
+    then:
+      field: discussions
+      function: falsy
+    tags:
+      - Support
+      - Communication
+  support-slack-negative:
+    description: Ensures there is a support.slack property.
+    message: You MUST HAVE a support.slack property.
+    given: $.support
+    severity: error
+    then:
+      field: slack
+      function: truthy
+    tags:
+      - Support
+      - Communication
+  support-slack-positive:
+    description: Ensures there is a support.slack property.
+    message: There is a support.slack property.
+    given: $.support
+    severity: info
+    then:
+      field: slack
+      function: falsy
+    tags:
+      - Support
+      - Communication

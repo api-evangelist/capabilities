@@ -1,0 +1,167 @@
+#	Ruleset name: Experience - Communication - Capabilities
+#	Ruleset version: 1.1
+rules:
+  stakeholders-negative:
+    description: Ensures there is a stakeholders property.
+    message: You MUST HAVE a stakeholders property.
+    given: $
+    severity: error
+    then:
+      field: stakeholders
+      function: truthy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-positive:
+    description: Ensures there is a stakeholders property.
+    message: There is a stakeholders property.
+    given: $
+    severity: info
+    then:
+      field: stakeholders
+      function: falsy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-fn-negative:
+    description: Ensures there is a stakeholders[*].FN property.
+    message: You MUST HAVE a stakeholders[*].FN property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: FN
+      function: truthy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-fn-positive:
+    description: Ensures there is a stakeholders[*].FN property.
+    message: There is a stakeholders[*].FN property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: FN
+      function: falsy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-role-negative:
+    description: Ensures there is a stakeholders[*].ROLE property.
+    message: You MUST HAVE a stakeholders[*].ROLE property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: ROLE
+      function: truthy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-role-positive:
+    description: Ensures there is a stakeholders[*].ROLE property.
+    message: There is a stakeholders[*].ROLE property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: ROLE
+      function: falsy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-email-negative:
+    description: Ensures there is a stakeholders[*].email property.
+    message: You MUST HAVE a stakeholders[*].email property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: email
+      function: truthy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-email-positive:
+    description: Ensures there is a stakeholders[*].email property.
+    message: There is a stakeholders[*].email property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: email
+      function: falsy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-socialprofile-negative:
+    description: Ensures there is a stakeholders[*].SOCIALPROFILE property.
+    message: You MUST HAVE a stakeholders[*].SOCIALPROFILE property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: SOCIALPROFILE
+      function: truthy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  stakeholders-socialprofile-positive:
+    description: Ensures there is a stakeholders[*].SOCIALPROFILE property.
+    message: There is a stakeholders[*].SOCIALPROFILE property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: SOCIALPROFILE
+      function: falsy
+    tags:
+      - Business Alignment
+      - Communication
+      - Collaboration
+  support-discussions-negative:
+    description: Ensures there is a support.discussions property.
+    message: You MUST HAVE a support.discussions property.
+    given: $.support
+    severity: error
+    then:
+      field: discussions
+      function: truthy
+    tags:
+      - Support
+      - Communication
+  support-discussions-positive:
+    description: Ensures there is a support.discussions property.
+    message: There is a support.discussions property.
+    given: $.support
+    severity: info
+    then:
+      field: discussions
+      function: falsy
+    tags:
+      - Support
+      - Communication
+  support-slack-negative:
+    description: Ensures there is a support.slack property.
+    message: You MUST HAVE a support.slack property.
+    given: $.support
+    severity: error
+    then:
+      field: slack
+      function: truthy
+    tags:
+      - Support
+      - Communication
+  support-slack-positive:
+    description: Ensures there is a support.slack property.
+    message: There is a support.slack property.
+    given: $.support
+    severity: info
+    then:
+      field: slack
+      function: falsy
+    tags:
+      - Support
+      - Communication

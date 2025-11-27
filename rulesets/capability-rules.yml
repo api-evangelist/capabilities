@@ -1,0 +1,1930 @@
+#	Ruleset name: Spec - Capabilities - All
+#	Ruleset version: 1.1
+rules:
+  info-negative:
+    description: Ensures there is a info property.
+    message: You MUST HAVE a info property.
+    given: $
+    severity: error
+    then:
+      field: info
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation      
+  info-positive:
+    description: Ensures there is a info property.
+    message: There is a info property.
+    given: $
+    severity: info
+    then:
+      field: info
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation          
+  info-name-negative:
+    description: Ensures there is a info.name property.
+    message: You MUST HAVE a info.name property.
+    given: $.info
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation          
+  info-name-positive:
+    description: Ensures there is a info.name property.
+    message: There is a info.name property.
+    given: $.info
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation          
+  info-description-negative:
+    description: Ensures there is a info.description property.
+    message: You MUST HAVE a info.description property.
+    given: $.info
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation          
+  info-description-positive:
+    description: Ensures there is a info.description property.
+    message: There is a info.description property.
+    given: $.info
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation          
+  info-icon-negative:
+    description: Ensures there is a info.icon property.
+    message: You MUST HAVE a info.icon property.
+    given: $.info
+    severity: error
+    then:
+      field: icon
+      function: truthy
+    tags:
+      - Documentation          
+  info-icon-positive:
+    description: Ensures there is a info.icon property.
+    message: There is a info.icon property.
+    given: $.info
+    severity: info
+    then:
+      field: icon
+      function: falsy
+    tags:
+      - Documentation          
+  info-tags-negative:
+    description: Ensures there is a info.tags property.
+    message: You MUST HAVE a info.tags property.
+    given: $.info
+    severity: error
+    then:
+      field: tags
+      function: truthy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization
+  info-tags-positive:
+    description: Ensures there is a info.tags property.
+    message: There is a info.tags property.
+    given: $.info
+    severity: info
+    then:
+      field: tags
+      function: falsy
+    tags:
+      - Discovery
+      - Documentation
+      - Organization      
+  info-json-ld-negative:
+    description: Ensures there is a info.jsonLd property.
+    message: You MUST HAVE a info.jsonLd property.
+    given: $.info
+    severity: error
+    then:
+      field: jsonLd
+      function: truthy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization      
+  info-json-ld-positive:
+    description: Ensures there is a info.jsonLd property.
+    message: There is a info.jsonLd property.
+    given: $.info
+    severity: info
+    then:
+      field: jsonLd
+      function: falsy
+    tags:
+      - Discovery
+      - Semantics
+      - Organization        
+  info-pinned-negative:
+    description: Ensures there is a info.pinned property.
+    message: You MUST HAVE a info.pinned property.
+    given: $.info
+    severity: error
+    then:
+      field: pinned
+      function: truthy
+    tags:
+      - Discovery      
+  info-pinned-positive:
+    description: Ensures there is a info.pinned property.
+    message: There is a info.pinned property.
+    given: $.info
+    severity: info
+    then:
+      field: pinned
+      function: falsy
+    tags:
+      - Discovery           
+  info-featured-negative:
+    description: Ensures there is a info.featured property.
+    message: You MUST HAVE a info.featured property.
+    given: $.info
+    severity: error
+    then:
+      field: featured
+      function: truthy
+    tags:
+      - Discovery           
+  info-featured-positive:
+    description: Ensures there is a info.featured property.
+    message: There is a info.featured property.
+    given: $.info
+    severity: info
+    then:
+      field: featured
+      function: falsy
+    tags:
+      - Discovery           
+  use-case-negative:
+    description: Ensures there is a useCase property.
+    message: You MUST HAVE a useCase property.
+    given: $
+    severity: error
+    then:
+      field: useCase
+      function: truthy
+    tags:
+      - Business Alignment           
+  use-case-positive:
+    description: Ensures there is a useCase property.
+    message: There is a useCase property.
+    given: $
+    severity: info
+    then:
+      field: useCase
+      function: falsy
+    tags:
+      - Business Alignment         
+  use-case-ref-negative:
+    description: Ensures there is a useCase[*].$ref property.
+    message: You MUST HAVE a useCase[*].$ref property.
+    given: $.useCase[*]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Business Alignment         
+  use-case-ref-positive:
+    description: Ensures there is a useCase[*].$ref property.
+    message: There is a useCase[*].$ref property.
+    given: $.useCase[*]
+    severity: info
+    then:
+      field: $ref
+      function: falsy
+    tags:
+      - Business Alignment         
+  stakeholders-negative:
+    description: Ensures there is a stakeholders property.
+    message: You MUST HAVE a stakeholders property.
+    given: $
+    severity: error
+    then:
+      field: stakeholders
+      function: truthy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration      
+  stakeholders-positive:
+    description: Ensures there is a stakeholders property.
+    message: There is a stakeholders property.
+    given: $
+    severity: info
+    then:
+      field: stakeholders
+      function: falsy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-fn-negative:
+    description: Ensures there is a stakeholders[*].FN property.
+    message: You MUST HAVE a stakeholders[*].FN property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: FN
+      function: truthy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-fn-positive:
+    description: Ensures there is a stakeholders[*].FN property.
+    message: There is a stakeholders[*].FN property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: FN
+      function: falsy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-role-negative:
+    description: Ensures there is a stakeholders[*].ROLE property.
+    message: You MUST HAVE a stakeholders[*].ROLE property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: ROLE
+      function: truthy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-role-positive:
+    description: Ensures there is a stakeholders[*].ROLE property.
+    message: There is a stakeholders[*].ROLE property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: ROLE
+      function: falsy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-email-negative:
+    description: Ensures there is a stakeholders[*].email property.
+    message: You MUST HAVE a stakeholders[*].email property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: email
+      function: truthy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-email-positive:
+    description: Ensures there is a stakeholders[*].email property.
+    message: There is a stakeholders[*].email property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: email
+      function: falsy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-socialprofile-negative:
+    description: Ensures there is a stakeholders[*].SOCIALPROFILE property.
+    message: You MUST HAVE a stakeholders[*].SOCIALPROFILE property.
+    given: $.stakeholders[*]
+    severity: error
+    then:
+      field: SOCIALPROFILE
+      function: truthy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  stakeholders-socialprofile-positive:
+    description: Ensures there is a stakeholders[*].SOCIALPROFILE property.
+    message: There is a stakeholders[*].SOCIALPROFILE property.
+    given: $.stakeholders[*]
+    severity: info
+    then:
+      field: SOCIALPROFILE
+      function: falsy
+    tags:
+      - Business Alignment   
+      - Communication
+      - Collaboration          
+  capabilities-negative:
+    description: Ensures there is a capabilities property.
+    message: You MUST HAVE a capabilities property.
+    given: $
+    severity: error
+    then:
+      field: capabilities
+      function: truthy
+    tags:
+      - Reusability  
+      - Composability      
+  capabilities-positive:
+    description: Ensures there is a capabilities property.
+    message: There is a capabilities property.
+    given: $
+    severity: info
+    then:
+      field: capabilities
+      function: falsy
+    tags:
+      - Reusability  
+      - Composability        
+  capabilities-ref-negative:
+    description: Ensures there is a capabilities[*].$ref property.
+    message: You MUST HAVE a capabilities[*].$ref property.
+    given: $.capabilities[*]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Reusability  
+      - Composability        
+  capabilities-ref-positive:
+    description: Ensures there is a capabilities[*].$ref property.
+    message: There is a capabilities[*].$ref property.
+    given: $.capabilities[*]
+    severity: info
+    then:
+      field: $ref
+      function: falsy
+    tags:
+      - Reusability  
+      - Composability        
+  ports-negative:
+    description: Ensures there is a ports property.
+    message: You MUST HAVE a ports property.
+    given: $
+    severity: error
+    then:
+      field: ports
+      function: truthy
+    tags:
+      - Reusability  
+      - Composability        
+  ports-positive:
+    description: Ensures there is a ports property.
+    message: There is a ports property.
+    given: $
+    severity: info
+    then:
+      field: ports
+      function: falsy
+    tags:
+      - Reusability  
+      - Composability        
+  ports-artificial-intelligence-negative:
+    description: Ensures there is a ports.artificialIntelligence property.
+    message: You MUST HAVE a ports.artificialIntelligence property.
+    given: $.ports
+    severity: error
+    then:
+      field: artificialIntelligence
+      function: truthy
+    tags:
+      - Artificial Intelligence        
+  ports-artificial-intelligence-positive:
+    description: Ensures there is a ports.artificialIntelligence property.
+    message: There is a ports.artificialIntelligence property.
+    given: $.ports
+    severity: info
+    then:
+      field: artificialIntelligence
+      function: falsy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-adapter-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].adapter property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].adapter property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: adapter
+      function: truthy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-adapter-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].adapter property.
+    message: There is a ports.artificialIntelligence[*].adapter property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: adapter
+      function: falsy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-title-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].title property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].title property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: title
+      function: truthy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-title-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].title property.
+    message: There is a ports.artificialIntelligence[*].title property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: title
+      function: falsy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-json-schema-negative:
+    description: Ensures there is a ports.artificialIntelligence[*].jsonSchema property.
+    message: You MUST HAVE a ports.artificialIntelligence[*].jsonSchema property.
+    given: $.ports.artificialIntelligence[*]
+    severity: error
+    then:
+      field: jsonSchema
+      function: truthy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-json-schema-positive:
+    description: Ensures there is a ports.artificialIntelligence[*].jsonSchema property.
+    message: There is a ports.artificialIntelligence[*].jsonSchema property.
+    given: $.ports.artificialIntelligence[*]
+    severity: info
+    then:
+      field: jsonSchema
+      function: falsy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-json-schema-ref-negative:
+    description: >-
+      Ensures there is a ports.artificialIntelligence[*].jsonSchema[].$ref
+      property.
+    message: >-
+      You MUST HAVE a ports.artificialIntelligence[*].jsonSchema[].$ref
+      property.
+    given: $.ports.artificialIntelligence[*].jsonSchema[]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Artificial Intelligence          
+  ports-artificial-intelligence-json-schema-ref-positive:
+    description: >-
+      Ensures there is a ports.artificialIntelligence[*].jsonSchema[].$ref
+      property.
+    message: There is a ports.artificialIntelligence[*].jsonSchema[].$ref property.
+    given: $.ports.artificialIntelligence[*].jsonSchema[]
+    severity: info
+    then:
+      field: $ref
+      function: falsy
+    tags:
+      - Sources
+      - Integrations
+  ports-source-negative:
+    description: Ensures there is a ports.source property.
+    message: You MUST HAVE a ports.source property.
+    given: $.ports
+    severity: error
+    then:
+      field: source
+      function: truthy
+    tags:
+      - Sources    
+  ports-source-positive:
+    description: Ensures there is a ports.source property.
+    message: There is a ports.source property.
+    given: $.ports
+    severity: info
+    then:
+      field: source
+      function: falsy
+    tags:
+      - Sources    
+  ports-source-adapter-negative:
+    description: Ensures there is a ports.source[*].adapter property.
+    message: You MUST HAVE a ports.source[*].adapter property.
+    given: $.ports.source[*]
+    severity: error
+    then:
+      field: adapter
+      function: truthy
+    tags:
+      - Sources    
+  ports-source-adapter-positive:
+    description: Ensures there is a ports.source[*].adapter property.
+    message: There is a ports.source[*].adapter property.
+    given: $.ports.source[*]
+    severity: info
+    then:
+      field: adapter
+      function: falsy
+    tags:
+      - Sources    
+  ports-source-title-negative:
+    description: Ensures there is a ports.source[*].title property.
+    message: You MUST HAVE a ports.source[*].title property.
+    given: $.ports.source[*]
+    severity: error
+    then:
+      field: title
+      function: truthy
+    tags:
+      - Sources    
+  ports-source-title-positive:
+    description: Ensures there is a ports.source[*].title property.
+    message: There is a ports.source[*].title property.
+    given: $.ports.source[*]
+    severity: info
+    then:
+      field: title
+      function: falsy
+    tags:
+      - Sources    
+  ports-source-open-api-negative:
+    description: Ensures there is a ports.source[*].openApi property.
+    message: You MUST HAVE a ports.source[*].openApi property.
+    given: $.ports.source[*]
+    severity: error
+    then:
+      field: openApi
+      function: truthy
+    tags:
+      - Sources    
+  ports-source-open-api-positive:
+    description: Ensures there is a ports.source[*].openApi property.
+    message: There is a ports.source[*].openApi property.
+    given: $.ports.source[*]
+    severity: info
+    then:
+      field: openApi
+      function: falsy
+    tags:
+      - Sources    
+  ports-source-open-api-ref-negative:
+    description: Ensures there is a ports.source[*].openApi[].$ref property.
+    message: You MUST HAVE a ports.source[*].openApi[].$ref property.
+    given: $.ports.source[*].openApi[]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Sources        
+  ports-source-open-api-ref-positive:
+    description: Ensures there is a ports.source[*].openApi[].$ref property.
+    message: There is a ports.source[*].openApi[].$ref property.
+    given: $.ports.source[*].openApi[]
+    severity: info
+    then:
+      field: $ref
+      function: falsy
+    tags:
+      - Sources        
+  ports-source-bruno-collection-negative:
+    description: Ensures there is a ports.source[*].brunoCollection property.
+    message: You MUST HAVE a ports.source[*].brunoCollection property.
+    given: $.ports.source[*]
+    severity: error
+    then:
+      field: brunoCollection
+      function: truthy
+    tags:
+      - Sources        
+  ports-source-bruno-collection-positive:
+    description: Ensures there is a ports.source[*].brunoCollection property.
+    message: There is a ports.source[*].brunoCollection property.
+    given: $.ports.source[*]
+    severity: info
+    then:
+      field: brunoCollection
+      function: falsy
+    tags:
+      - Sources        
+  ports-source-bruno-collection-ref-negative:
+    description: Ensures there is a ports.source[*].brunoCollection[].$ref property.
+    message: You MUST HAVE a ports.source[*].brunoCollection[].$ref property.
+    given: $.ports.source[*].brunoCollection[]
+    severity: error
+    then:
+      field: $ref
+      function: truthy
+    tags:
+      - Sources        
+  ports-source-bruno-collection-ref-positive:
+    description: Ensures there is a ports.source[*].brunoCollection[].$ref property.
+    message: There is a ports.source[*].brunoCollection[].$ref property.
+    given: $.ports.source[*].brunoCollection[]
+    severity: info
+    then:
+      field: $ref
+      function: falsy
+    tags:
+      - Sources        
+  events-negative:
+    description: Ensures there is a events property.
+    message: You MUST HAVE a events property.
+    given: $
+    severity: error
+    then:
+      field: events
+      function: truthy
+    tags:
+      - Orchestration
+  events-positive:
+    description: Ensures there is a events property.
+    message: There is a events property.
+    given: $
+    severity: info
+    then:
+      field: events
+      function: falsy
+    tags:
+      - Orchestration      
+  events-specversion-negative:
+    description: Ensures there is a events[*].specversion property.
+    message: You MUST HAVE a events[*].specversion property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: specversion
+      function: truthy
+    tags:
+      - Changes      
+  events-specversion-positive:
+    description: Ensures there is a events[*].specversion property.
+    message: There is a events[*].specversion property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: specversion
+      function: falsy
+    tags:
+      - Changes      
+  events-type-negative:
+    description: Ensures there is a events[*].type property.
+    message: You MUST HAVE a events[*].type property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Orchestration    
+  events-type-positive:
+    description: Ensures there is a events[*].type property.
+    message: There is a events[*].type property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Orchestration       
+  events-source-negative:
+    description: Ensures there is a events[*].source property.
+    message: You MUST HAVE a events[*].source property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: source
+      function: truthy
+    tags:
+      - Source       
+  events-source-positive:
+    description: Ensures there is a events[*].source property.
+    message: There is a events[*].source property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: source
+      function: falsy
+    tags:
+      - Source        
+  events-datacontenttype-negative:
+    description: Ensures there is a events[*].datacontenttype property.
+    message: You MUST HAVE a events[*].datacontenttype property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: datacontenttype
+      function: truthy
+    tags:
+      - Data        
+  events-datacontenttype-positive:
+    description: Ensures there is a events[*].datacontenttype property.
+    message: There is a events[*].datacontenttype property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: datacontenttype
+      function: falsy
+    tags:
+      - Data        
+  events-dataschema-negative:
+    description: Ensures there is a events[*].dataschema property.
+    message: You MUST HAVE a events[*].dataschema property.
+    given: $.events[*]
+    severity: error
+    then:
+      field: dataschema
+      function: truthy
+    tags:
+      - Data        
+  events-dataschema-positive:
+    description: Ensures there is a events[*].dataschema property.
+    message: There is a events[*].dataschema property.
+    given: $.events[*]
+    severity: info
+    then:
+      field: dataschema
+      function: falsy
+    tags:
+      - Data        
+  virtualization-negative:
+    description: Ensures there is a virtualization property.
+    message: You MUST HAVE a virtualization property.
+    given: $
+    severity: error
+    then:
+      field: virtualization
+      function: truthy
+    tags:
+      - Sandboxes        
+  virtualization-positive:
+    description: Ensures there is a virtualization property.
+    message: There is a virtualization property.
+    given: $
+    severity: info
+    then:
+      field: virtualization
+      function: falsy
+    tags:
+      - Sandboxes           
+  virtualization-sandboxes-negative:
+    description: Ensures there is a virtualization.sandboxes property.
+    message: You MUST HAVE a virtualization.sandboxes property.
+    given: $.virtualization
+    severity: error
+    then:
+      field: sandboxes
+      function: truthy
+    tags:
+      - Sandboxes           
+  virtualization-sandboxes-positive:
+    description: Ensures there is a virtualization.sandboxes property.
+    message: There is a virtualization.sandboxes property.
+    given: $.virtualization
+    severity: info
+    then:
+      field: sandboxes
+      function: falsy
+    tags:
+      - Sandboxes           
+  virtualization-sandboxes-name-negative:
+    description: Ensures there is a virtualization.sandboxes[*].name property.
+    message: You MUST HAVE a virtualization.sandboxes[*].name property.
+    given: $.virtualization.sandboxes[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Sandboxes           
+  virtualization-sandboxes-name-positive:
+    description: Ensures there is a virtualization.sandboxes[*].name property.
+    message: There is a virtualization.sandboxes[*].name property.
+    given: $.virtualization.sandboxes[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Sandboxes        
+  virtualization-sandboxes-url-negative:
+    description: Ensures there is a virtualization.sandboxes[*].url property.
+    message: You MUST HAVE a virtualization.sandboxes[*].url property.
+    given: $.virtualization.sandboxes[*]
+    severity: error
+    then:
+      field: url
+      function: truthy
+    tags:
+      - Sandboxes        
+  virtualization-sandboxes-url-positive:
+    description: Ensures there is a virtualization.sandboxes[*].url property.
+    message: There is a virtualization.sandboxes[*].url property.
+    given: $.virtualization.sandboxes[*]
+    severity: info
+    then:
+      field: url
+      function: falsy
+    tags:
+      - Sandboxes        
+  virtualization-data-negative:
+    description: Ensures there is a virtualization.data property.
+    message: You MUST HAVE a virtualization.data property.
+    given: $.virtualization
+    severity: error
+    then:
+      field: data
+      function: truthy
+    tags:
+      - Sandboxes     
+      - Data   
+  virtualization-data-positive:
+    description: Ensures there is a virtualization.data property.
+    message: There is a virtualization.data property.
+    given: $.virtualization
+    severity: info
+    then:
+      field: data
+      function: falsy
+    tags:
+      - Sandboxes     
+      - Data        
+  virtualization-data-name-negative:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: You MUST HAVE a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Sandboxes     
+      - Data        
+  virtualization-data-name-positive:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: There is a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Sandboxes     
+      - Data        
+  virtualization-data-url-negative:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: You MUST HAVE a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: url
+      function: truthy
+    tags:
+      - Sandboxes     
+      - Data        
+  virtualization-data-url-positive:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: There is a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: url
+      function: falsy
+    tags:
+      - Sandboxes     
+      - Data        
+  metrics-negative:
+    description: Ensures there is a metrics property.
+    message: You MUST HAVE a metrics property.
+    given: $
+    severity: error
+    then:
+      field: metrics
+      function: truthy
+    tags:
+      - Observability       
+  metrics-positive:
+    description: Ensures there is a metrics property.
+    message: There is a metrics property.
+    given: $
+    severity: info
+    then:
+      field: metrics
+      function: falsy
+    tags:
+      - Observability           
+  metrics-weaving-score-negative:
+    description: Ensures there is a metrics.weavingScore property.
+    message: You MUST HAVE a metrics.weavingScore property.
+    given: $.metrics
+    severity: error
+    then:
+      field: weavingScore
+      function: truthy
+    tags:
+      - Observability           
+  metrics-weaving-score-positive:
+    description: Ensures there is a metrics.weavingScore property.
+    message: There is a metrics.weavingScore property.
+    given: $.metrics
+    severity: info
+    then:
+      field: weavingScore
+      function: falsy
+    tags:
+      - Observability           
+  metrics-maturity-score-negative:
+    description: Ensures there is a metrics.maturityScore property.
+    message: You MUST HAVE a metrics.maturityScore property.
+    given: $.metrics
+    severity: error
+    then:
+      field: maturityScore
+      function: truthy
+    tags:
+      - Observability           
+  metrics-maturity-score-positive:
+    description: Ensures there is a metrics.maturityScore property.
+    message: There is a metrics.maturityScore property.
+    given: $.metrics
+    severity: info
+    then:
+      field: maturityScore
+      function: falsy
+    tags:
+      - Observability           
+  metrics-rating-negative:
+    description: Ensures there is a metrics.rating property.
+    message: You MUST HAVE a metrics.rating property.
+    given: $.metrics
+    severity: error
+    then:
+      field: rating
+      function: truthy
+    tags:
+      - Observability           
+  metrics-rating-positive:
+    description: Ensures there is a metrics.rating property.
+    message: There is a metrics.rating property.
+    given: $.metrics
+    severity: info
+    then:
+      field: rating
+      function: falsy
+    tags:
+      - Observability           
+  metrics-number-of-downloads-negative:
+    description: Ensures there is a metrics.numberOfDownloads property.
+    message: You MUST HAVE a metrics.numberOfDownloads property.
+    given: $.metrics
+    severity: error
+    then:
+      field: numberOfDownloads
+      function: truthy
+    tags:
+      - Observability           
+  metrics-number-of-downloads-positive:
+    description: Ensures there is a metrics.numberOfDownloads property.
+    message: There is a metrics.numberOfDownloads property.
+    given: $.metrics
+    severity: info
+    then:
+      field: numberOfDownloads
+      function: falsy
+    tags:
+      - Observability           
+  metrics-forks-negative:
+    description: Ensures there is a metrics.forks property.
+    message: You MUST HAVE a metrics.forks property.
+    given: $.metrics
+    severity: error
+    then:
+      field: forks
+      function: truthy
+    tags:
+      - Observability     
+      - Reusability      
+  metrics-forks-positive:
+    description: Ensures there is a metrics.forks property.
+    message: There is a metrics.forks property.
+    given: $.metrics
+    severity: info
+    then:
+      field: forks
+      function: falsy
+    tags:
+      - Observability     
+      - Reusability          
+  metrics-watches-negative:
+    description: Ensures there is a metrics.watches property.
+    message: You MUST HAVE a metrics.watches property.
+    given: $.metrics
+    severity: error
+    then:
+      field: watches
+      function: truthy
+    tags:
+      - Observability         
+  metrics-watches-positive:
+    description: Ensures there is a metrics.watches property.
+    message: There is a metrics.watches property.
+    given: $.metrics
+    severity: info
+    then:
+      field: watches
+      function: falsy
+    tags:
+      - Observability         
+  metrics-likes-negative:
+    description: Ensures there is a metrics.likes property.
+    message: You MUST HAVE a metrics.likes property.
+    given: $.metrics
+    severity: error
+    then:
+      field: likes
+      function: truthy
+    tags:
+      - Observability         
+  metrics-likes-positive:
+    description: Ensures there is a metrics.likes property.
+    message: There is a metrics.likes property.
+    given: $.metrics
+    severity: info
+    then:
+      field: likes
+      function: falsy
+    tags:
+      - Observability         
+  change-negative:
+    description: Ensures there is a change property.
+    message: You MUST HAVE a change property.
+    given: $
+    severity: error
+    then:
+      field: change
+      function: truthy
+    tags:
+      - Changes         
+  change-positive:
+    description: Ensures there is a change property.
+    message: There is a change property.
+    given: $
+    severity: info
+    then:
+      field: change
+      function: falsy
+    tags:
+      - Changes          
+  change-state-negative:
+    description: Ensures there is a change.state property.
+    message: You MUST HAVE a change.state property.
+    given: $.change
+    severity: error
+    then:
+      field: state
+      function: truthy
+    tags:
+      - Changes          
+  change-state-positive:
+    description: Ensures there is a change.state property.
+    message: There is a change.state property.
+    given: $.change
+    severity: info
+    then:
+      field: state
+      function: falsy
+    tags:
+      - Changes          
+  change-schema-version-negative:
+    description: Ensures there is a change.schemaVersion property.
+    message: You MUST HAVE a change.schemaVersion property.
+    given: $.change
+    severity: error
+    then:
+      field: schemaVersion
+      function: truthy
+    tags:
+      - Changes          
+  change-schema-version-positive:
+    description: Ensures there is a change.schemaVersion property.
+    message: There is a change.schemaVersion property.
+    given: $.change
+    severity: info
+    then:
+      field: schemaVersion
+      function: falsy
+    tags:
+      - Changes          
+  change-capability-version-negative:
+    description: Ensures there is a change.capabilityVersion property.
+    message: You MUST HAVE a change.capabilityVersion property.
+    given: $.change
+    severity: error
+    then:
+      field: capabilityVersion
+      function: truthy
+    tags:
+      - Changes          
+  change-capability-version-positive:
+    description: Ensures there is a change.capabilityVersion property.
+    message: There is a change.capabilityVersion property.
+    given: $.change
+    severity: info
+    then:
+      field: capabilityVersion
+      function: falsy
+    tags:
+      - Changes          
+  change-updated-negative:
+    description: Ensures there is a change.updated property.
+    message: You MUST HAVE a change.updated property.
+    given: $.change
+    severity: error
+    then:
+      field: updated
+      function: truthy
+    tags:
+      - Changes          
+  change-updated-positive:
+    description: Ensures there is a change.updated property.
+    message: There is a change.updated property.
+    given: $.change
+    severity: info
+    then:
+      field: updated
+      function: falsy
+    tags:
+      - Changes          
+  change-created-negative:
+    description: Ensures there is a change.created property.
+    message: You MUST HAVE a change.created property.
+    given: $.change
+    severity: error
+    then:
+      field: created
+      function: truthy
+    tags:
+      - Changes          
+  change-created-positive:
+    description: Ensures there is a change.created property.
+    message: There is a change.created property.
+    given: $.change
+    severity: info
+    then:
+      field: created
+      function: falsy
+    tags:
+      - Changes          
+  source-negative:
+    description: Ensures there is a source property.
+    message: You MUST HAVE a source property.
+    given: $
+    severity: error
+    then:
+      field: source
+      function: truthy
+    tags:
+      - Source          
+  source-positive:
+    description: Ensures there is a source property.
+    message: There is a source property.
+    given: $
+    severity: info
+    then:
+      field: source
+      function: falsy
+    tags:
+      - Source         
+  source-http-url-negative:
+    description: Ensures there is a source.httpUrl property.
+    message: You MUST HAVE a source.httpUrl property.
+    given: $.source
+    severity: error
+    then:
+      field: httpUrl
+      function: truthy
+    tags:
+      - Source         
+  source-http-url-positive:
+    description: Ensures there is a source.httpUrl property.
+    message: There is a source.httpUrl property.
+    given: $.source
+    severity: info
+    then:
+      field: httpUrl
+      function: falsy
+    tags:
+      - Source         
+  source-ssh-url-negative:
+    description: Ensures there is a source.sshUrl property.
+    message: You MUST HAVE a source.sshUrl property.
+    given: $.source
+    severity: error
+    then:
+      field: sshUrl
+      function: truthy
+    tags:
+      - Source         
+  source-ssh-url-positive:
+    description: Ensures there is a source.sshUrl property.
+    message: There is a source.sshUrl property.
+    given: $.source
+    severity: info
+    then:
+      field: sshUrl
+      function: falsy
+    tags:
+      - Source         
+  source-dockert-hub-negative:
+    description: Ensures there is a source.dockertHub property.
+    message: You MUST HAVE a source.dockertHub property.
+    given: $.source
+    severity: error
+    then:
+      field: dockertHub
+      function: truthy
+    tags:
+      - Source         
+  source-docker-hub-positive:
+    description: Ensures there is a source.dockertHub property.
+    message: There is a source.dockertHub property.
+    given: $.source
+    severity: info
+    then:
+      field: dockertHub
+      function: falsy
+    tags:
+      - Source         
+  support-negative:
+    description: Ensures there is a support property.
+    message: You MUST HAVE a support property.
+    given: $
+    severity: error
+    then:
+      field: support
+      function: truthy
+    tags:
+      - Support         
+  support-positive:
+    description: Ensures there is a support property.
+    message: There is a support property.
+    given: $
+    severity: info
+    then:
+      field: support
+      function: falsy
+    tags:
+      - Support        
+  support-issues-negative:
+    description: Ensures there is a support.issues property.
+    message: You MUST HAVE a support.issues property.
+    given: $.support
+    severity: error
+    then:
+      field: issues
+      function: truthy
+    tags:
+      - Support        
+  support-issues-positive:
+    description: Ensures there is a support.issues property.
+    message: There is a support.issues property.
+    given: $.support
+    severity: info
+    then:
+      field: issues
+      function: falsy
+    tags:
+      - Support        
+  support-discussions-negative:
+    description: Ensures there is a support.discussions property.
+    message: You MUST HAVE a support.discussions property.
+    given: $.support
+    severity: error
+    then:
+      field: discussions
+      function: truthy
+    tags:
+      - Support     
+      - Communication   
+  support-discussions-positive:
+    description: Ensures there is a support.discussions property.
+    message: There is a support.discussions property.
+    given: $.support
+    severity: info
+    then:
+      field: discussions
+      function: falsy
+    tags:
+      - Support     
+      - Communication        
+  support-slack-negative:
+    description: Ensures there is a support.slack property.
+    message: You MUST HAVE a support.slack property.
+    given: $.support
+    severity: error
+    then:
+      field: slack
+      function: truthy
+    tags:
+      - Support     
+      - Communication        
+  support-slack-positive:
+    description: Ensures there is a support.slack property.
+    message: There is a support.slack property.
+    given: $.support
+    severity: info
+    then:
+      field: slack
+      function: falsy
+    tags:
+      - Support     
+      - Communication        
+  license-negative:
+    description: Ensures there is a license property.
+    message: You MUST HAVE a license property.
+    given: $
+    severity: error
+    then:
+      field: license
+      function: truthy
+    tags:
+      - Legal     
+  license-positive:
+    description: Ensures there is a license property.
+    message: There is a license property.
+    given: $
+    severity: info
+    then:
+      field: license
+      function: falsy
+    tags:
+      - Legal          
+  license-data-negative:
+    description: Ensures there is a license.data property.
+    message: You MUST HAVE a license.data property.
+    given: $.license
+    severity: error
+    then:
+      field: data
+      function: truthy
+    tags:
+      - Legal          
+  license-data-positive:
+    description: Ensures there is a license.data property.
+    message: There is a license.data property.
+    given: $.license
+    severity: info
+    then:
+      field: data
+      function: falsy
+    tags:
+      - Legal          
+  license-data-type-negative:
+    description: Ensures there is a license.data.type property.
+    message: You MUST HAVE a license.data.type property.
+    given: $.license.data
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal          
+  license-data-type-positive:
+    description: Ensures there is a license.data.type property.
+    message: There is a license.data.type property.
+    given: $.license.data
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal          
+  license-data-attribution-negative:
+    description: Ensures there is a license.data.attribution property.
+    message: You MUST HAVE a license.data.attribution property.
+    given: $.license.data
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal          
+  license-data-attribution-positive:
+    description: Ensures there is a license.data.attribution property.
+    message: There is a license.data.attribution property.
+    given: $.license.data
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal          
+  license-data-instance-negative:
+    description: Ensures there is a license.data.instance property.
+    message: You MUST HAVE a license.data.instance property.
+    given: $.license.data
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal          
+  license-data-instance-positive:
+    description: Ensures there is a license.data.instance property.
+    message: There is a license.data.instance property.
+    given: $.license.data
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal          
+  license-code-negative:
+    description: Ensures there is a license.code property.
+    message: You MUST HAVE a license.code property.
+    given: $.license
+    severity: error
+    then:
+      field: code
+      function: truthy
+    tags:
+      - Legal          
+  license-code-positive:
+    description: Ensures there is a license.code property.
+    message: There is a license.code property.
+    given: $.license
+    severity: info
+    then:
+      field: code
+      function: falsy
+    tags:
+      - Legal        
+  license-code-type-negative:
+    description: Ensures there is a license.code.type property.
+    message: You MUST HAVE a license.code.type property.
+    given: $.license.code
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal     
+  license-code-type-positive:
+    description: Ensures there is a license.code.type property.
+    message: There is a license.code.type property.
+    given: $.license.code
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal        
+  license-code-attribution-negative:
+    description: Ensures there is a license.code.attribution property.
+    message: You MUST HAVE a license.code.attribution property.
+    given: $.license.code
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal        
+  license-code-attribution-positive:
+    description: Ensures there is a license.code.attribution property.
+    message: There is a license.code.attribution property.
+    given: $.license.code
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal        
+  license-code-instance-negative:
+    description: Ensures there is a license.code.instance property.
+    message: You MUST HAVE a license.code.instance property.
+    given: $.license.code
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal        
+  license-code-instance-positive:
+    description: Ensures there is a license.code.instance property.
+    message: There is a license.code.instance property.
+    given: $.license.code
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal        
+  license-api-negative:
+    description: Ensures there is a license.api property.
+    message: You MUST HAVE a license.api property.
+    given: $.license
+    severity: error
+    then:
+      field: api
+      function: truthy
+    tags:
+      - Legal        
+  license-api-positive:
+    description: Ensures there is a license.api property.
+    message: There is a license.api property.
+    given: $.license
+    severity: info
+    then:
+      field: api
+      function: falsy
+    tags:
+      - Legal        
+  license-api-type-negative:
+    description: Ensures there is a license.api.type property.
+    message: You MUST HAVE a license.api.type property.
+    given: $.license.api
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal        
+  license-api-type-positive:
+    description: Ensures there is a license.api.type property.
+    message: There is a license.api.type property.
+    given: $.license.api
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal        
+  license-api-attribution-negative:
+    description: Ensures there is a license.api.attribution property.
+    message: You MUST HAVE a license.api.attribution property.
+    given: $.license.api
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal        
+  license-api-attribution-positive:
+    description: Ensures there is a license.api.attribution property.
+    message: There is a license.api.attribution property.
+    given: $.license.api
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal        
+  license-api-instance-negative:
+    description: Ensures there is a license.api.instance property.
+    message: You MUST HAVE a license.api.instance property.
+    given: $.license.api
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal        
+  license-api-instance-positive:
+    description: Ensures there is a license.api.instance property.
+    message: There is a license.api.instance property.
+    given: $.license.api
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal        
+  standards-negative:
+    description: Ensures there is a standards property.
+    message: You MUST HAVE a standards property.
+    given: $
+    severity: error
+    then:
+      field: standards
+      function: truthy
+    tags:
+      - Standards        
+  standards-positive:
+    description: Ensures there is a standards property.
+    message: There is a standards property.
+    given: $
+    severity: info
+    then:
+      field: standards
+      function: falsy
+    tags:
+      - Standards        
+  standards-name-negative:
+    description: Ensures there is a standards[*].name property.
+    message: You MUST HAVE a standards[*].name property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Standards        
+  standards-name-positive:
+    description: Ensures there is a standards[*].name property.
+    message: There is a standards[*].name property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Standards        
+  standards-description-negative:
+    description: Ensures there is a standards[*].description property.
+    message: You MUST HAVE a standards[*].description property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Standards        
+  standards-description-positive:
+    description: Ensures there is a standards[*].description property.
+    message: There is a standards[*].description property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Standards        
+  standards-doc-url-negative:
+    description: Ensures there is a standards[*].docUrl property.
+    message: You MUST HAVE a standards[*].docUrl property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: docUrl
+      function: truthy
+    tags:
+      - Standards        
+  standards-doc-url-positive:
+    description: Ensures there is a standards[*].docUrl property.
+    message: There is a standards[*].docUrl property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: docUrl
+      function: falsy
+    tags:
+      - Standards        
+  security-negative:
+    description: Ensures there is a security property.
+    message: You MUST HAVE a security property.
+    given: $
+    severity: error
+    then:
+      field: security
+      function: truthy
+    tags:
+      - Security
+      - Risk        
+  security-positive:
+    description: Ensures there is a security property.
+    message: There is a security property.
+    given: $
+    severity: info
+    then:
+      field: security
+      function: falsy
+    tags:
+      - Security
+      - Risk        
+  security-name-negative:
+    description: Ensures there is a security[*].name property.
+    message: You MUST HAVE a security[*].name property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Security
+      - Risk          
+  security-name-positive:
+    description: Ensures there is a security[*].name property.
+    message: There is a security[*].name property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Security
+      - Risk          
+  security-description-negative:
+    description: Ensures there is a security[*].description property.
+    message: You MUST HAVE a security[*].description property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Security
+      - Risk          
+  security-description-positive:
+    description: Ensures there is a security[*].description property.
+    message: There is a security[*].description property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Security
+      - Risk          
+  security-doc-url-negative:
+    description: Ensures there is a security[*].docUrl property.
+    message: You MUST HAVE a security[*].docUrl property.
+    given: $.security[*]
+    severity: error
+    then:
+      field: docUrl
+      function: truthy
+    tags:
+      - Security
+      - Risk          
+  security-doc-url-positive:
+    description: Ensures there is a security[*].docUrl property.
+    message: There is a security[*].docUrl property.
+    given: $.security[*]
+    severity: info
+    then:
+      field: docUrl
+      function: falsy
+    tags:
+      - Security
+      - Risk          
+  services-negative:
+    description: Ensures there is a services property.
+    message: You MUST HAVE a services property.
+    given: $
+    severity: error
+    then:
+      field: services
+      function: truthy
+    tags:
+      - Services          
+  services-positive:
+    description: Ensures there is a services property.
+    message: There is a services property.
+    given: $
+    severity: info
+    then:
+      field: services
+      function: falsy
+    tags:
+      - Services           
+  services-name-negative:
+    description: Ensures there is a services[*].name property.
+    message: You MUST HAVE a services[*].name property.
+    given: $.services[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Services           
+  services-name-positive:
+    description: Ensures there is a services[*].name property.
+    message: There is a services[*].name property.
+    given: $.services[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Services          
+  services-description-negative:
+    description: Ensures there is a services[*].description property.
+    message: You MUST HAVE a services[*].description property.
+    given: $.services[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Services         
+  services-description-positive:
+    description: Ensures there is a services[*].description property.
+    message: There is a services[*].description property.
+    given: $.services[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Services         
+  services-doc-url-negative:
+    description: Ensures there is a services[*].docUrl property.
+    message: You MUST HAVE a services[*].docUrl property.
+    given: $.services[*]
+    severity: error
+    then:
+      field: docUrl
+      function: truthy
+    tags:
+      - Services         
+  services-doc-url-positive:
+    description: Ensures there is a services[*].docUrl property.
+    message: There is a services[*].docUrl property.
+    given: $.services[*]
+    severity: info
+    then:
+      field: docUrl
+      function: falsy
+    tags:
+      - Services         
+  services-apis-json-negative:
+    description: Ensures there is a services[*].apisJson property.
+    message: You MUST HAVE a services[*].apisJson property.
+    given: $.services[*]
+    severity: error
+    then:
+      field: apisJson
+      function: truthy
+    tags:
+      - Services         
+  services-apis-json-positive:
+    description: Ensures there is a services[*].apisJson property.
+    message: There is a services[*].apisJson property.
+    given: $.services[*]
+    severity: info
+    then:
+      field: apisJson
+      function: falsy
+    tags:
+      - Services         
+  observability-negative:
+    description: Ensures there is a observability property.
+    message: You MUST HAVE a observability property.
+    given: $
+    severity: error
+    then:
+      field: observability
+      function: truthy
+    tags:
+      - Observability         
+  observability-positive:
+    description: Ensures there is a observability property.
+    message: There is a observability property.
+    given: $
+    severity: info
+    then:
+      field: observability
+      function: falsy
+    tags:
+      - Observability       
+  observability-visibility-negative:
+    description: Ensures there is a observability.visibility property.
+    message: You MUST HAVE a observability.visibility property.
+    given: $.observability
+    severity: error
+    then:
+      field: visibility
+      function: truthy
+    tags:
+      - Observability       
+  observability-visibility-positive:
+    description: Ensures there is a observability.visibility property.
+    message: There is a observability.visibility property.
+    given: $.observability
+    severity: info
+    then:
+      field: visibility
+      function: falsy
+    tags:
+      - Observability 

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkapi_oas_checker=self.webpackChunkapi_oas_checker||[]).push([[1697],{11697:(e,t,c)=>{c.r(t),c.d(t,{component:()=>a});var s=c(96540),a=function(e){return(0,s.createElement)("svg",Object.assign({xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 24 24"},e),(0,s.createElement)("path",{d:"M16.5 15.4l-4.9-4.9-4.9 4.9-.7-.8L11.6 9l5.6 5.6z"}))}}}]);

@@ -1,0 +1,891 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/cvent-exhibitors-mcp-server.schema.json",
+  "title": "Cvent Exhibitors API MCP Server Schema",
+  "description": "JSON Schema for the Cvent Exhibitors API MCP Server configuration and data structures",
+  "type": "object",
+  "properties": {
+    "server": {
+      "type": "object",
+      "description": "MCP Server configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "cvent-exhibitors-server",
+          "description": "The name of the MCP server"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Server version following semantic versioning"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Server configuration settings",
+      "properties": {
+        "apiBaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "enum": [
+            "https://api-platform.cvent.com/ea",
+            "https://api-platform-eur.cvent.com/ea"
+          ],
+          "description": "Cvent API base URL (US or EU data center)"
+        },
+        "accessToken": {
+          "type": "string",
+          "minLength": 1,
+          "description": "OAuth2 access token for API authentication"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 300,
+          "default": 30,
+          "description": "HTTP request timeout in seconds"
+        }
+      },
+      "required": [
+        "accessToken"
+      ]
+    },
+    "resources": {
+      "type": "array",
+      "description": "Available MCP resources",
+      "items": {
+        "$ref": "#/$defs/Resource"
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "Available MCP tools",
+      "items": {
+        "$ref": "#/$defs/Tool"
+      }
+    }
+  },
+  "$defs": {
+    "Resource": {
+      "type": "object",
+      "description": "An MCP resource definition",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Unique resource identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable resource name"
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "MIME type of the resource"
+        },
+        "description": {
+          "type": "string",
+          "description": "Resource description"
+        }
+      },
+      "required": [
+        "uri",
+        "name"
+      ]
+    },
+    "Tool": {
+      "type": "object",
+      "description": "An MCP tool definition",
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "list_exhibitors",
+            "build_exhibitor_filter"
+          ],
+          "description": "Tool name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Tool description"
+        },
+        "inputSchema": {
+          "type": "object",
+          "description": "JSON Schema for tool input parameters"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "inputSchema"
+      ]
+    },
+    "ListExhibitorsRequest": {
+      "type": "object",
+      "description": "Parameters for the list_exhibitors tool",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the event (required) - exhibitors are always associated with a specific event"
+        },
+        "exhibitor_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Filter by specific exhibitor IDs (uses 'in' operator)"
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "Filter by hidden status - true returns only hidden exhibitors, false returns only visible exhibitors"
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "Filter by deleted status - true returns only deleted exhibitors, false returns only active exhibitors"
+        },
+        "custom_filter": {
+          "type": "string",
+          "description": "Advanced filter query string (e.g., \"id in ('{UUID}', '{UUID}') AND deleted eq 'true'\")",
+          "examples": [
+            "deleted eq 'true'",
+            "hidden eq 'false'",
+            "id in ('{UUID}', '{UUID}') AND deleted eq 'true' AND hidden eq 'true'"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 100,
+          "description": "Number of records per page (1-200, default: 100)"
+        },
+        "token": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Pagination token from previous response"
+        },
+        "after": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime - get records added/updated after this time"
+        },
+        "before": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime - get records added/updated before this time"
+        }
+      },
+      "required": [
+        "event_id"
+      ],
+      "additionalProperties": false
+    },
+    "ListExhibitorsResponse": {
+      "type": "object",
+      "description": "Response from the list_exhibitors tool",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the event for which exhibitors were retrieved"
+        },
+        "total_returned": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of exhibitors returned in this response"
+        },
+        "paging": {
+          "$ref": "#/$defs/PagingInfo"
+        },
+        "exhibitors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Exhibitor"
+          },
+          "description": "Array of exhibitor records"
+        }
+      },
+      "required": [
+        "event_id",
+        "total_returned",
+        "paging",
+        "exhibitors"
+      ]
+    },
+    "PagingInfo": {
+      "type": "object",
+      "description": "Pagination information",
+      "properties": {
+        "limit": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 200,
+          "description": "Number of records per page"
+        },
+        "total_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Total number of records available"
+        },
+        "next_token": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Token for fetching the next page"
+        },
+        "previous_token": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Token for fetching the previous page"
+        },
+        "current_token": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Token for the current page"
+        }
+      }
+    },
+    "Exhibitor": {
+      "type": "object",
+      "description": "An exhibitor record",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the exhibitor",
+          "readOnly": true
+        },
+        "profile_logo_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid",
+          "description": "File ID for exhibitor profile logo",
+          "readOnly": true
+        },
+        "profile_logo_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "URL for exhibitor profile logo",
+          "readOnly": true
+        },
+        "banner_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid",
+          "description": "File ID for exhibitor banner",
+          "readOnly": true
+        },
+        "banner_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "URL for exhibitor banner",
+          "readOnly": true
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Name of the exhibitor/company"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Description of the exhibitor"
+        },
+        "booth_number": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Booth number assigned to the exhibitor"
+        },
+        "website": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "Exhibitor's website URL"
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "email",
+          "description": "Exhibitor's contact email"
+        },
+        "phone": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exhibitor's contact phone number"
+        },
+        "hidden": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True indicates the exhibitor is hidden from attendee view"
+        },
+        "deleted": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True indicates the exhibitor has been deleted"
+        },
+        "sponsorship_level": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Sponsorship level information",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Sponsorship level ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Sponsorship level name"
+            }
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Category ID"
+              },
+              "name": {
+                "type": "string",
+                "description": "Category name"
+              }
+            }
+          },
+          "description": "Categories the exhibitor belongs to"
+        },
+        "created": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "The ISO 8601 zoned date time when this record was created",
+          "readOnly": true
+        },
+        "last_modified": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "The ISO 8601 zoned date time when this record was updated",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "BuildFilterRequest": {
+      "type": "object",
+      "description": "Parameters for the build_exhibitor_filter tool",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/FilterCondition"
+          },
+          "description": "List of filter conditions to combine"
+        },
+        "logic": {
+          "type": "string",
+          "enum": [
+            "AND",
+            "OR"
+          ],
+          "default": "AND",
+          "description": "Logical operator to combine conditions (must be uppercase)"
+        }
+      },
+      "required": [
+        "conditions"
+      ],
+      "additionalProperties": false
+    },
+    "FilterCondition": {
+      "type": "object",
+      "description": "A single filter condition",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Field name to filter on",
+          "enum": [
+            "id",
+            "hidden",
+            "deleted"
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "eq",
+            "in"
+          ],
+          "description": "Comparison operator - 'eq' for equality, 'in' for multiple values"
+        },
+        "value": {
+          "description": "Value(s) to compare against - string for 'eq', array of strings for 'in'",
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Single value for 'eq' operator"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Array of values for 'in' operator"
+            }
+          ]
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "eq"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "in"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "field": {
+                "const": "id"
+              },
+              "value": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "field": {
+                "enum": [
+                  "hidden",
+                  "deleted"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operator": {
+                "const": "eq"
+              },
+              "value": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BuildFilterResponse": {
+      "type": "object",
+      "description": "Response from the build_exhibitor_filter tool",
+      "properties": {
+        "filter": {
+          "type": "string",
+          "description": "The constructed filter string"
+        },
+        "usage": {
+          "type": "string",
+          "description": "Instructions on how to use the filter"
+        },
+        "conditions_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of conditions in the filter"
+        },
+        "logic_operator": {
+          "type": "string",
+          "enum": [
+            "AND",
+            "OR"
+          ],
+          "description": "The logical operator used"
+        }
+      },
+      "required": [
+        "filter",
+        "usage",
+        "conditions_count",
+        "logic_operator"
+      ]
+    },
+    "FilterOperators": {
+      "type": "object",
+      "description": "Available filter operators and their usage for exhibitors",
+      "properties": {
+        "eq": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "Equal to"
+            },
+            "description": {
+              "type": "string",
+              "const": "Tests if field equals value"
+            },
+            "applicable_fields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "hidden",
+                  "deleted"
+                ]
+              }
+            },
+            "value_type": {
+              "type": "string",
+              "const": "string ('true' or 'false' for boolean fields)"
+            }
+          }
+        },
+        "in": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "Includes value(s)"
+            },
+            "description": {
+              "type": "string",
+              "const": "Tests if field includes any of the provided values"
+            },
+            "applicable_fields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "id"
+                ]
+              }
+            },
+            "value_type": {
+              "type": "string",
+              "const": "array of UUIDs"
+            },
+            "format": {
+              "type": "string",
+              "const": "id in ('{UUID}', '{UUID}')"
+            }
+          }
+        }
+      }
+    },
+    "FilterableFields": {
+      "type": "object",
+      "description": "Fields that can be used in filter expressions",
+      "properties": {
+        "id": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "uuid"
+            },
+            "operators": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "in"
+                ]
+              }
+            },
+            "description": {
+              "type": "string",
+              "const": "Exhibitor ID - supports 'in' operator for multiple IDs"
+            }
+          }
+        },
+        "hidden": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "boolean"
+            },
+            "operators": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "eq"
+                ]
+              }
+            },
+            "description": {
+              "type": "string",
+              "const": "Hidden status - supports 'eq' operator with 'true' or 'false'"
+            }
+          }
+        },
+        "deleted": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "boolean"
+            },
+            "operators": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "eq"
+                ]
+              }
+            },
+            "description": {
+              "type": "string",
+              "const": "Deleted status - supports 'eq' operator with 'true' or 'false'"
+            }
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "description": "Error response structure",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "code": {
+          "type": "integer",
+          "enum": [
+            400,
+            401,
+            403,
+            404,
+            429
+          ],
+          "description": "HTTP status code"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message"
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional error details"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "ExampleQueries": {
+      "type": "object",
+      "description": "Example queries for common use cases",
+      "properties": {
+        "get_all_exhibitors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "const": "Get all exhibitors for an event"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "const": "3db28cfc-db22-11eb-8d19-0242ac130003"
+                }
+              }
+            }
+          }
+        },
+        "get_visible_exhibitors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "const": "Get only visible (non-hidden) exhibitors"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "const": "3db28cfc-db22-11eb-8d19-0242ac130003"
+                },
+                "hidden": {
+                  "type": "boolean",
+                  "const": false
+                }
+              }
+            }
+          }
+        },
+        "get_active_exhibitors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "const": "Get only active (non-deleted) exhibitors"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "const": "3db28cfc-db22-11eb-8d19-0242ac130003"
+                },
+                "deleted": {
+                  "type": "boolean",
+                  "const": false
+                }
+              }
+            }
+          }
+        },
+        "get_specific_exhibitors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "const": "Get specific exhibitors by their IDs"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "const": "3db28cfc-db22-11eb-8d19-0242ac130003"
+                },
+                "exhibitor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "const": [
+                    "4888db54-db22-11eb-8d19-0242ac130003",
+                    "5999ec65-ec33-22fc-9e2a-0353bd241004"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "complex_filter": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "const": "Get specific deleted and hidden exhibitors"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "const": "3db28cfc-db22-11eb-8d19-0242ac130003"
+                },
+                "custom_filter": {
+                  "type": "string",
+                  "const": "id in ('{UUID}', '{UUID}') AND deleted eq 'true' AND hidden eq 'true'"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

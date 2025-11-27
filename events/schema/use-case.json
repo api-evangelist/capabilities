@@ -1,0 +1,101 @@
+{
+  "$id": "https://github.com/naftiko/capabilities/blob/main/use-case/use-cases-schema-v0.1.0.yml",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Use Case Schema",
+  "description": "Schema for defining use cases with benefits, pain points, gains, and narratives",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the use case"
+    },
+    "description": {
+      "type": "string",
+      "description": "A detailed description of the use case, including summary and team needs"
+    },
+    "benefits": {
+      "type": "array",
+      "description": "List of benefits associated with this use case",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pain": {
+      "type": "array",
+      "description": "Pain points aligned with Signals targets",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Description of the pain point"
+          },
+          "targets": {
+            "type": "array",
+            "description": "List of target organizations/companies experiencing this pain",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "targets"
+        ]
+      }
+    },
+    "gains": {
+      "type": "array",
+      "description": "Gains aligned with Signals targets",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Description of the gain"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      }
+    },
+    "narratives": {
+      "type": "array",
+      "description": "Narratives for this use case to be published",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the narrative"
+          },
+          "body": {
+            "type": "string",
+            "description": "The full narrative text"
+          },
+          "targets": {
+            "type": "array",
+            "description": "List of target organizations/companies for this narrative",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "body",
+          "targets"
+        ]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "benefits",
+    "pain",
+    "gains",
+    "narratives"
+  ]
+}

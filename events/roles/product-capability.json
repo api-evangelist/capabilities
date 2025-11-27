@@ -1,0 +1,210 @@
+{
+  "info": {
+    "name": "Event AI - Event Context",
+    "description": "This is an capability for managing event event context.",
+    "icon": "https://example.com/icon.jpg",
+    "tags": [
+      "Events"
+    ],
+    "jsonLd": "\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Event\"\n}  \n",
+    "pinned": true,
+    "featured": true
+  },
+  "useCase": [
+    {
+      "$ref": "use-case/ai-context.yml"
+    }
+  ],
+  "events": [
+    {
+      "specversion": "1.0",
+      "type": "com.github.event_created.opened",
+      "source": "https://github.com/cloudevents/spec",
+      "datacontenttype": "application/json",
+      "dataschema": "https://github.com/cloudevents/spec/schemas/pr.json"
+    },
+    {
+      "specversion": "1.0",
+      "type": "com.github.marketing_email_created.opened",
+      "source": "https://github.com/cloudevents/spec",
+      "datacontenttype": "application/json",
+      "dataschema": "https://github.com/cloudevents/spec/schemas/pr.json"
+    }
+  ],
+  "virtualization": {
+    "sandboxes": [
+      {
+        "name": "Microcks Sandbox",
+        "url": "https://example.com/sandbox"
+      }
+    ],
+    "data": [
+      {
+        "name": "Synthetic Data",
+        "url": "https://example.com/data.csv"
+      },
+      {
+        "name": "Synthetic Data",
+        "url": "https://example.com/data.json"
+      }
+    ]
+  },
+  "metrics": {
+    "weavingScore": 50,
+    "maturityScore": 25,
+    "rating": 8,
+    "numberOfDownloads": 100,
+    "forks": 25,
+    "watches": 25,
+    "likes": 25
+  },
+  "change": {
+    "state": "New",
+    "schemaVersion": "0.1.0",
+    "capabilityVersion": "0.1.0",
+    "updated": "2025-11-24T00:00:00.000Z",
+    "created": "2025-11-18T00:00:00.000Z"
+  },
+  "support": {
+    "issues": "https://github.com/naftiko-capabilities/event-context/issues",
+    "discussions": "https://github.com/naftiko-capabilities/event-context/discussions",
+    "slack": "https://example.slack.com/archives/C09EAC4RXNW"
+  },
+  "license": {
+    "data": {
+      "type": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "CC BY",
+      "instance": "http://example.com/location-of-license"
+    },
+    "code": {
+      "type": "https://opensource.org/license/apache-2-0",
+      "attribution": "Apache 2.0",
+      "instance": "http://example.com/location-of-license"
+    },
+    "api": {
+      "type": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "CC BY",
+      "instance": "http://example.com/location-of-license"
+    }
+  },
+  "standards": [
+    {
+      "name": "Naftiko Capabilities",
+      "description": "This uses a exploratory schema to help inform and shape capabilities.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/capabilities/"
+    },
+    {
+      "name": "OpenAPI",
+      "description": "This uses OpenAPI to define access to all HTTP APIs.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/openapi/"
+    },
+    {
+      "name": "JSON Schema",
+      "description": "This uses JSON Schema to define and validate all entities used.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/json-schema/"
+    },
+    {
+      "name": "Spectral",
+      "description": "This uses Spectral rules to define and enforce policies across entities.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/spectral/"
+    },
+    {
+      "name": "Model Context Protocol",
+      "description": "This uses MCP expresed as JSON schema to define each MCP server.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/model-context-protocol/"
+    },
+    {
+      "name": "Bruno Collections",
+      "description": "This uses Bruno Collections to define each executable HTTP API integration.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/bruno-collections/"
+    },
+    {
+      "name": "Bruno Environments",
+      "description": "This uses Bruno Environments to store keys for each API to use in automation.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/bruno-environments/"
+    },
+    {
+      "name": "VCard",
+      "description": "This uses VCard to define each stakeholder in a portable manner.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/vcard-ontology/"
+    },
+    {
+      "name": "APIs.json",
+      "description": "This uses an APIs.json to index all of the available properties for services.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/apis-json/"
+    },
+    {
+      "name": "API Commons",
+      "description": "This uses an API Commons schema to define the plans and rate limits.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/api-commons/"
+    },
+    {
+      "name": "OAuth 2.0",
+      "description": "This uses a exploratory schema to help inform and shape capabilities.",
+      "docUrl": "https://psychic-bassoon-z2vjvn4.pages.github.io/docs/standards/oauth-20/"
+    }
+  ],
+  "security": {
+    "openAPI": [
+      {
+        "$ref": "openapi/event-context-cvent-authentication.yml"
+      },
+      {
+        "$ref": "openapi/event-context-hubspot-authentication.yml"
+      }
+    ],
+    "arazzo": [
+      {
+        "$ref": "arazzo/oauth-workflow-cvent.yml"
+      },
+      {
+        "$ref": "arazzo/oauth-workflow-hubspot.yml"
+      }
+    ]
+  },
+  "services": [
+    {
+      "name": "Cvent",
+      "description": "Cvent is a software platform that helps organizations plan, manage, and analyze events by providing tools for registration, venues, marketing, attendee engagement, and event logistics.",
+      "docUrl": "https://urban-adventure-6l4jvje.pages.github.io/docs/services/bigcommerce/",
+      "apisJson": "https://raw.githubusercontent.com/api-evangelist/cvent/refs/heads/main/apis.yml",
+      "loginUrl": "https://app.cvent.com/subscribers/Login.aspx",
+      "signUpUrl": "https://www.cvent.com/en/event-management-software/free-trial",
+      "termsOfServiceUrl": "https://www.cvent.com/en/product-terms-of-use",
+      "privacyPolicyUrl": "https://www.cvent.com/en/privacy-policy",
+      "plans": [
+        {
+          "$ref": "api-commons/plans-cvent.yml"
+        }
+      ],
+      "rateLimits": [
+        {
+          "$ref": "api-commons/rate-limits-cvent.yml"
+        }
+      ]
+    },
+    {
+      "name": "Hubspot",
+      "description": "HubSpot is a leading CRM platform that provides software and support to help businesses grow better through managing marketing, sales, service, and website management products.",
+      "docUrl": "https://urban-adventure-6l4jvje.pages.github.io/docs/services/hubspot/",
+      "apisJson": "https://raw.githubusercontent.com/api-evangelist/hubspot/refs/heads/main/apis.yml",
+      "loginUrl": "https://app.hubspot.com/login",
+      "signUpUrl": "https://app.hubspot.com/signup-hubspot/crm",
+      "termsOfServiceUrl": "https://legal.hubspot.com/hs-developer-terms",
+      "privacyPolicyUrl": "https://legal.hubspot.com/privacy-policy",
+      "plans": [
+        {
+          "$ref": "api-commons/plans-hubspot.yml"
+        }
+      ],
+      "rateLimits": [
+        {
+          "$ref": "api-commons/rate-limits-hubspot.yml"
+        }
+      ]
+    }
+  ],
+  "observability": {
+    "visibility": "Private"
+  }
+}

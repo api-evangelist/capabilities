@@ -1,0 +1,1660 @@
+{
+  "rules": {
+    "openapi-components-parameters-casing-camel-error": {
+      "description": "Providing parameters with consistent naming helps make it easier for API consumers to understand how they are able to configure their API requests",
+      "message": "Parameters Names MUST Be Camel Case",
+      "severity": "error",
+      "given": "$.components.parameters.*",
+      "then": [
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        },
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[A-Z](([a-z0-9]+[A-Z]?)*)$"
+          }
+        }
+      ]
+    },
+    "openapi-components-parameters-casing-camel-info": {
+      "description": "Providing parameters with consistent naming helps make it easier for API consumers to understand how they are able to configure their API requests",
+      "message": "Parameters Names Are Camel Case",
+      "severity": "info",
+      "given": "$.components.parameters.*",
+      "then": [
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        },
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[A-Z](([a-z0-9]+[A-Z]?)*)$"
+          }
+        }
+      ]
+    },
+    "openapi-components-parameters-description-error": {
+      "description": "Having a parameters description provides more depth to what a parameter does and will be displayed via documentation, and other tooling used across the API lifecycle",
+      "message": "Parameters MUST Have a Description",
+      "given": "$.paths.*.*.parameters.*",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-description-info": {
+      "description": "Having a parameters description provides more depth to what a parameter does and will be displayed via documentation, and other tooling used across the API lifecycle",
+      "message": "Parameters Have a Description",
+      "severity": "info",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-description-length-error": {
+      "description": "Limiting the length of parameters description forces us to be more concise in how we describe each parameter, while keeping our documentation and other ways descriptions show up in discovery and portals more consistent",
+      "message": "Parameters Description MUST Be Less Than 500 Characters",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "summary",
+        "function": "length",
+        "functionOptions": {
+          "max": 500
+        }
+      }
+    },
+    "openapi-components-parameters-enum-casing-error": {
+      "description": "Keeping parameters enumerator casing consistent across APIs helps reduce confusion by consumers, and can keep aligned with services and applications putting an API to work",
+      "message": "Parameters Enums MUST Must Be Upper Snake Case",
+      "severity": "error",
+      "given": "$.components.parameters.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      }
+    },
+    "openapi-components-parameters-enum-casing-info": {
+      "description": "Keeping parameters enumerator casing consistent across APIs helps reduce confusion by consumers, and can keep aligned with services and applications putting an API to work",
+      "message": "Parameters Enums Are Upper Snake Case",
+      "severity": "info",
+      "given": "$.components.parameters.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      }
+    },
+    "openapi-components-parameters-in-error": {
+      "description": "Providing an in property for parameters gets explicit about whether a parameter is in the path, query, or a header, making it clear to consumers where they can configure their request",
+      "message": "Parameters In Property MUST Be Set",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "in",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-in-info": {
+      "description": "Providing an in property for parameters gets explicit about whether a parameter is in the path, query, or a header, making it clear to consumers where they can configure their request",
+      "message": "Parameters In Property Is Set",
+      "severity": "info",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "in",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-info": {
+      "description": "Having a components parameters object allows all parameters used across an API to be centralized, allowing for reuse and easier governance of the parameters used to configure API requests",
+      "message": "Components Have a Parameters Property",
+      "severity": "info",
+      "given": "$.components",
+      "then": {
+        "field": "parameters",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-name-error": {
+      "description": "Providing a simple, intuitive, and consistent names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests",
+      "message": "Parameters MUST Have a Name",
+      "severity": "error",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-name-length-error": {
+      "description": "Providing short and concise names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests",
+      "message": "Parameters Name Length MUST Be Less Than 25 Characters",
+      "given": "$.components.parameters[?(@.in=='path')].name",
+      "then": {
+        "field": "summary",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      }
+    },
+    "openapi-components-parameters-required-error": {
+      "description": "Providrequiredg an required property for parameters gets explicit about whether a parameter is required the path, query, or a header, making it clear to consumers where they can configure their request",
+      "message": "Parameters Required Property MUST Be Set",
+      "given": "$.components.parameters.*",
+      "severity": "error",
+      "then": {
+        "field": "required",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-required-info": {
+      "description": "Providrequiredg an required property for parameters gets explicit about whether a parameter is required the path, query, or a header, makrequiredg it clear to consumers where they can configure their request.",
+      "message": "Parameters Required Property Is Set",
+      "severity": "info",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "required",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-error": {
+      "description": "Parameters must always possess a schema to help define the format and shape of the parameter, setting expections with consumers about what should be passed in",
+      "message": "Parameters MUST Have Schema",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "schema",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-info": {
+      "description": "Parameters must always possess a schema to help define the format and shape of the parameter, setting expections with consumers about what should be passed in",
+      "message": "Parameters Have Schema",
+      "severity": "info",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "schema",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-items-array-error": {
+      "description": "Parameters that are of an array type should always have the items defined, being explicit about what is continued as part of the array",
+      "message": "Parameter Schema Array MUST Have Items",
+      "given": "$.components.parameters.schema[?(@.type=='array')]",
+      "severity": "error",
+      "then": {
+        "field": "items",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-items-array-info": {
+      "description": "Parameters that are of an array type should always have the items defined, being explicit about what is continued as part of the array",
+      "message": "Parameter Schema Array MUST Has Items",
+      "severity": "info",
+      "given": "$.components.parameters.schema[?(@.type=='array')]",
+      "then": {
+        "field": "items",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-ref-error": {
+      "description": "Parameters must always use a schema reference that utilizes reusable schema that are defined as part of a centralized schema components library",
+      "message": "Parameters MUST Use Schema Reference",
+      "severity": "error",
+      "given": "$.components.parameters.*.schema",
+      "then": {
+        "field": "$ref",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-ref-info": {
+      "description": "Parameters must always use a schema reference that utilizes reusable schema that are defined as part of a centralized schema components library",
+      "message": "Parameters Use Schema Reference",
+      "severity": "info",
+      "given": "$.components.parameters.*.schema",
+      "then": {
+        "field": "$ref",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-error": {
+      "description": "Parameters must always have their schema type defined, being precise about what type of data can be inputted and used to configure an API request",
+      "message": "Parameter Schema Type",
+      "given": "$.components.parameters.*.schema",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-info": {
+      "description": "Parameters must always have their schema type defined, being precise about what type of data can be inputted and used to configure an API request",
+      "message": "Parameter Schema Type",
+      "severity": "info",
+      "given": "$.components.parameters.*.schema",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-integer-maximum-info": {
+      "description": "Parameters that are of the integer schema type must have their maximum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type Integer Maximum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "info",
+      "then": {
+        "field": "maximum",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-integer-maximum-warn": {
+      "description": "Parameters that are of the integer schema type must have their maximum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type Integer Maximum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "maximum",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-integer-minimum-info": {
+      "description": "Parameters that are of the integer schema type must have their minimum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type Integer Minimum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "info",
+      "then": {
+        "field": "minimum",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-integer-minimum-warn": {
+      "description": "Parameters that are of the integer schema type must have their minimum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type Integer Minimum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "minimum",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-maxlength-info": {
+      "description": "Parameters that are of the type string schema type must have their maximum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String MaxLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "info",
+      "then": {
+        "field": "maxLength",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-maxlength-warn": {
+      "description": "Parameters that are of the string schema type must have their maximum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String MaxLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "maxLength",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-minlength-info": {
+      "description": "Parameters that are of the string schema type must have their minimum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String MinLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "info",
+      "then": {
+        "field": "minLength",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-minlength-warn": {
+      "description": "Parameters that are of the string schema type must have their minimum value set, defining the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String MinLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "minLength",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-pattern-info": {
+      "description": "Parameters that are of the string schema type must have a pattern set, using a regex to define the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String Pattern",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "info",
+      "then": {
+        "field": "pattern",
+        "function": "falsy"
+      }
+    },
+    "openapi-components-parameters-schema-type-string-pattern-warn": {
+      "description": "Parameters that are of the string schema type must have a pattern set, using a regex to define the shape of parameter data passed in with a request",
+      "message": "Parameter Schema Type String Pattern",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "pattern",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-schemas-error": {
+      "description": "Utilizing the schema object in the centralized OpenAPI components library helps make schema reusable across API requests and responses",
+      "message": "Components MUST Have a Schema Property",
+      "severity": "error",
+      "given": "$.components",
+      "then": {
+        "field": "schemas",
+        "function": "truthy"
+      }
+    },
+    "openapi-components-schemas-info": {
+      "description": "Utilizing the schema object in the centralized OpenAPI components library helps make schema reusable across API requests and responses",
+      "message": "Components Have a Schema Property",
+      "severity": "info",
+      "given": "$.components",
+      "then": {
+        "field": "schemas",
+        "function": "falsy"
+      }
+    },
+    "openapi-external-docs-error": {
+      "description": "Having an external documentation link present in the OpenAPI for an API, makes it easy for API producers or consumers to find their way to the rest of the operations and resources available around an API",
+      "message": "OpenAPI MUST Have External Documentation",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "externalDocs",
+        "function": "truthy"
+      }
+    },
+    "openapi-external-docs-info": {
+      "description": "Having an external documentation link present in the OpenAPI for an API, makes it easy for API producers or consumers to find their way to the rest of the operations and resources available around an API",
+      "message": "OpenAPI Has External Documentation",
+      "severity": "info",
+      "given": "$",
+      "then": {
+        "field": "externalDocs",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-contact-email-error": {
+      "description": "Having a contact email address associated with the technical contract ensures that anyone who comes across the API has someone to email and get more information",
+      "message": "Info MUST Have Contact Email",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "email",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-contact-email-info": {
+      "description": "Having a contact email address associated with the technical contract ensures that anyone who comes across the API has someone to email and get more information",
+      "message": "Info Has Contact Email",
+      "given": "$.info.contact",
+      "severity": "info",
+      "then": {
+        "field": "email",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-contact-error": {
+      "description": "Having a contact object associated with the technical contract ensures that anyone who comes across the API has someone to contact and get more information",
+      "message": "Info MUST Have Contact Object",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "contact",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-contact-info": {
+      "description": "Having a contact object associated with the technical contract ensures that anyone who comes across the API has someone to contact and get more information",
+      "message": "Info Has Contact Object",
+      "severity": "info",
+      "given": "$.info",
+      "then": {
+        "field": "contact",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-contact-name-error": {
+      "description": "Having a contact name associated with the technical contract ensures that anyone who comes across the API knows who to contact",
+      "message": "Info MUST Have Contact Name",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-contact-name-info": {
+      "description": "Having a contact name associated with the technical contract ensures that anyone who comes across the API knows who to contact",
+      "message": "Info Has Contact Name",
+      "given": "$.info.contact",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-contact-url-error": {
+      "description": "Having a contact url associated with the technical contract ensures that anyone who comes across the API knows where to go to contact someone",
+      "message": "Info MUST Have Contact URL",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "url",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-contact-url-info": {
+      "description": "Having a contact url associated with the technical contract ensures that anyone who comes across the API knows where to go to contact someone",
+      "message": "Info Has Contact URL",
+      "given": "$.info.contact",
+      "severity": "info",
+      "then": {
+        "field": "url",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-description-error": {
+      "description": "Having a detailed description as part of the OpenAPI info object helps describe what a collection of paths and operations does for consumers, providing a short, concise, and relevant couple of paragraphs about the value that is represented as the OpenAPI",
+      "message": "Info MUST Have Description",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-description-eval-error": {
+      "description": "Eval functions MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible.",
+      "message": "Info Description MUST NOT Have Eval Tag",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^\\b(<eval)\\b"
+        }
+      }
+    },
+    "openapi-info-description-eval-info": {
+      "description": "Eval functions MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible.",
+      "message": "Info Description Does Not Have Eval Tag",
+      "severity": "info",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^\\b(<eval)\\b"
+        }
+      }
+    },
+    "openapi-info-description-info": {
+      "description": "Having a detailed description as part of the OpenAPI info object helps describe what a collection of paths and operations does for consumers, providing a short, concise, and relevant couple of paragraphs about the value that is represented as the OpenAPI",
+      "message": "Info Has Description",
+      "severity": "info",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-description-length-error": {
+      "description": "Having a restriction on the length of the API description expressed as the OpenAPI info description helps provide constraints for consumers when adding a description, and keeps portals, landing pages, documentation, and discovery results more consistent",
+      "message": "Info description MUST be less than 500 characters.",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 500
+        }
+      }
+    },
+    "openapi-info-description-script-error": {
+      "description": "Script tags MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible.",
+      "message": "Info Description MUST NOT Have Script Tag",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^\\b(<script)\\b"
+        }
+      }
+    },
+    "openapi-info-description-script-info": {
+      "description": "Script tags MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible.",
+      "message": "Info Description Does Not Have Script Tag",
+      "severity": "info",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^\\b(<script)\\b"
+        }
+      }
+    },
+    "openapi-info-error": {
+      "description": "Having an info object provides much of the metadata needed for the collection of APIs described in an OpenAPI",
+      "message": "Info Object MUST Exist",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "info",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-info": {
+      "description": "Having an info object provides much of the metadata needed for the collection of APIs described in an OpenAPI",
+      "message": "Info Object Exists",
+      "severity": "info",
+      "given": "$",
+      "then": {
+        "field": "info",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-title-error": {
+      "description": "Having a intuitive and helpful title for your API using the OpenAPI info title is the first impression you will make on the consumers of your API",
+      "message": "Info MUST Have Title",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-title-info": {
+      "description": "Having a intuitive and helpful title for your API using the OpenAPI info title is the first impression you will make on the consumers of your API",
+      "message": "Info Has Title",
+      "severity": "info",
+      "given": "$.info",
+      "then": {
+        "field": "title",
+        "function": "falsy"
+      }
+    },
+    "openapi-info-title-length-error": {
+      "description": "Having a limitation on the length of the title for your API helps provide constraints for teams naming it, but also keep consistent with other APIs from across teams",
+      "message": "Info Title MUST Be Less Than 50 Characters",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "title",
+        "function": "length",
+        "functionOptions": {
+          "max": 50
+        }
+      }
+    },
+    "openapi-info-title-upper-case-error": {
+      "description": "Having a consistent casing for the title for your API helps provide constraints for teams naming the API, but also keep consistent with other APIs from across teams",
+      "message": "Info Title Has First Characters Capitalized",
+      "severity": "error",
+      "given": "$.info.title",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      }
+    },
+    "openapi-info-title-upper-case-info": {
+      "description": "Having a consistent casing for the title for your API helps provide constraints for teams naming the API, but also keep consistent with other APIs from across teams",
+      "message": "Info Title Has First Characters Capitalized",
+      "severity": "info",
+      "given": "$.info.title",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "[A-Z]\\w*"
+        }
+      }
+    },
+    "openapi-info-version-error": {
+      "description": "Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property",
+      "message": "Info MUST Have Version",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "version",
+        "function": "truthy"
+      }
+    },
+    "openapi-info-version-info": {
+      "description": "Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property",
+      "message": "Info Has Version",
+      "given": "$.info",
+      "severity": "info",
+      "then": {
+        "field": "version",
+        "function": "falsy"
+      }
+    },
+    "openapi-operation-security-definitions-error": {
+      "description": "Each API operation should have a security definition referencing the central security scheme express for an OpenAPI",
+      "message": "Operations MUST Have a Security Definition",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": {
+        "field": "security",
+        "function": "truthy"
+      }
+    },
+    "openapi-operation-security-definitions-info": {
+      "description": "Each API operation should have a security definition referencing the central security scheme express for an OpenAPI",
+      "message": "Operations MUST Have a Security Definition",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": {
+        "field": "security",
+        "function": "falsy"
+      }
+    },
+    "openapi-operations-description-error": {
+      "description": "Having a paragraph or two description of each API operation helps API consumers understand what is possible with each API request",
+      "message": "Operation MUST Have Description",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "description",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-operations-description-info": {
+      "description": "Having a paragraph or two description of each API operation helps API consumers understand what is possible with each API request",
+      "message": "Operation Has Description",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "description",
+          "function": "falsy"
+        }
+      ]
+    },
+    "openapi-operations-description-length-error": {
+      "description": "Having a length limitation for each description of each API operation helps apply constraints to how you describe your APIs, while helping drive consistency across APIs when it comes to search, documentation, and other ways an API is made available",
+      "message": "Operation Description MUST Be Less Than 250 Characters",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "description",
+          "function": "length",
+          "functionOptions": {
+            "max": 250
+          }
+        }
+      ]
+    },
+    "openapi-operations-operation-ids-camel-case-error": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, and requiring them to have consistent casing reduces friction when generating SDKs and automating around APIs",
+      "message": "Operation Identifier MUST Be camelCase",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete].operationId",
+      "then": [
+        {
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        }
+      ]
+    },
+    "openapi-operations-operation-ids-camel-case-info": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, and requiring them to have consistent casing reduces friction when generating SDKs and automating around APIs",
+      "message": "Operation Identifier Is camelCase",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete].operationId",
+      "then": [
+        {
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        }
+      ]
+    },
+    "openapi-operations-operation-ids-error": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, which then used for SDK generation and other automation",
+      "message": "Operation MUST Have Identifier",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "operationId",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-operations-operation-ids-info": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, which then used for SDK generation and other automation",
+      "message": "Operation Has Identifier",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "operationId",
+          "function": "falsy"
+        }
+      ]
+    },
+    "openapi-operations-summary-error": {
+      "description": "Having short and intuitive summary for each API operation helps API consumers understand what is possible with each API request",
+      "message": "Operation MUST Have a Summary",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "summary",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-operations-summary-info": {
+      "description": "Having short and intuitive summary for each API operation helps API consumers understand what is possible with each API request",
+      "message": "Operation Has a Summary",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "summary",
+          "function": "falsy"
+        }
+      ]
+    },
+    "openapi-operations-summary-length-error": {
+      "description": "Apply length constraints to the operation summary helps keep them consistent for publishing in documentation",
+      "message": "Operation Summary MUST Be Less Than 50 Characters",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "summary",
+          "function": "length",
+          "functionOptions": {
+            "max": 50
+          }
+        }
+      ],
+      "type": "style"
+    },
+    "openapi-operations-summary-period-none-error": {
+      "description": "Operation summaries should not have a period, keeping the primary summary for each API as consistent as possible for publishing in documentation",
+      "message": "Operation MUST Not Have a Period.",
+      "severity": "error",
+      "given": "$.paths[*][*].summary",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "\\.$"
+        }
+      }
+    },
+    "openapi-operations-summary-period-none-info": {
+      "description": "Operation summaries should not have a period, keeping the primary summary for each API as consistent as possible for publishing in documentation",
+      "message": "Operation Has a Period.",
+      "severity": "info",
+      "given": "$.paths[*][*].summary",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "\\.$"
+        }
+      }
+    },
+    "openapi-operations-tags-error": {
+      "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available",
+      "message": "Operations MUST Have Tags",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "tags",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-operations-tags-info": {
+      "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available",
+      "message": "Operations Has Tags",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "tags",
+          "function": "falsy"
+        }
+      ]
+    },
+    "openapi-operations-tags-one-error": {
+      "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available",
+      "message": "MUST Be At Least One Operation Tag",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "length",
+        "functionOptions": {
+          "min": 1
+        }
+      }
+    },
+    "openapi-operations-tags-upper-case-error": {
+      "description": "Having the first letter of each word applied as a tag to API operations helps keep a consistent layout when published via search, documentation, and other ways APIs are made available",
+      "message": "Operation Tag Names MUST Have First Letter in Each Word Capitalized",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete].tags.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      }
+    },
+    "openapi-operations-tags-upper-case-info": {
+      "description": "Having the first letter of each word applied as a tag to API operations helps keep a consistent layout when published via search, documentation, and other ways APIs are made available",
+      "message": "Operation Tag Names Have First Letter in Each Word Capitalized",
+      "severity": "info",
+      "given": "$.paths.*[get,post,patch,put,delete].tags.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "[A-Z]\\w*"
+        }
+      }
+    },
+    "openapi-paths-declarations-error": {
+      "description": "There must be a paths property and have paths declared, providing the minimum viable definition for an API.",
+      "message": "OpenAPI Path Declarations Error",
+      "severity": "error",
+      "resolved": false,
+      "given": "$.paths",
+      "then": {
+        "field": "@key",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "{}"
+        }
+      }
+    },
+    "openapi-no-path-trailing-slash-error": {
+      "description": "It is common to be explicit and consistent about whether or not to have a trailing slack on each API path",
+      "message": "Path Trailing Slash",
+      "severity": "error",
+      "given": "$.paths.*~",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "/$"
+        }
+      }
+    },
+    "openapi-no-path-trailing-slash-info": {
+      "description": "It is common to be explicit and consistent about whether or not to have a trailing slack on each API path",
+      "message": "Path Trailing Slash",
+      "severity": "info",
+      "given": "$.paths.*~",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "/$"
+        }
+      }
+    },
+    "openapi-request-bodies-delete-error": {
+      "description": "DELETE HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard",
+      "message": "DELETE Request Body",
+      "given": "$.paths.*.delete",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      }
+    },
+    "openapi-request-bodies-delete-info": {
+      "description": "DELETE HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard",
+      "message": "DELETE Request Body",
+      "given": "$.paths.*.delete",
+      "severity": "info",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      }
+    },
+    "openapi-request-bodies-get-error": {
+      "description": "GET HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard",
+      "message": "GET Request Body",
+      "given": "$.paths.*.get",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      }
+    },
+    "openapi-request-bodies-get-info": {
+      "description": "GET HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard",
+      "message": "GET Request Body",
+      "given": "$.paths.*.get",
+      "severity": "info",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      }
+    },
+    "openapi-request-body-on-post-error": {
+      "description": "POST HTTP methods can have a request body, providing a structured payload for configuring each API request",
+      "message": "POST Requests MUST Have a Body",
+      "given": "$.paths.*.post",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      }
+    },
+    "openapi-request-body-on-post-info": {
+      "description": "POST HTTP methods can have a request body, providing a structured payload for configuring each API request",
+      "message": "POST Requests Has a Body",
+      "given": "$.paths.*.post",
+      "severity": "info",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      }
+    },
+    "openapi-request-bodies-put-error": {
+      "description": "PUT HTTP methods can have a request body, providing a structured payload for configuring each API request",
+      "message": "PUT Requests MUST Have a Body",
+      "given": "$.paths.*.put",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      }
+    },
+    "openapi-request-bodies-put-info": {
+      "description": "PUT HTTP methods can have a request body, providing a structured payload for configuring each API request",
+      "message": "PUT Requests Has a Body",
+      "given": "$.paths.*.put",
+      "severity": "info",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-delete-204-status-code-error": {
+      "description": "DELETE responses should have a 204 success HTTP status codes, communicating a success created response to consumers",
+      "message": "DELETE 204 Status Code",
+      "severity": "info",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "204",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-delete-204-status-code-info": {
+      "description": "DELETE responses should have a 204 success HTTP status codes, communicating a success created response to consumers",
+      "message": "DELETE 204 Status Code",
+      "severity": "info",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "204",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-delete-404-schema-ref-error": {
+      "description": "DELETE 404 not found HTTP status codes have a schema references to standardize the response payload returned for the error response",
+      "message": "DELETE 404 Responses MUST Use Schema Reference",
+      "severity": "error",
+      "given": "$.paths.*.delete.responses.404",
+      "then": {
+        "field": "$ref",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-delete-404-schema-ref-info": {
+      "description": "DELETE 404 not found HTTP status codes have a schema references to standardize the response payload returned for the error response",
+      "message": "DELETE 404 Responses Uses Schema Reference",
+      "severity": "info",
+      "given": "$.paths.*.delete.responses.404",
+      "then": {
+        "field": "$ref",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-delete-500-status-code-error": {
+      "description": "DELETE responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "DELETE Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-delete-500-status-code-info": {
+      "description": "DELETE responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "DELETE Responses MUST Have 500 Status Codes",
+      "severity": "info",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "500",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-get-200-status-code-error": {
+      "description": "GET responses should have a 200 success HTTP status codes, communicating a successful response to consumers",
+      "message": "GET Responses MUST Have 200 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "200",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-get-200-status-code-info": {
+      "description": "GET responses should have a 200 success HTTP status codes, communicating a successful response to consumers",
+      "message": "GET Responses Has 200 Status Codes",
+      "severity": "info",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "200",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-get-404-status-code-error": {
+      "description": "GET responses should have a 404 not found HTTP status code, communicating that nothing was found to consumers",
+      "message": "GET Responses MUST Have 404 Status Code",
+      "severity": "error",
+      "given": "$.paths.*.get[?(@.properties)]",
+      "then": {
+        "field": "404",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-get-404-status-code-info": {
+      "description": "GET responses should have a 404 not found HTTP status code, communicating that nothing was found to consumers",
+      "message": "GET Responses Has 404 Status Code",
+      "severity": "info",
+      "given": "$.paths.*.get[?(@.properties)]",
+      "then": {
+        "field": "404",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-get-500-status-code-error": {
+      "description": "GET responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "GET Responses MUST Have 500 Status Code",
+      "severity": "error",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-get-500-status-code-info": {
+      "description": "GET responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "GET Responses Has 500 Status Code",
+      "severity": "info",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "500",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-post-201-status-code-error": {
+      "description": "POST responses should have a 201 success HTTP status codes, communicating a success created response to consumers",
+      "message": "POST Responses MUST Have 201 Status Codes",
+      "severity": "error",
+      "given": "$.paths[*].post.responses",
+      "then": {
+        "field": "201",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-post-201-status-code-info": {
+      "description": "POST responses should have a 201 success HTTP status codes, communicating a success created response to consumers",
+      "message": "POST Responses Has 201 Status Codes",
+      "severity": "info",
+      "given": "$.paths[*].post.responses",
+      "then": {
+        "field": "201",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-post-500-status-code-error": {
+      "description": "POST responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "POST Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.post.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-post-500-status-code-info": {
+      "description": "POST responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "POST Responses Has 500 Status Codes",
+      "severity": "info",
+      "given": "$.paths.*.post.responses",
+      "then": {
+        "field": "500",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-put-400-status-code-error": {
+      "description": "PUT responses should have a 400 not found HTTP status code, communicating nothing was found to consumers",
+      "message": "PUT Responses MUST Have 400 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "400",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-put-400-status-code-info": {
+      "description": "PUT responses should have a 400 not found HTTP status code, communicating nothing was found to consumers",
+      "message": "PUT Responses Has 400 Status Codes",
+      "severity": "info",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "400",
+        "function": "falsy"
+      }
+    },
+    "openapi-response-put-500-status-code-error": {
+      "description": "PUT responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "PUT Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      }
+    },
+    "openapi-response-put-500-status-code-info": {
+      "description": "PUT responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers",
+      "message": "PUT Responses Has 500 Status Codes",
+      "severity": "info",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "500",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-description-error": {
+      "description": "Schema should have descriptions that provide a narrative of what a schema object is for, and how it can be used, leaving examples to demonstrate what can actually be expected",
+      "message": "Schema MUST Have a Description.",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-description-info": {
+      "description": "Schema should have descriptions that provide a narrative of what a schema object is for, and how it can be used, leaving examples to demonstrate what can actually be expected",
+      "message": "Schemas Has a Description.",
+      "severity": "info",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-description-length-error": {
+      "description": "Schema should have a length limit applied, restricting how long schema descriptions can be, helping keep them concise and consistent",
+      "message": "Schema Description MUST be Less Than 250 Characters",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 250
+        }
+      }
+    },
+    "openapi-schema-names-error": {
+      "description": "Schema names, keeping the naming of them consistent across APIs, standardizing how consumers can use in their applications.",
+      "message": "Schema Names MUST Exist",
+      "severity": "error",
+      "given": "$.components.schemas",
+      "then": {
+        "field": "@key",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-names-info": {
+      "description": "Schema names, keeping the naming of them consistent across APIs, standardizing how consumers can use in their applications.",
+      "message": "Schema Names Exist",
+      "severity": "info",
+      "given": "$.components.schemas",
+      "then": {
+        "field": "@key",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-names-length-error": {
+      "description": "Schema should have a length limit applied keeping the names of schema consistent across APIs",
+      "message": "Schema Names MUST Be Less Than 25 Characters",
+      "severity": "error",
+      "given": "$.components.schemas",
+      "then": {
+        "field": "@key",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      }
+    },
+    "openapi-schema-properties-array-items-error": {
+      "description": "Schema properties that are of the type array must have an items property defined",
+      "message": "Schema Array Properties MUST Have Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": {
+        "field": "items",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-properties-array-items-info": {
+      "description": "Schema properties that are of the type array must have an items property defined",
+      "message": "Schema Array Properties Has Items",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": {
+        "field": "items",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-properties-array-maxitems-error": {
+      "description": "Schema properties that are of the type array should have a max items property defined",
+      "message": "Schema Array Properties MUST Have Max Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "maxItems",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-schema-properties-array-maxitems-info": {
+      "description": "Schema properties that are of the type array should have a max items property defined",
+      "message": "Schema Array Properties Have Max Items",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "maxItems",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-schema-properties-array-minitems-error": {
+      "description": "Schema properties that are of the type array should have a min items property defined",
+      "message": "Schema Array Properties MUST Have Min Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "minItems",
+          "function": "truthy"
+        }
+      ]
+    },
+    "openapi-schema-properties-array-minitems-info": {
+      "description": "Schema properties that are of the type array should have a min items property defined",
+      "message": "Schema Array Properties Have Min Items",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "minItems",
+          "function": "falsy"
+        }
+      ]
+    },
+    "openapi-schema-properties-define-number-maximum-error": {
+      "description": "Schema properties that are of the type number should have a maximum property defined",
+      "message": "Schema Number Properties MUST Have Maximum",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"number\")]",
+      "then": [
+        {
+          "field": "maximum",
+          "function": "defined"
+        }
+      ]
+    },
+    "openapi-schema-properties-define-number-minimum-error": {
+      "description": "Schema properties that are of the type number should have a minimum property defined",
+      "message": "Schema Number Properties MUST Have Minimum",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"number\")]",
+      "then": [
+        {
+          "field": "minimum",
+          "function": "defined"
+        }
+      ]
+    },
+    "openapi-schema-properties-descriptions-error": {
+      "description": "Schema properties should have descriptions that provide a narrative of the property contains, and how it can be used",
+      "message": "Schema Properties MUST Have Description",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-properties-descriptions-info": {
+      "description": "Schema properties should have descriptions that provide a narrative of the property contains, and how it can be used",
+      "message": "Schema Properties Have Description",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-properties-descriptions-length-error": {
+      "description": "Schema property descriptions should have a length limit applied, applying constraints to writing descriptions, and keeping consistent across APIs",
+      "message": "Schema Properties Description MUST Have 250 Characters",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 250
+        }
+      }
+    },
+    "openapi-schema-properties-enum-casing-error": {
+      "description": "Schema property enumerators are consistent casing, keeping all entries upper snake case, and consistent across all APIs",
+      "message": "Schema Property Enum MUST Be Upper Snake Case",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      }
+    },
+    "openapi-schema-properties-enum-casing-info": {
+      "description": "Schema property enumerators are consistent casing, keeping all entries upper snake case, and consistent across all APIs",
+      "message": "Schema Property Enum Are Upper Snake Case",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      }
+    },
+    "openapi-schema-properties-names-camel-case-error": {
+      "description": "Schema property names are camel case, providing consistent casing across all the schema properties used by APIs",
+      "message": "Schema Property Names MUST Be camelCase.",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties",
+      "then": [
+        {
+          "field": "@key",
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$"
+          }
+        }
+      ]
+    },
+    "openapi-schema-properties-names-camel-case-info": {
+      "description": "Schema property names are camel case, providing consistent casing across all the schema properties used by APIs",
+      "message": "Schema Property Names Are camelCase.",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties",
+      "then": [
+        {
+          "field": "@key",
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$"
+          }
+        }
+      ]
+    },
+    "openapi-schema-properties-names-length-error": {
+      "description": "Schema property names have a length restriction applied, keeping names consistent, and avoiding being too long",
+      "message": "Schema Properties Name Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties",
+      "then": {
+        "field": "@key",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      }
+    },
+    "openapi-schema-properties-string-maxlength-error": {
+      "description": "Schema properties that are of the string type have the max length applied defining the shape of the property",
+      "message": "Schema String Properties MUST Have Maximum Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "maxLength",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-properties-string-maxlength-info": {
+      "description": "Schema properties that are of the string type have the max length applied defining the shape of the property",
+      "message": "Schema String Properties Has Maximum Length",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "maxLength",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-properties-string-minlength-error": {
+      "description": "Schema properties that are of the string type have the min length applied defining the shape of the property",
+      "message": "Schema String Properties MUST Have Minimum Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "minLength",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-properties-string-minlength-info": {
+      "description": "Schema properties that are of the string type have the min length applied defining the shape of the property",
+      "message": "Schema String Properties Has Minimum Length",
+      "severity": "info",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "minLength",
+        "function": "falsy"
+      }
+    },
+    "openapi-schema-type-error": {
+      "description": "Schema should have a type defined, being explicit about type of data a schema describes and can be used to validate, helping standardize the type of data being made available",
+      "message": "Schema MUST Have Type Property",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      }
+    },
+    "openapi-schema-type-info": {
+      "description": "Schema should have a type defined, being explicit about type of data a schema describes and can be used to validate, helping standardize the type of data being made available",
+      "message": "Schema Has Type Property",
+      "severity": "info",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "type",
+        "function": "falsy"
+      }
+    },
+    "openapi-security-schemes-error": {
+      "description": "Having components security schemes ensures that the security definition for an API have been standardized and are able to be applied across APIs",
+      "message": "Components MUST Have a Security Schemes",
+      "severity": "error",
+      "given": "$.components",
+      "then": {
+        "field": "securitySchemes",
+        "function": "truthy"
+      }
+    },
+    "openapi-security-schemes-info": {
+      "description": "Having components security schemes ensures that the security definition for an API have been standardized and are able to be applied across APIs",
+      "message": "Components Have a Security Schemes",
+      "severity": "info",
+      "given": "$.components",
+      "then": {
+        "field": "securitySchemes",
+        "function": "falsy"
+      }
+    },
+    "openapi-tags-description-error": {
+      "description": "Tags used as part of an OpenAPI should have descriptions, providing more of a narrative behind what a tag means when it is applied to an API",
+      "message": "Tags MUST Have a Description",
+      "given": "$.tags[*]",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      }
+    },
+    "openapi-tags-description-info": {
+      "description": "Tags used as part of an OpenAPI should have descriptions, providing more of a narrative behind what a tag means when it is applied to an API",
+      "message": "Tags Have a Description",
+      "given": "$.tags[*]",
+      "severity": "info",
+      "then": {
+        "field": "description",
+        "function": "falsy"
+      }
+    },
+    "openapi-tags-name-error": {
+      "description": "Tags used as part of an OpenAPI should have names, providing a simple key word or phrase that represents the tag being applied to APIs",
+      "message": "Tags MUST Have a Name",
+      "given": "$.tags[*]",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      }
+    },
+    "openapi-tags-name-info": {
+      "description": "Tags used as part of an OpenAPI should have names, providing a simple key word or phrase that represents the tag being applied to APIs",
+      "message": "Tags Have a Name",
+      "given": "$.tags[*]",
+      "severity": "info",
+      "then": {
+        "field": "name",
+        "function": "falsy"
+      }
+    },
+    "openapi-tags-object-error": {
+      "description": "There needs to be a central tags object applied to the OpenAPI, providing central tags that can be applied across all operations within an OpenAPI",
+      "message": "OpenAPIs MUST Have a Tag Object",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "truthy"
+      }
+    },
+    "openapi-tags-object-info": {
+      "description": "There needs to be a central tags object applied to the OpenAPI, providing central tags that can be applied across all operations within an OpenAPI",
+      "message": "OpenAPIs Have a Tag Object",
+      "given": "$",
+      "severity": "info",
+      "then": {
+        "field": "tags",
+        "function": "falsy"
+      }
+    },
+    "openapi-tags-one-error": {
+      "description": "There needs to be at least one tag applied to an OpenAPI, providing a key word or phrase that can be applied to API operations",
+      "message": "MUST Be At Least One Tag",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "length",
+        "functionOptions": {
+          "min": 1
+        }
+      }
+    },
+    "openapi-tags-upper-case-error": {
+      "description": "The first letter of each word in a tag being applied to APIs needs to be capitalized, keeping the tags being applied across APIs the same look and feel for organizing and publishing to documentation",
+      "message": "Tag Names MUST Have First Letter in Each Word Capitalized",
+      "severity": "error",
+      "given": "$.tags.*.name",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      }
+    }
+  }
+}

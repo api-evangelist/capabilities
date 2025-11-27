@@ -1,0 +1,1993 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cvent Event API",
+    "description": "Needs a description."
+  },
+  "servers": [
+    {
+      "url": "https://api-platform-eur.cvent.com/ea"
+    },
+    {
+      "url": "https://api-platform.cvent.com/ea"
+    }
+  ],
+  "paths": {
+    "/events": {
+      "get": {
+        "security": [
+          {
+            "OAuth2.clientCredentials": [
+              "event/events:read"
+            ]
+          },
+          {
+            "OAuth2.authorizationCode": [
+              "event/events:read"
+            ]
+          }
+        ],
+        "summary": "List Events",
+        "description": "Gets a paginated list of events.\n",
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/after"
+          },
+          {
+            "$ref": "#/components/parameters/before"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "$ref": "#/components/parameters/eventSort"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "description": "A filter query string narrows search results and supports the combination of logical and comparison operators.\nThe filter adheres to the pattern filter='field' comparisonType 'value'.\nThese are the comparison types that can be used in filter expressions:\n  * equal: eq\n  * not equal: ne\n  * greater than: gt\n  * greater or equal: ge\n  * less than: lt\n  * less than or equal: le\n  * contains a value: contains\n\nThe following fields are filterable:\n  * id (eq|ne)\n  * start (eq|ne|lt|le|gt|ge)\n  * end (eq|ne|lt|le|gt|ge)\n  * status (eq|ne)\n  * eventStatus (eq|ne) **Note:** Events with a status of `Deleted` are available\n    for approximately 24 hours after deletion. After this, they are\n    removed and no longer appear in search results.\n  * format (eq|ne)\n  * title (eq|ne|contains) **Note:** Contains filters must be between 3 and 15 characters.\n  * code (eq|ne)\n  * description (eq|ne)\n  * launchAfter (eq|ne|lt|le|gt|ge)\n  * created (eq|ne|lt|le|gt|ge)\n  * lastModified (eq|ne|lt|le|gt|ge)\n  * closeAfter (eq|ne|lt|le|gt|ge)\n  * archiveAfter (eq|ne|lt|le|gt|ge)\n  * capacity (eq|ne|lt|le|gt|ge)\n  * stakeholder.firstName (eq|ne)\n  * stakeholder.lastName (eq|ne)\n  * stakeholder.email (eq|ne)\n  * stakeholder.company (eq|ne)\n  * stakeholder.title (eq|ne)\n  * stakeholder.workPhone (eq|ne)\n  * note (eq|ne)\n  * virtual (eq|ne)\n  * planner.firstName (eq|ne)\n  * planner.lastName (eq|ne)\n  * planner.email (eq|ne)\n  * venue.address.city (eq|ne)\n  * venue.address.region (eq|ne)\n  * venue.address.regionCode (eq|ne)\n  * venue.address.country (eq|ne)\n  * venue.address.countryCode (eq|ne)\n  * customField.{uuid of custom field} (eq|ne|lt|le|gt|ge|sw|contains)\n",
+            "schema": {
+              "type": "string",
+              "example": "status eq 'Accepted' or status eq 'Pending' and (id eq 'abc' or id eq 'def')"
+            }
+          }
+        ],
+        "tags": [
+          "Events"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a paginated list of events.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/event-paginated-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest1"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized1"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden1"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests1"
+          }
+        },
+        "deprecated": false,
+        "externalDocs": {
+          "description": "More about OAuth2 authorization code support for administrators",
+          "url": "#oauth2-auth-code-planner-admin"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "event-paginated-response": {
+        "title": "EventPaginatedResponse",
+        "description": "Represents a paginated collection of event objects.",
+        "required": [
+          "data",
+          "paging"
+        ],
+        "type": "object",
+        "properties": {
+          "paging": {
+            "$ref": "#/components/schemas/paging.json"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/event"
+            },
+            "description": "A collection of event objects."
+          }
+        }
+      },
+      "paging.json": {
+        "title": "Paging",
+        "required": [
+          "_links"
+        ],
+        "type": "object",
+        "description": "Represents pagination information for a collection of resources.",
+        "properties": {
+          "previousToken": {
+            "type": "string",
+            "description": "The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "nextToken": {
+            "type": "string",
+            "description": "The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "currentToken": {
+            "type": "string",
+            "description": "The pagination token for the current page.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of records to return on the page. Not to exceed 200.",
+            "example": 100
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.",
+            "example": 2
+          },
+          "_links": {
+            "$ref": "#/components/schemas/pagination-links.json"
+          }
+        }
+      },
+      "pagination-links.json": {
+        "title": "PaginationLinks",
+        "type": "object",
+        "description": "Represents pagination links for navigating between pages of data.",
+        "properties": {
+          "next": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "self": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "prev": {
+            "$ref": "#/components/schemas/link.json"
+          }
+        }
+      },
+      "link.json": {
+        "title": "Link",
+        "required": [
+          "href"
+        ],
+        "type": "object",
+        "description": "Represents a link to a related resource.",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "A url provided that can be followed for linking",
+            "example": "?token=90c5f062-76ad-4ea4-aa53-00eb698d9262"
+          }
+        }
+      },
+      "event": {
+        "title": "Event",
+        "description": "Represents an event.",
+        "type": "object",
+        "required": [
+          "title",
+          "format",
+          "planners",
+          "timezone",
+          "languages",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The identifier of the event.",
+            "example": "9463c74e-18c6-401a-a710-ae0f485bf059",
+            "readOnly": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the event being organized.",
+            "maxLength": 300,
+            "example": "Cvent Connect 2020"
+          },
+          "code": {
+            "type": "string",
+            "description": "A system-generated code for this event.",
+            "maxLength": 18,
+            "readOnly": true,
+            "example": "R5NP4NJYB3D"
+          },
+          "virtual": {
+            "type": "boolean",
+            "description": "True indicates the event is virtual. DEPRECATED - Refer to the 'format' field for the 'virtual' indicator.",
+            "example": true,
+            "deprecated": true,
+            "readOnly": true
+          },
+          "format": {
+            "$ref": "#/components/schemas/event-format.json"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the event.",
+            "maxLength": 20000,
+            "example": "Cvent annual user conference."
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO 8601 formatted date and time when the event starts.",
+            "example": "2020-02-03T13:00:00.000Z"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO 8601 formatted date and time when the event ends.",
+            "example": "2020-02-07T17:00:00.000Z"
+          },
+          "closeAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The event will be closed for registration after this ISO 8601 formatted date and time.",
+            "example": "2020-02-01T23:59:00.000Z",
+            "readOnly": true
+          },
+          "archiveAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The event will be archived after this ISO 8601 formatted date and time.",
+            "example": "2020-05-07T12:00:00.000Z",
+            "readOnly": true
+          },
+          "launchAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The event will launch after this ISO 8601 formatted date and time. If the event has not yet launched, this field shows a date of 1/1/1900.",
+            "example": "2020-01-07T12:00:00.000Z",
+            "readOnly": true
+          },
+          "timezone": {
+            "type": "string",
+            "description": "List of supported [timezones](/docs/rest-api/reference/api-standards#time-zones).",
+            "maxLength": 29,
+            "example": "America/New_York"
+          },
+          "venues": {
+            "type": "array",
+            "maxItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/venue.json"
+            },
+            "description": "Collection of venues."
+          },
+          "showVenueLocation": {
+            "type": "boolean",
+            "description": "True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error."
+          },
+          "showPointOfContact": {
+            "type": "boolean",
+            "description": "True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error."
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number for the event.",
+            "maxLength": 13,
+            "example": "555-555-5555",
+            "readOnly": true
+          },
+          "note": {
+            "type": "string",
+            "description": "Event note created by planners for internal use.",
+            "maxLength": 300,
+            "example": "This event will need some coordination with external systems."
+          },
+          "defaultLocale": {
+            "type": "string",
+            "description": "The event default locale using the IETF language tag format.",
+            "maxLength": 35,
+            "example": "en-US",
+            "readOnly": true
+          },
+          "languages": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "example": "en-US"
+            },
+            "description": "List of IETF language tags enabled for the event. This field supports reading multiple language tags but supports writing only one language to an event."
+          },
+          "currency": {
+            "type": "string",
+            "description": "The ISO 4217 standard format currency code used of this event.",
+            "maxLength": 3,
+            "example": "USD",
+            "readOnly": true
+          },
+          "registrationSecurityLevel": {
+            "$ref": "#/components/schemas/event-security-level.json"
+          },
+          "status": {
+            "$ref": "#/components/schemas/registration-status.json"
+          },
+          "eventStatus": {
+            "$ref": "#/components/schemas/event-status.json"
+          },
+          "planningStatus": {
+            "type": "string",
+            "description": "The planner-created planning status for this event. Used for internal tracking purposes.",
+            "maxLength": 50,
+            "example": "Submitted",
+            "readOnly": true
+          },
+          "testMode": {
+            "type": "boolean",
+            "description": "True indicates the event is in test mode.",
+            "example": false,
+            "readOnly": true
+          },
+          "capacity": {
+            "type": "integer",
+            "description": "The maximum amount of attendees that can attend the event. Only used for events with the registration feature.",
+            "example": 50,
+            "readOnly": true
+          },
+          "planners": {
+            "type": "array",
+            "maxItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/planner.json2"
+            },
+            "description": "A collection of contacts representing the event planners."
+          },
+          "stakeholders": {
+            "type": "array",
+            "maxItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/stakeholder.json"
+            },
+            "description": "A collection of contacts representing event stakeholders.",
+            "readOnly": true
+          },
+          "customFields": {
+            "type": "array",
+            "readOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/custom-field"
+            },
+            "description": "Collection of custom fields."
+          },
+          "category": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The category to which this event belongs (no longer supported).",
+            "allOf": [
+              {
+                "title": "Lookup",
+                "description": "Lookup response object",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/components/schemas/uuid-property"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "Code / Abbreviation of the lookup item.",
+                    "maxLength": 30,
+                    "example": "MU"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the lookup item.",
+                    "maxLength": 30,
+                    "example": "Meet up"
+                  }
+                }
+              }
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/event-type.json1"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/event-links.json"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was created.",
+            "readOnly": true,
+            "example": "2017-01-02T02:00:00Z"
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was updated.",
+            "readOnly": true,
+            "example": "2019-02-12T03:00:00Z"
+          },
+          "meetingRequestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The identifier of the meeting request related to the event, if any.",
+            "readOnly": true,
+            "example": "b566c24e-12a8-452d-c490-ad0e796be093"
+          },
+          "createdBy": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "The name of the user who created the event.",
+            "readOnly": true,
+            "example": "John Doe"
+          },
+          "lastModifiedBy": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "The name of the user who last modified the event.",
+            "readOnly": true,
+            "example": "Jane Doe"
+          }
+        }
+      },
+      "event-format.json": {
+        "title": "Event Format",
+        "enum": [
+          "In-person",
+          "Virtual",
+          "Hybrid"
+        ],
+        "type": "string",
+        "description": "Denotes the format of an event.",
+        "example": "Virtual"
+      },
+      "venue.json": {
+        "title": "Venue",
+        "description": "An Event Venue",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the venue.",
+            "maxLength": 300,
+            "example": "Capital Convention Center"
+          },
+          "address": {
+            "$ref": "#/components/schemas/venue-address.json"
+          }
+        }
+      },
+      "event-security-level.json": {
+        "title": "EventSecurityLevel",
+        "description": "Represents the security level used for event registrations.",
+        "enum": [
+          "Private",
+          "Public",
+          "Public and Private"
+        ],
+        "type": "string",
+        "readOnly": true,
+        "example": "Private"
+      },
+      "registration-status.json": {
+        "title": "Registration Status",
+        "enum": [
+          "Active",
+          "Cancelled",
+          "Closed",
+          "Completed",
+          "Deleted",
+          "NoRegistrationRequired",
+          "Pending",
+          "Processing"
+        ],
+        "type": "string",
+        "readOnly": true,
+        "description": "This is used to denote the registration status for an event.",
+        "example": "Pending"
+      },
+      "event-status.json": {
+        "title": "EventStatus",
+        "description": "Event status denotes if the event is in the past, present or future. Also can denote if the event was cancelled or deleted. ",
+        "readOnly": true,
+        "type": "string",
+        "enum": [
+          "Upcoming",
+          "Ongoing",
+          "Completed",
+          "Cancelled",
+          "Deleted",
+          "Processing",
+          "Archived"
+        ],
+        "example": "Upcoming"
+      },
+      "planner.json2": {
+        "title": "Planner",
+        "description": "Represents the planner of an event.",
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "An honorific prefixing a planner's name.",
+            "maxLength": 30,
+            "example": "Dr."
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the planner.",
+            "maxLength": 50,
+            "example": "Henry"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the planner.",
+            "maxLength": 50,
+            "example": "Smith"
+          },
+          "company": {
+            "type": "string",
+            "description": "The company/organization the planner belongs to.",
+            "maxLength": 100,
+            "example": "Cvent Inc"
+          },
+          "title": {
+            "type": "string",
+            "description": "The job title of the planner.",
+            "maxLength": 50,
+            "example": "Event Planner"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The email address of the planner. Field is case-sensitive. For create/update operations, emails must be [already added](https://support.cvent.com/s/communityarticle/Adding-or-Removing-Account-Email-Addresses) in Cvent.",
+            "minLength": 6,
+            "maxLength": 80,
+            "example": "hsmith@example.com"
+          },
+          "nickname": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The nickname of the planner.",
+            "maxLength": 30,
+            "example": "J"
+          },
+          "optOut": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "title": "ContactOptOut",
+                "description": "Details of an opt-out for a Contact.",
+                "type": "object",
+                "properties": {
+                  "optedOut": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Used to denote if a contact has opted-out of receiving system generated emails.",
+                    "example": false
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The ISO 8601 zoned date time when this contact was opted-out. This value can change if the contact opts out multiple times.",
+                    "readOnly": true,
+                    "example": "2019-02-12T03:00:00Z"
+                  },
+                  "by": {
+                    "$ref": "#/components/schemas/optout-by.json"
+                  }
+                }
+              }
+            ]
+          },
+          "pager": {
+            "description": "Planner's pager number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "_links": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "title": "ContactLinks",
+                "type": "object",
+                "description": "Collection of social media links for the contact.",
+                "properties": {
+                  "twitterUrl": {
+                    "$ref": "#/components/schemas/link.json"
+                  },
+                  "facebookUrl": {
+                    "$ref": "#/components/schemas/link.json"
+                  },
+                  "linkedInUrl": {
+                    "$ref": "#/components/schemas/link.json"
+                  },
+                  "profilePicture": {
+                    "type": "object",
+                    "description": "Reference to a profile picture.",
+                    "title": "Link",
+                    "required": [
+                      "href"
+                    ],
+                    "readOnly": true,
+                    "properties": {
+                      "href": {
+                        "type": "string",
+                        "description": "The url of the contact's profile picture",
+                        "example": "https://cvent.com/picture123"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "deleted": {
+            "type": "boolean",
+            "deprecated": true,
+            "description": "True indicates the contact is deleted and inactive.",
+            "default": true,
+            "example": false,
+            "readOnly": true
+          },
+          "middleName": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The middle name of the contact.",
+            "maxLength": 30,
+            "example": "A"
+          },
+          "ccEmail": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "format": "email",
+            "description": "An alternate email address of the contact that will be cc'd on all email communications.",
+            "minLength": 6,
+            "maxLength": 80,
+            "example": "h.porter@example.com"
+          },
+          "gender": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "title": "Gender",
+                "enum": [
+                  "Male",
+                  "Female",
+                  "Non-binary",
+                  "Rather not say"
+                ],
+                "type": "string",
+                "description": "The gender of the contact.",
+                "example": "Male"
+              }
+            ]
+          },
+          "designation": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The designation of the contact.",
+            "maxLength": 30,
+            "example": "Event"
+          },
+          "type": {
+            "description": "Planner type.",
+            "type": "object",
+            "deprecated": true,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier of the contact type.",
+                "example": "861B51EC-AA7E-475F-B38D-4C8E35C47D63"
+              },
+              "name": {
+                "type": "string",
+                "description": "A descriptive name for the contact type.",
+                "example": "VIP Member",
+                "readOnly": true
+              }
+            }
+          },
+          "membership": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "title": "ContactMembership",
+                "description": "Contact Membership information",
+                "type": "object",
+                "readOnly": true,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "The type of membership the contact has signed up for.",
+                    "maxLength": 300,
+                    "example": "Corporate Sponsor"
+                  },
+                  "plan": {
+                    "type": "string",
+                    "description": "Describes the specific plan the contact has signed up for.",
+                    "maxLength": 300,
+                    "example": "Gold Level"
+                  },
+                  "joined": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The ISO-8601 formatted date the contact began their membership.",
+                    "readOnly": true,
+                    "example": "2017-02-10"
+                  },
+                  "expiration": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The ISO-8601 formatted date the contact's membership will expire.",
+                    "readOnly": true,
+                    "example": "2020-02-09"
+                  },
+                  "lastRenewal": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The ISO-8601 formatted date the contact last renewed their membership.",
+                    "readOnly": true,
+                    "example": "2019-02-08"
+                  },
+                  "amountDue": {
+                    "type": "number",
+                    "description": "The amount currently due for this membership.",
+                    "readOnly": true,
+                    "minimum": 0,
+                    "example": 50.5
+                  },
+                  "listInDirectory": {
+                    "type": "boolean",
+                    "description": "Indicates if the member details should be included in the member directory.",
+                    "example": false
+                  }
+                }
+              }
+            ]
+          },
+          "primaryAddressType": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "title": "AddressType",
+                "enum": [
+                  "Home",
+                  "Work"
+                ],
+                "type": "string",
+                "description": "The type of address.",
+                "example": "Home"
+              }
+            ]
+          },
+          "homeAddress": {
+            "type": "object",
+            "deprecated": true,
+            "allOf": [
+              {
+                "title": "Address",
+                "description": "Address details",
+                "type": "object",
+                "allOf": [
+                  {
+                    "title": "Base Address",
+                    "description": "Base Address Model",
+                    "type": "object",
+                    "properties": {
+                      "address1": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "description": "The first line of an address.",
+                        "example": "Cvent Inc."
+                      },
+                      "address2": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "description": "The second line of an address.",
+                        "example": "4001 West Parmer Lane"
+                      },
+                      "address3": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "description": "The third line of an address.",
+                        "example": "PO Box 123"
+                      },
+                      "city": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "description": "The name of the city.",
+                        "example": "Austin"
+                      },
+                      "countryCode": {
+                        "type": "string",
+                        "maxLength": 3,
+                        "minLength": 2,
+                        "description": "ISO 3166 two-letter (alpha-2) country code.",
+                        "example": "US"
+                      },
+                      "postalCode": {
+                        "type": "string",
+                        "maxLength": 25,
+                        "description": "Postal code (also known as zipcode) of the address.",
+                        "example": "78727"
+                      }
+                    }
+                  }
+                ],
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "description": "The name of the state/province/region of the address.",
+                    "readOnly": true,
+                    "example": "Texas"
+                  },
+                  "regionCode": {
+                    "type": "string",
+                    "description": "The abbreviation of the state/province/region of the address.",
+                    "minLength": 2,
+                    "maxLength": 10,
+                    "example": "TX"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Name of the country of the address.",
+                    "readOnly": true,
+                    "example": "United States of America"
+                  },
+                  "latitude": {
+                    "type": "integer",
+                    "description": "The geo latitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": 30
+                  },
+                  "longitude": {
+                    "type": "integer",
+                    "description": "The geo longitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": -97
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "latitude": {
+                    "type": "integer",
+                    "description": "The geo longitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": 30,
+                    "readOnly": true
+                  },
+                  "longitude": {
+                    "type": "integer",
+                    "description": "The geo latitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": -97,
+                    "readOnly": true
+                  }
+                }
+              }
+            ]
+          },
+          "homePhone": {
+            "description": "Home phone number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "homeFax": {
+            "description": "Home fax number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "workAddress": {
+            "type": "object",
+            "deprecated": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/homeAddress/allOf/0"
+              },
+              {
+                "properties": {
+                  "latitude": {
+                    "type": "integer",
+                    "description": "The geo longitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": 30,
+                    "readOnly": true
+                  },
+                  "longitude": {
+                    "type": "integer",
+                    "description": "The geo latitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": -97,
+                    "readOnly": true
+                  }
+                }
+              }
+            ]
+          },
+          "workPhone": {
+            "description": "Work phone number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "workFax": {
+            "description": "Work fax number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "customFields": {
+            "type": "array",
+            "deprecated": true,
+            "items": {
+              "$ref": "#/components/schemas/custom-field"
+            },
+            "description": "Collection of custom fields.",
+            "readOnly": true
+          },
+          "sourceId": {
+            "description": "This is an ID for the contact in an external system. NOTE: This value is expected to be unique for each contact within an account. Consider adding the external system name as part of the ID.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 50,
+            "example": "system-a-00000000-0000-0000-0000-000000000000"
+          },
+          "mobilePhone": {
+            "description": "Mobile phone number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "created": {
+            "type": "string",
+            "deprecated": true,
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was created.",
+            "example": "2023-12-31T15:00:00Z",
+            "readOnly": true
+          },
+          "createdBy": {
+            "type": "string",
+            "deprecated": true,
+            "description": "The identifier of the user that created this record.",
+            "readOnly": true,
+            "example": "hporter"
+          },
+          "lastModified": {
+            "type": "string",
+            "deprecated": true,
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was updated.",
+            "example": "2024-01-25T16:00:00Z",
+            "readOnly": true
+          },
+          "lastModifiedBy": {
+            "type": "string",
+            "deprecated": true,
+            "description": "The identifier of the user that last updated this record.",
+            "readOnly": true,
+            "example": "hporter"
+          }
+        }
+      },
+      "stakeholder.json": {
+        "title": "Stakeholder",
+        "description": "Represents an event stakeholder.",
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the stakeholder.",
+            "maxLength": 50,
+            "example": "Henry"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the stakeholder.",
+            "maxLength": 50,
+            "example": "Potterfield"
+          },
+          "company": {
+            "type": "string",
+            "description": "The company/organization the stakeholder belongs to.",
+            "maxLength": 100,
+            "example": "Cvent Inc"
+          },
+          "title": {
+            "type": "string",
+            "description": "The job title of the stakeholder.",
+            "maxLength": 50,
+            "example": "Event stakeholder"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The email address of the stakeholder.",
+            "minLength": 6,
+            "maxLength": 80,
+            "example": "stakeholderemail@test.com"
+          },
+          "workPhone": {
+            "description": "Work phone number.",
+            "type": "string",
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "homePhone": {
+            "description": "Home phone number.",
+            "type": "string",
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "mobilePhone": {
+            "description": "Mobile phone number.",
+            "type": "string",
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "workFax": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The work fax of the stakeholder (no longer supported).",
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "workAddress": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The work address of the stakeholder (no longer supported).",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/homeAddress/allOf/0"
+              }
+            ]
+          },
+          "nickname": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The nickname of the contact.",
+            "maxLength": 30,
+            "example": "Harry"
+          },
+          "optOut": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/optOut/allOf/0"
+              }
+            ]
+          },
+          "pager": {
+            "description": "Pager phone number.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 30,
+            "example": "555-555-5555"
+          },
+          "_links": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/_links/allOf/0"
+              }
+            ]
+          },
+          "deleted": {
+            "type": "boolean",
+            "deprecated": true,
+            "description": "Indicates if a given contact is active or not.",
+            "default": true,
+            "example": false,
+            "readOnly": true
+          },
+          "middleName": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The middle name of the contact.",
+            "maxLength": 30,
+            "example": "A"
+          },
+          "ccEmail": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "format": "email",
+            "description": "An alternate email address of the contact that will be cc'd on all email communications.",
+            "minLength": 6,
+            "maxLength": 80,
+            "example": "h.porter@tesing.com"
+          },
+          "gender": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/gender/allOf/0"
+              }
+            ]
+          },
+          "designation": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "description": "The designation of the contact.",
+            "maxLength": 30,
+            "example": "Event"
+          },
+          "type": {
+            "description": "Type of the stakeholder.",
+            "type": "object",
+            "deprecated": true,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier of the contact type.",
+                "example": "861B51EC-AA7E-475F-B38D-4C8E35C47D63"
+              },
+              "name": {
+                "type": "string",
+                "description": "A descriptive name for the contact type.",
+                "example": "VIP Member",
+                "readOnly": true
+              }
+            }
+          },
+          "membership": {
+            "type": "object",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/membership/allOf/0"
+              }
+            ]
+          },
+          "primaryAddressType": {
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/primaryAddressType/allOf/0"
+              }
+            ]
+          },
+          "homeAddress": {
+            "type": "object",
+            "deprecated": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/planner.json2/properties/homeAddress/allOf/0"
+              },
+              {
+                "properties": {
+                  "latitude": {
+                    "type": "integer",
+                    "description": "The geo longitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": 30,
+                    "readOnly": true
+                  },
+                  "longitude": {
+                    "type": "integer",
+                    "description": "The geo latitude of the address.",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "example": -97,
+                    "readOnly": true
+                  }
+                }
+              }
+            ]
+          },
+          "homeFax": {
+            "description": "Home fax number.",
+            "type": "string",
+            "deprecated": true,
+            "maxLength": 30,
+            "example": "555-555-5555",
+            "readOnly": true
+          },
+          "customFields": {
+            "type": "array",
+            "deprecated": true,
+            "items": {
+              "$ref": "#/components/schemas/custom-field"
+            },
+            "description": "Collection of custom fields.",
+            "readOnly": true
+          },
+          "sourceId": {
+            "description": "This is an ID for the contact in an external system. NOTE: This value is expected to be unique for each contact within an account. Consider adding the external system name as part of the ID.",
+            "type": "string",
+            "deprecated": true,
+            "readOnly": true,
+            "maxLength": 50,
+            "example": "system-a-00000000-0000-0000-0000-000000000000"
+          },
+          "created": {
+            "type": "string",
+            "deprecated": true,
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was created.",
+            "example": "2023-12-01T13:00:00Z",
+            "readOnly": true
+          },
+          "createdBy": {
+            "type": "string",
+            "deprecated": true,
+            "description": "The identifier of the user that created this record.",
+            "readOnly": true,
+            "example": "hporter"
+          },
+          "lastModified": {
+            "type": "string",
+            "deprecated": true,
+            "format": "date-time",
+            "description": "The ISO 8601 zoned date time when this record was updated.",
+            "example": "2023-12-21T14:00:00Z",
+            "readOnly": true
+          },
+          "lastModifiedBy": {
+            "type": "string",
+            "deprecated": true,
+            "description": "The identifier of the user that last updated this record.",
+            "readOnly": true,
+            "example": "hporter"
+          }
+        }
+      },
+      "custom-field": {
+        "title": "CustomField",
+        "description": "A Custom Field",
+        "required": [
+          "id",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID representing this custom field.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The actual text of the custom field.",
+            "example": "What is a your favorite color?",
+            "readOnly": true
+          },
+          "type": {
+            "description": "The type of data collected by a custom field.",
+            "type": "string",
+            "allOf": [
+              {
+                "title": "CustomFieldType",
+                "enum": [
+                  "AutoIncrement",
+                  "ConsentQuestion",
+                  "Currency",
+                  "Decimal",
+                  "Date",
+                  "DateTime",
+                  "Email",
+                  "FileUpload",
+                  "FreeText",
+                  "General",
+                  "MultiChoice",
+                  "MultiSelect",
+                  "Number",
+                  "OpenEndedDateTime",
+                  "OpenEndedText",
+                  "SingleChoice",
+                  "SingleSelect",
+                  "USPhoneNumber",
+                  "Unknown"
+                ],
+                "type": "string",
+                "description": "The type of data collected by a custom field.",
+                "example": "General"
+              },
+              {
+                "readOnly": true,
+                "example": "MultiSelect"
+              }
+            ]
+          },
+          "value": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "description": "A question answer value"
+            },
+            "description": "The set of answers or possible answers to a question.",
+            "example": [
+              "Choice C",
+              "Choice A"
+            ]
+          },
+          "order": {
+            "type": "integer",
+            "description": "The order of this question in the bigger list of questions.",
+            "example": 1,
+            "readOnly": true
+          }
+        }
+      },
+      "event-type.json1": {
+        "title": "EventType",
+        "enum": [
+          "Celebration",
+          "Conference",
+          "CventEssentials",
+          "CventWebinar",
+          "Dinner",
+          "Forum",
+          "FundraiserBenefit",
+          "Holiday",
+          "IncentiveTrip",
+          "Meeting",
+          "OtherGeneral",
+          "PoliticalEvent",
+          "Reunion",
+          "SaveTheDate",
+          "Seminar",
+          "SimpleEvent",
+          "SportsEvent",
+          "TradeShow",
+          "TrainingSession",
+          "Webinar"
+        ],
+        "type": "string",
+        "description": "Type of event being created. The following event types are not supported: Cvent Webinar, Cvent Essentials.",
+        "example": "Conference"
+      },
+      "event-links.json": {
+        "title": "EventLinks",
+        "description": "Represents the links associated with an event.",
+        "type": "object",
+        "readOnly": true,
+        "properties": {
+          "invitation": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "agenda": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "registration": {
+            "$ref": "#/components/schemas/link.json"
+          }
+        },
+        "example": {
+          "invitation": {
+            "href": "https://cvent.com"
+          },
+          "agenda": {
+            "href": "https://cvent.com"
+          },
+          "summary": {
+            "href": "https://cvent.com"
+          },
+          "registration": {
+            "href": "https://cvent.com"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "after": {
+        "name": "after",
+        "required": false,
+        "description": "Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-01-02T02:00:00Z"
+        }
+      },
+      "before": {
+        "name": "before",
+        "required": false,
+        "in": "query",
+        "description": "Used to query records that have been added or updated before this time point.",
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-01-02T02:00:00Z"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "The maximum number of records to return per page.",
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer",
+          "default": 100,
+          "example": 100
+        }
+      },
+      "token": {
+        "name": "token",
+        "in": "query",
+        "description": "The continuation token returned from a previous class. This must be a valid UUID v4 if provided.\nThis will override any other pageable parameters provided.\n",
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "string",
+          "example": "0e28af57-511f-47ab-ae46-46cd1ca51a1a"
+        }
+      },
+      "eventSort": {
+        "name": "sort",
+        "required": false,
+        "in": "query",
+        "style": "form",
+        "explode": false,
+        "description": "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * start\n",
+        "schema": {
+          "type": "string",
+          "example": "start:DESC"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest1": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 400,
+              "message": "Bad Request"
+            }
+          }
+        }
+      },
+      "Unauthorized1": {
+        "description": "Bad or expired token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 401,
+              "message": "Unauthorized"
+            }
+          }
+        }
+      },
+      "Forbidden1": {
+        "description": "You do not have access to the resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 403,
+              "message": "Access Forbidden"
+            }
+          }
+        }
+      },
+      "TooManyRequests1": {
+        "description": "Too many requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 429,
+              "message": "Limit Exceeded"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2.authorizationCode": {
+        "type": "oauth2",
+        "description": "OAuth2 Authorization Code Flow",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://api-platform.cvent.com/ea/oauth2/authorize",
+            "tokenUrl": "https://api-platform.cvent.com/ea/oauth2/token",
+            "scopes": {
+              "account/hooks:delete": "Allows the deletion of hooks.",
+              "account/hooks:read": "Allows the reading of hooks.",
+              "account/hooks:write": "Allows the creation/updation of hooks.",
+              "account/user-groups:delete": "Allows deletion for user groups",
+              "account/user-groups:read": "Allows the reading of user groups",
+              "account/user-groups:write": "Allows the writing of user groups",
+              "account/users:delete": "Allows the deletion of User",
+              "account/users:read": "Allows the reading of User, User Group",
+              "account/users:write": "Allows the creation/updating of User",
+              "appointments/appointment-attendees:read": "Allows the reading of appointment attendees and their related entities.",
+              "appointments/appointment-events:read": "Allows the reading of appointment events and their related entities.",
+              "appointments/appointment-types:read": "Allows the reading of appointment types and their related entities.",
+              "appointments/appointments:read": "Allows the reading of appointment and their related entities.",
+              "appointments/appointments:write": "Allows the writing of appointments and their related entities.",
+              "appointments/available-times:read": "Allows the reading of available times.",
+              "appointments/locations:read": "Allows the reading of appointment locations and their related entities.",
+              "attendee-insights/attendee-insights:read": "Allows the reading of engagement scores (attendee insights).",
+              "attendee-insights/scores:read": "Allows the reading of scores.",
+              "attendee-insights/stats:read": "Allows the reading of engagement score (attendee insight) stats.",
+              "budget/budget-items:delete": "Allows the deletion of budget items",
+              "budget/budget-items:read": "Allows the reading of all budget items",
+              "budget/budget-items:write": "Allows creation/updation of budget item",
+              "budget/budget-totals:read": "Allows the reading of all event budget totals",
+              "budget/cards:read": "Allows the reading of cards",
+              "budget/currency-conversion-rate:delete": "Allows deletion of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:read": "Allows reading of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:write": "Allows creation/update of currency conversion rate for currency.",
+              "budget/payments:delete": "Allows deletion of payments.",
+              "budget/payments:read": "Allows reading of payment for budget item.",
+              "budget/payments:write": "Allows creation of payment in a budget item.",
+              "budget/transactions:delete": "Allows delete card transactions.",
+              "budget/transactions:read": "Allows the reading of all card's transactions",
+              "budget/transactions:write": "Allows creation of card transactions.",
+              "compliance/communications:read": "Allows the reading of communication compliance",
+              "compliance/communications:write": "Allows the writing of communication compliance",
+              "email/bounces:read": "Allow the reading of email bounces.",
+              "email/email-status:read": "Allows the reading of email statuses.",
+              "email/emails:read": "Allows the reading of emails.",
+              "eMarketing/campaigns:read": "Allows the reading of campaigns.",
+              "emarketing/emarketing-email-status:read": "Allows the reading of eMarketing email statuses.",
+              "eMarketing/eMarketing-email-templates:read": "Allows the reading of email-templates.",
+              "eMarketing/eMarketing-send-emails:write": "Allows the writing of eMarketing emails.",
+              "event/admission-items:read": "Allows the reading of admission items",
+              "event/air-request:read": "Allow reading the air request or air actual detail for attendees.",
+              "event/attendance-durations:read": "Allows the read of Duration records",
+              "event/attendee-activities-metadata:delete": "Allows the deletion of attendees activities metadata.",
+              "event/attendee-activities-metadata:read": "Allows the reading of attendee activities metadata.",
+              "event/attendee-activities-metadata:write": "Allows the creation/updating of attendees activities metadata.",
+              "event/attendee-activities:read": "Allows the reading of attendee activities.",
+              "event/attendee-activities:write": "Allows the writing of attendee activities.",
+              "event/attendee-credits:read": "Allows the reading of attendee credits.",
+              "event/attendee-links:delete": "Allows the deletion of attendee links",
+              "event/attendee-links:read": "Allows the reading of attendee links",
+              "event/attendee-links:write": "Allows the creation of attendee links",
+              "event/attendee-messages:read": "Allows the reading of attendee messages",
+              "event/attendees:read": "Allows the reading of attendees.",
+              "event/attendees:write": "Allows the creation of an attendee in an event.",
+              "event/audience-segments:read": "Allows the reading of audience segments.",
+              "event/audience-segments:write": "Allows the creation/updating/deletion of audience segments.",
+              "event/contact-groups:read": "Allows the reading of contact groups.",
+              "event/contact-groups:write": "Allows the creation/updating of contact groups.",
+              "event/contact-types:read": "Allows the reading of contact types.",
+              "event/contacts:delete": "Allows the deletion of contacts.",
+              "event/contacts:read": "Allows the reading of contacts.",
+              "event/contacts:write": "Allows the creation/updating of contacts.",
+              "event/contacts:write-sensitive": "Allows the creation/updating of sensitive data related to contacts.",
+              "event/custom-fields:read": "Allows the reading of custom fields",
+              "event/custom-fields:write": "Allows the writing of custom fields",
+              "event/discounts:write": "Allows the writing of discounts",
+              "event/donation-items:read": "Allows the reading of donation items.",
+              "event/event-discounts:read": "Allows the reading of event discounts.",
+              "event/event-discounts:write": "Allows the writing of event discounts.",
+              "event/event-email-status:read": "Allows the reading of event email statuses.",
+              "event/event-emails:read": "Allows the reading of event emails",
+              "event/event-emails:write": "Allows to send event emails.",
+              "event/event-features:read": "Allows the reading of events-features",
+              "event/event-features:write": "Allows updating the event-features",
+              "event/events:read": "Allows the reading of events",
+              "event/events:write": "Allows the creation/updating of events",
+              "event/fee-items:read": "Allows the reading of fee items.",
+              "event/hotel-request:read": "Allow reading the hotel request or housing reservation request detail for attendees.",
+              "event/invitation-lists:read": "Allows the reading of the invitation lists for an event",
+              "event/meeting-request-forms:read": "Allows the reading of meeting request forms.",
+              "event/meeting-requests:read": "Allows the reading of meeting requests.",
+              "event/meeting-requests:write": "Allows the creation/updating of meeting requests.",
+              "event/orders:read": "Allows the reading of orders",
+              "event/players:read": "Allows the reading of players",
+              "event/process-form-submissions:read": "Allows the reading of process form submissions.",
+              "event/program-items:delete": "Allows deletion of session program items",
+              "event/program-items:read": "Allows reading of session program items",
+              "event/program-items:write": "Allows writing of session program items",
+              "event/quantity-items:read": "Allows the reading of quantity items.",
+              "event/quantity-items:write": "Allows the writing of quantity items",
+              "event/registration-paths:read": "Allows the reading of registration paths",
+              "event/registration-types:read": "Allows the reading of registration types",
+              "event/registration-types:write": "Allows the writing of registration types",
+              "event/role-assignments:read": "Allows the reading of event role assignment.",
+              "event/session-attendance:read": "Allows the reading of sessions attendance",
+              "event/session-attendance:write": "Allows the creation/updating of sessions attendance",
+              "event/session-categories:read": "Allows reading of session categories",
+              "event/session-categories:write": "Allows writing of session categories",
+              "event/session-enrollment:delete": "Allows the deletion of session registrations",
+              "event/session-enrollment:read": "Allows the reading of sessions registrations",
+              "event/session-enrollment:write": "Allows the writing of sessions registrations",
+              "event/session-segments:read": "Allows reading of session segments",
+              "event/sessions:delete": "Allows the deletion of a session in an event",
+              "event/sessions:read": "Allows the reading of sessions",
+              "event/sessions:write": "Allows the creation of a session in an event",
+              "event/speaker-categories:read": "Allows reading of speaker categories",
+              "event/speaker-categories:write": "Allows writing of speaker categories",
+              "event/speakers:delete": "Allows the deletion of a speaker in an event",
+              "event/speakers:read": "Allows the reading of speakers",
+              "event/speakers:write": "Allows the creation of a speaker in an event",
+              "event/transactions:read": "Allows the reading of transactions",
+              "event/transactions:write": "Allows the writing of transactions",
+              "event/video-views:read": "Allows reading of video views.",
+              "event/videos:read": "Allows the reading of video data.",
+              "event/videos:write": "Allows the creation/updating of video data.",
+              "event/webcasts:delete": "Allows the deletion of webcast",
+              "event/webcasts:read": "Allows the reading of webcasts",
+              "event/webcasts:write": "Allows the creation of webcast",
+              "event/weblinks:read": "Allows the reading of event weblinks",
+              "events-plus/hubs:read": "Allows the reading of Events+ hub data.",
+              "exhibitor/badges:read": "Allows reading badges",
+              "exhibitor/badges:write": "Allows creating/updating badges",
+              "exhibitor/booth-staff:delete": "Allows deleting booth staff",
+              "exhibitor/booth-staff:read": "Allows reading booth staff",
+              "exhibitor/booth-staff:write": "Allows creating booth staff",
+              "exhibitor/eliterature-requests:read": "Allows reading eliterature document request data",
+              "exhibitor/exhibitor-admins:read": "Allows reading exhibitor admins",
+              "exhibitor/exhibitor-admins:write": "Allows creating/updating exhibitor admins",
+              "exhibitor/exhibitor-answers:read": "Allows reading exhibitor answers",
+              "exhibitor/exhibitor-answers:write": "Allows updating exhibitor answers",
+              "exhibitor/exhibitor-categories:delete": "Allows deleting exhibitor categories",
+              "exhibitor/exhibitor-categories:read": "Allows reading exhibitor categories",
+              "exhibitor/exhibitor-categories:write": "Allows creating/updating exhibitor categories",
+              "exhibitor/exhibitor-contents:delete": "Allows deleting exhibitor content",
+              "exhibitor/exhibitor-contents:read": "Allows reading exhibitor content",
+              "exhibitor/exhibitor-contents:write": "Allows creating/updating exhibitor content",
+              "exhibitor/exhibitor-questions:read": "Allows reading exhibitor questions",
+              "exhibitor/exhibitors:delete": "Allows deleting exhibitors",
+              "exhibitor/exhibitors:read": "Allows reading exhibitors",
+              "exhibitor/exhibitors:write": "Allows creating/updating exhibitors",
+              "exhibitor/lead-qualification-answers:read": "Allows reading Lead Qualification Answers",
+              "exhibitor/lead-qualification-questions:read": "Allows reading Lead Qualification Questions.",
+              "exhibitor/leads:read": "Allows reading leads.",
+              "exhibitor/registration-packs:delete": "Allows deleting registration pack",
+              "exhibitor/registration-packs:read": "Allows reading registration pack",
+              "exhibitor/registration-packs:write": "Allows creating/updating registration pack",
+              "exhibitor/sponsorship-levels:read": "Allows reading sponsorship level",
+              "file/file:read": "Allows the reading of file",
+              "file/file:write": "Allows the uploading of file",
+              "onarrival/signatures:read": "Allows reading signatures.",
+              "remote-printing/badge-print-jobs:read": "Allows reading print jobs.",
+              "remote-printing/badge-print-jobs:write": "Allows creating print jobs.",
+              "remote-printing/badge-printer-pools:read": "Allows reading pools.",
+              "seating/assignments:read": "Allows to read attendee seat assignment information.",
+              "seating/event-seatings:read": "Allows to read event seating.",
+              "seating/seats:read": "Allows to read seat information.",
+              "seating/tables:read": "Allows to read table information.",
+              "survey/questions:read": "Allows the reading of survey questions",
+              "survey/respondents:read": "Allows reading the survey respondents",
+              "survey/responses:read": "Allows reading the survey responses",
+              "survey/standard-survey-email-templates:read": "Allows reading the standalone survey email templates",
+              "survey/standard-survey-email:write": "Allows writing operations on standalone survey emails",
+              "survey/standard-survey-questions:read": "Allows the reading of standalone surveys questions",
+              "survey/standard-survey-respondents:read": "Allows reading the standalone survey respondents",
+              "survey/standard-survey-respondents:write": "Allows write operations on standalone survey respondents",
+              "survey/standard-survey-responses:read": "Allows reading the standalone survey responses",
+              "survey/standard-survey-responses:write": "Allows write operations on standalone surveys respondent's responses",
+              "survey/standard-surveys:read": "Allows the reading of standalone surveys",
+              "survey/survey-questions:read": "Allows the reading of event survey questions",
+              "survey/survey-respondents:read": "Allows reading the event survey respondents",
+              "survey/survey-respondents:write": "Allows write operations on the event survey respondents",
+              "survey/survey-responses:read": "Allows reading the event survey responses",
+              "survey/survey-responses:write": "Allows write operations on the event surveys respondent's responses",
+              "survey/surveys:read": "Allows the reading of event surveys"
+            }
+          }
+        }
+      },
+      "OAuth2.clientCredentials": {
+        "type": "oauth2",
+        "description": "OAuth2 Client Credentials Flow",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api-platform.cvent.com/ea/oauth2/token",
+            "scopes": {
+              "account/hooks:delete": "Allows the deletion of hooks.",
+              "account/hooks:read": "Allows the reading of hooks.",
+              "account/hooks:write": "Allows the creation/updation of hooks.",
+              "account/user-groups:delete": "Allows deletion for user groups",
+              "account/user-groups:read": "Allows the reading of user groups",
+              "account/user-groups:write": "Allows the writing of user groups",
+              "account/users:delete": "Allows the deletion of User",
+              "account/users:read": "Allows the reading of User, User Group",
+              "account/users:write": "Allows the creation/updating of User",
+              "appointments/appointment-attendees:read": "Allows the reading of appointment attendees and their related entities.",
+              "appointments/appointment-events:read": "Allows the reading of appointment events and their related entities.",
+              "appointments/appointment-types:read": "Allows the reading of appointment types and their related entities.",
+              "appointments/appointments:read": "Allows the reading of appointment and their related entities.",
+              "appointments/appointments:write": "Allows the writing of appointments and their related entities.",
+              "appointments/available-times:read": "Allows the reading of availability times.",
+              "appointments/locations:read": "Allows the reading of appointment locations and their related entities.",
+              "attendee-insights/attendee-insights:read": "Allows the reading of engagement scores (attendee insights).",
+              "attendee-insights/scores:read": "Allows the reading of scores.",
+              "attendee-insights/stats:read": "Allows the reading of engagement score (attendee insight) stats.",
+              "budget/budget-items:delete": "Allows the deletion of budget items",
+              "budget/budget-items:read": "Allows the reading of all budget items",
+              "budget/budget-items:write": "Allows creation/updation of budget item",
+              "budget/budget-totals:read": "Allows the reading of all event budget totals",
+              "budget/cards:read": "Allows the reading of cards",
+              "budget/currency-conversion-rate:delete": "Allows deletion of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:read": "Allows reading of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:write": "Allows creation/update of currency conversion rate for currency.",
+              "budget/payments:delete": "Allows deletion of payments.",
+              "budget/payments:read": "Allows reading of payment for budget item.",
+              "budget/payments:write": "Allows creation of payment in a budget item.",
+              "budget/transactions:delete": "Allows delete card transactions.",
+              "budget/transactions:read": "Allows the reading of all card's transactions",
+              "budget/transactions:write": "Allows creation of card transactions.",
+              "bulk/bulk-jobs:read": "Allows the reading of bulk job related entities",
+              "bulk/bulk-jobs:write": "Allows the creation, update and deletion of bulk job related entities",
+              "business-transient/bids:read": "Allows the reading of BT Bid data",
+              "business-transient/proposals:read": "Allows the reading of BT Proposal data",
+              "business-transient/supplier-brands:read": "Allows the reading of a supplier brand or a list of travel supplier brands.",
+              "business-transient/supplier-chains:read": "Allows the reading of a travel supplier chain or a list of travel supplier chains.",
+              "business-transient/supplier-properties:read": "Allows the reading of a travel supplier property or a list of travel supplier properties.",
+              "business-transient/supplier-property-rooms:read": "Allows the reading of a list of travel supplier property rooms.",
+              "business-transient/travel-accounts:read": "Allows the reading of business transient travel account data.",
+              "business-transient/travel-program-questions:read": "Allows the reading of business transient travel program question data.",
+              "business-transient/travel-programs:read": "Allows the reading of business transient travel program data.",
+              "business-transient/travel-supplier-accounts:read": "Allows the reading of business transient travel supplier account data.",
+              "compliance/communications:read": "Allows the reading of communication compliance",
+              "compliance/communications:write": "Allows the writing of communication compliance",
+              "email/bounces:read": "Allow the reading of email bounces.",
+              "email/email-status:read": "Allows the reading of email statuses.",
+              "email/emails:read": "Allows the reading of emails.",
+              "eMarketing/campaigns:read": "Allows the reading of campaigns.",
+              "emarketing/emarketing-email-status:read": "Allows the reading of eMarketing email statuses.",
+              "eMarketing/eMarketing-email-templates:read": "Allows the reading of email-templates.",
+              "eMarketing/eMarketing-send-emails:write": "Allows the writing of eMarketing emails.",
+              "event/admission-items:read": "Allows the reading of admission items",
+              "event/air-request:read": "Allow reading the air request or air actual detail for attendees.",
+              "event/attendance-durations:read": "Allows the read of Duration records",
+              "event/attendee-activities-metadata:delete": "Allows the deletion of attendees activities metadata.",
+              "event/attendee-activities-metadata:read": "Allows the reading of attendee activities metadata.",
+              "event/attendee-activities-metadata:write": "Allows the creation/updating of attendees activities metadata.",
+              "event/attendee-activities:read": "Allows the reading of attendee activities.",
+              "event/attendee-activities:write": "Allows the writing of external attendee activities.",
+              "event/attendee-credits:read": "Allows the reading of attendee credits.",
+              "event/attendee-links:delete": "Allows the deletion of attendee links",
+              "event/attendee-links:read": "Allows the reading of attendee links",
+              "event/attendee-links:write": "Allows the creation of attendee links",
+              "event/attendee-messages:read": "Allows the reading of attendee messages",
+              "event/attendees:read": "Allows the reading of attendees.",
+              "event/attendees:write": "Allows the creation of an attendee in an event.",
+              "event/audience-segments:read": "Allows the reading of audience segments.",
+              "event/audience-segments:write": "Allows the creation/updating/deletion of audience segments.",
+              "event/contact-groups:read": "Allows the reading of contact groups.",
+              "event/contact-groups:write": "Allows the creation/updating of contact groups.",
+              "event/contact-types:read": "Allows the reading of contact types.",
+              "event/contacts:delete": "Allows the deletion of contacts.",
+              "event/contacts:read": "Allows the reading of contacts.",
+              "event/contacts:write": "Allows the creation/updating of contacts.",
+              "event/contacts:write-sensitive": "Allows the creation/updating of sensitive data related to contacts.",
+              "event/custom-fields:read": "Allows the reading of custom fields",
+              "event/custom-fields:write": "Allows the writing of custom fields",
+              "event/discounts:write": "Allows the writing of discounts",
+              "event/donation-items:read": "Allows the reading of donation items.",
+              "event/event-discounts:read": "Allows the reading of event discounts.",
+              "event/event-discounts:write": "Allows the writing of event discounts.",
+              "event/event-email-status:read": "Allows the reading of event email statuses.",
+              "event/event-emails:read": "Allows the reading of event emails",
+              "event/event-emails:write": "Allows to send event emails.",
+              "event/event-features:read": "Allows the reading of events-features",
+              "event/event-features:write": "Allows updating the event-features",
+              "event/events:read": "Allows the reading of events",
+              "event/events:write": "Allows the creation/updating of events",
+              "event/fee-items:read": "Allows the reading of fee items.",
+              "event/hotel-request:read": "Allow reading the hotel request or housing reservation request detail for attendees.",
+              "event/invitation-lists:read": "Allows the reading of the invitation lists for an event",
+              "event/meeting-request-forms:read": "Allows the reading of meeting request forms.",
+              "event/meeting-requests:read": "Allows the reading of meeting requests.",
+              "event/meeting-requests:write": "Allows the creation/updating of meeting requests.",
+              "event/orders:read": "Allows the reading of orders",
+              "event/players:read": "Allows the reading of players",
+              "event/process-form-submissions:read": "Allows the reading of process form submissions.",
+              "event/program-items:delete": "Allows deletion of session program items",
+              "event/program-items:read": "Allows reading of session program items",
+              "event/program-items:write": "Allows writing of session program items",
+              "event/quantity-items:read": "Allows the reading of quantity items.",
+              "event/quantity-items:write": "Allows the writing of quantity items",
+              "event/registration-paths:read": "Allows the reading of registration paths",
+              "event/registration-types:read": "Allows the reading of registration types",
+              "event/registration-types:write": "Allows the writing of registration types",
+              "event/role-assignments:read": "Allows the reading of event role assignment.",
+              "event/session-attendance:read": "Allows the reading of sessions attendance",
+              "event/session-attendance:write": "Allows the creation/updating of sessions attendance",
+              "event/session-categories:read": "Allows reading of session categories",
+              "event/session-categories:write": "Allows writing of session categories",
+              "event/session-enrollment:delete": "Allows the deletion of session registrations",
+              "event/session-enrollment:read": "Allows the reading of sessions registrations",
+              "event/session-enrollment:write": "Allows the writing of sessions registrations",
+              "event/session-segments:read": "Allows reading of session segments",
+              "event/sessions:delete": "Allows the deletion of a session in an event",
+              "event/sessions:read": "Allows the reading of sessions",
+              "event/sessions:write": "Allows the creation of a session in an event",
+              "event/speaker-categories:read": "Allows reading of speaker categories",
+              "event/speaker-categories:write": "Allows writing of speaker categories",
+              "event/speakers:delete": "Allows the deletion of a speaker in an event",
+              "event/speakers:read": "Allows the reading of speakers",
+              "event/speakers:write": "Allows the creation of a speaker in an event",
+              "event/transactions:read": "Allows the reading of transactions",
+              "event/transactions:write": "Allows the writing of transactions",
+              "event/video-views:read": "Allows reading of video views.",
+              "event/videos:read": "Allows the reading of video data.",
+              "event/videos:write": "Allows the creation/updating of video data.",
+              "event/webcasts:delete": "Allows the deletion of webcast",
+              "event/webcasts:read": "Allows the reading of webcasts",
+              "event/webcasts:write": "Allows the creation of webcast",
+              "event/weblinks:read": "Allows the reading of event weblinks",
+              "events-plus/hubs:read": "Allows the reading of Events+ hub data.",
+              "exhibitor/badges:read": "Allows reading badges",
+              "exhibitor/badges:write": "Allows creating/updating badges",
+              "exhibitor/booth-staff:delete": "Allows deleting booth staff",
+              "exhibitor/booth-staff:read": "Allows reading booth staff",
+              "exhibitor/booth-staff:write": "Allows creating booth staff",
+              "exhibitor/eliterature-requests:read": "Allows reading eliterature document request data",
+              "exhibitor/exhibitor-admins:read": "Allows reading exhibitor admins",
+              "exhibitor/exhibitor-admins:write": "Allows creating/updating exhibitor admins",
+              "exhibitor/exhibitor-answers:read": "Allows reading exhibitor answers",
+              "exhibitor/exhibitor-answers:write": "Allows updating exhibitor answers",
+              "exhibitor/exhibitor-categories:delete": "Allows deleting exhibitor categories",
+              "exhibitor/exhibitor-categories:read": "Allows reading exhibitor categories",
+              "exhibitor/exhibitor-categories:write": "Allows creating/updating exhibitor categories",
+              "exhibitor/exhibitor-contents:delete": "Allows deleting exhibitor content",
+              "exhibitor/exhibitor-contents:read": "Allows reading exhibitor content",
+              "exhibitor/exhibitor-contents:write": "Allows creating/updating exhibitor content",
+              "exhibitor/exhibitor-questions:read": "Allows reading exhibitor questions",
+              "exhibitor/exhibitors:delete": "Allows deleting exhibitors",
+              "exhibitor/exhibitors:read": "Allows reading exhibitors",
+              "exhibitor/exhibitors:write": "Allows creating/updating exhibitors",
+              "exhibitor/lead-qualification-answers:read": "Allows reading Lead Qualification Answers",
+              "exhibitor/lead-qualification-questions:read": "Allows reading Lead Qualification Questions.",
+              "exhibitor/leads:read": "Allows reading leads.",
+              "exhibitor/registration-packs:delete": "Allows deleting registration pack",
+              "exhibitor/registration-packs:read": "Allows reading registration pack",
+              "exhibitor/registration-packs:write": "Allows creating/updating registration pack",
+              "exhibitor/sponsorship-levels:read": "Allows reading sponsorship level",
+              "file/file:read": "Allows the reading of file",
+              "file/file:write": "Allows the uploading of file",
+              "housing/connections:write": "Allows the user to connect to the Reglink APIs.",
+              "housing/hotel-room-rates:write": "Allows the user to create/update hotel room rates.",
+              "housing/housing-event-available-nights:read": "Allows the user to read availability information for given event.",
+              "housing/housing-event-hotels:read": "Allows the user to read information about event hotels.",
+              "housing/housing-event-inventory:read": "Allows the user to get information about housing event inventory.",
+              "housing/housing-event-room-types:read": "Allows the user to read information about event room types.",
+              "housing/housing-events:read": "Allows the user to read information about events.",
+              "housing/reservation-requests:delete": "Allows the user to cancel reservation request.",
+              "housing/reservation-requests:read": "Allows the user to read reservation request information.",
+              "housing/reservation-requests:write": "Allows the user to create/update reservation request.",
+              "housing/reservations-link:delete": "Allows the user to remove association from reservation.",
+              "housing/reservations-link:write": "Allows the user to associate reservation to reservation request.",
+              "housing/reservations:delete": "Allows the user to cancel reservation.",
+              "housing/reservations:read": "Allows the user to read reservation details information.",
+              "housing/reservations:write": "Allows the user to create/update reservation.",
+              "onarrival/signatures:read": "Allows reading signatures.",
+              "proposal/proposals:write": "Allows the creation/writing of proposal",
+              "remote-printing/badge-print-jobs:read": "Allows reading print jobs.",
+              "remote-printing/badge-print-jobs:write": "Allows creating print jobs.",
+              "remote-printing/badge-printer-pools:read": "Allows reading pools.",
+              "seating/assignments:read": "Allows to read attendee seat assignment information.",
+              "seating/event-seatings:read": "Allows to read event seating.",
+              "seating/seats:read": "Allows to read seat information.",
+              "seating/tables:read": "Allows to read table information.",
+              "secure-ecommerce/card-tokens:write": "Allows creation of credit card tokens",
+              "survey/questions:read": "Allows the reading of survey questions",
+              "survey/respondents:read": "Allows reading the survey respondents",
+              "survey/responses:read": "Allows reading the survey responses",
+              "survey/standard-survey-email-templates:read": "Allows reading the standalone survey email templates",
+              "survey/standard-survey-email:write": "Allows writing operations on standalone survey emails",
+              "survey/standard-survey-questions:read": "Allows the reading of standalone surveys questions",
+              "survey/standard-survey-respondents:read": "Allows reading the standalone survey respondents",
+              "survey/standard-survey-respondents:write": "Allows write operations on standalone survey respondents",
+              "survey/standard-survey-responses:read": "Allows reading the standalone survey responses",
+              "survey/standard-survey-responses:write": "Allows write operations on standalone surveys respondent's responses",
+              "survey/standard-surveys:read": "Allows the reading of standalone surveys",
+              "survey/survey-questions:read": "Allows the reading of event survey questions",
+              "survey/survey-respondents:read": "Allows reading the event survey respondents",
+              "survey/survey-respondents:write": "Allows write operations on the event survey respondents",
+              "survey/survey-responses:read": "Allows reading the event survey responses",
+              "survey/survey-responses:write": "Allows write operations on the event surveys respondent's responses",
+              "survey/surveys:read": "Allows the reading of event surveys"
+            }
+          }
+        }
+      },
+      "CallbackApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "This security scheme is used to indicate that Cvent should use API Key auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints."
+      },
+      "CallbackBasicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "This security scheme is used to indicate that Cvent should use basic auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints."
+      }
+    }
+  }
+}

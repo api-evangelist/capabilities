@@ -1,0 +1,149 @@
+#	Ruleset name: Experience - Sandboxes - Capabilities
+#	Ruleset version: 1.1
+rules:
+  virtualization-negative:
+    description: Ensures there is a virtualization property.
+    message: You MUST HAVE a virtualization property.
+    given: $
+    severity: error
+    then:
+      field: virtualization
+      function: truthy
+    tags:
+      - Sandboxes
+  virtualization-positive:
+    description: Ensures there is a virtualization property.
+    message: There is a virtualization property.
+    given: $
+    severity: info
+    then:
+      field: virtualization
+      function: falsy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-negative:
+    description: Ensures there is a virtualization.sandboxes property.
+    message: You MUST HAVE a virtualization.sandboxes property.
+    given: $.virtualization
+    severity: error
+    then:
+      field: sandboxes
+      function: truthy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-positive:
+    description: Ensures there is a virtualization.sandboxes property.
+    message: There is a virtualization.sandboxes property.
+    given: $.virtualization
+    severity: info
+    then:
+      field: sandboxes
+      function: falsy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-name-negative:
+    description: Ensures there is a virtualization.sandboxes[*].name property.
+    message: You MUST HAVE a virtualization.sandboxes[*].name property.
+    given: $.virtualization.sandboxes[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-name-positive:
+    description: Ensures there is a virtualization.sandboxes[*].name property.
+    message: There is a virtualization.sandboxes[*].name property.
+    given: $.virtualization.sandboxes[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-url-negative:
+    description: Ensures there is a virtualization.sandboxes[*].url property.
+    message: You MUST HAVE a virtualization.sandboxes[*].url property.
+    given: $.virtualization.sandboxes[*]
+    severity: error
+    then:
+      field: url
+      function: truthy
+    tags:
+      - Sandboxes
+  virtualization-sandboxes-url-positive:
+    description: Ensures there is a virtualization.sandboxes[*].url property.
+    message: There is a virtualization.sandboxes[*].url property.
+    given: $.virtualization.sandboxes[*]
+    severity: info
+    then:
+      field: url
+      function: falsy
+    tags:
+      - Sandboxes
+  virtualization-data-negative:
+    description: Ensures there is a virtualization.data property.
+    message: You MUST HAVE a virtualization.data property.
+    given: $.virtualization
+    severity: error
+    then:
+      field: data
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-positive:
+    description: Ensures there is a virtualization.data property.
+    message: There is a virtualization.data property.
+    given: $.virtualization
+    severity: info
+    then:
+      field: data
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-name-negative:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: You MUST HAVE a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-name-positive:
+    description: Ensures there is a virtualization.data[*].name property.
+    message: There is a virtualization.data[*].name property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-url-negative:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: You MUST HAVE a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: error
+    then:
+      field: url
+      function: truthy
+    tags:
+      - Sandboxes
+      - Data
+  virtualization-data-url-positive:
+    description: Ensures there is a virtualization.data[*].url property.
+    message: There is a virtualization.data[*].url property.
+    given: $.virtualization.data[*]
+    severity: info
+    then:
+      field: url
+      function: falsy
+    tags:
+      - Sandboxes
+      - Data

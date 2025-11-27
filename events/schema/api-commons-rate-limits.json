@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "limit": {
+      "type": "number"
+    },
+    "metric": {
+      "type": "string"
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timeframe": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "userMultiplied": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "limit",
+    "metric",
+    "domains",
+    "timeframe",
+    "description",
+    "userMultiplied"
+  ]
+}

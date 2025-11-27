@@ -1,0 +1,263 @@
+#	Ruleset name: Experience - Legal - Capabilities
+#	Ruleset version: 1.1
+rules:
+  license-negative:
+    description: Ensures there is a license property.
+    message: You MUST HAVE a license property.
+    given: $
+    severity: error
+    then:
+      field: license
+      function: truthy
+    tags:
+      - Legal
+  license-positive:
+    description: Ensures there is a license property.
+    message: There is a license property.
+    given: $
+    severity: info
+    then:
+      field: license
+      function: falsy
+    tags:
+      - Legal
+  license-data-negative:
+    description: Ensures there is a license.data property.
+    message: You MUST HAVE a license.data property.
+    given: $.license
+    severity: error
+    then:
+      field: data
+      function: truthy
+    tags:
+      - Legal
+  license-data-positive:
+    description: Ensures there is a license.data property.
+    message: There is a license.data property.
+    given: $.license
+    severity: info
+    then:
+      field: data
+      function: falsy
+    tags:
+      - Legal
+  license-data-type-negative:
+    description: Ensures there is a license.data.type property.
+    message: You MUST HAVE a license.data.type property.
+    given: $.license.data
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal
+  license-data-type-positive:
+    description: Ensures there is a license.data.type property.
+    message: There is a license.data.type property.
+    given: $.license.data
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal
+  license-data-attribution-negative:
+    description: Ensures there is a license.data.attribution property.
+    message: You MUST HAVE a license.data.attribution property.
+    given: $.license.data
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal
+  license-data-attribution-positive:
+    description: Ensures there is a license.data.attribution property.
+    message: There is a license.data.attribution property.
+    given: $.license.data
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal
+  license-data-instance-negative:
+    description: Ensures there is a license.data.instance property.
+    message: You MUST HAVE a license.data.instance property.
+    given: $.license.data
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal
+  license-data-instance-positive:
+    description: Ensures there is a license.data.instance property.
+    message: There is a license.data.instance property.
+    given: $.license.data
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal
+  license-code-negative:
+    description: Ensures there is a license.code property.
+    message: You MUST HAVE a license.code property.
+    given: $.license
+    severity: error
+    then:
+      field: code
+      function: truthy
+    tags:
+      - Legal
+  license-code-positive:
+    description: Ensures there is a license.code property.
+    message: There is a license.code property.
+    given: $.license
+    severity: info
+    then:
+      field: code
+      function: falsy
+    tags:
+      - Legal
+  license-code-type-negative:
+    description: Ensures there is a license.code.type property.
+    message: You MUST HAVE a license.code.type property.
+    given: $.license.code
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal
+  license-code-type-positive:
+    description: Ensures there is a license.code.type property.
+    message: There is a license.code.type property.
+    given: $.license.code
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal
+  license-code-attribution-negative:
+    description: Ensures there is a license.code.attribution property.
+    message: You MUST HAVE a license.code.attribution property.
+    given: $.license.code
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal
+  license-code-attribution-positive:
+    description: Ensures there is a license.code.attribution property.
+    message: There is a license.code.attribution property.
+    given: $.license.code
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal
+  license-code-instance-negative:
+    description: Ensures there is a license.code.instance property.
+    message: You MUST HAVE a license.code.instance property.
+    given: $.license.code
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal
+  license-code-instance-positive:
+    description: Ensures there is a license.code.instance property.
+    message: There is a license.code.instance property.
+    given: $.license.code
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal
+  license-api-negative:
+    description: Ensures there is a license.api property.
+    message: You MUST HAVE a license.api property.
+    given: $.license
+    severity: error
+    then:
+      field: api
+      function: truthy
+    tags:
+      - Legal
+  license-api-positive:
+    description: Ensures there is a license.api property.
+    message: There is a license.api property.
+    given: $.license
+    severity: info
+    then:
+      field: api
+      function: falsy
+    tags:
+      - Legal
+  license-api-type-negative:
+    description: Ensures there is a license.api.type property.
+    message: You MUST HAVE a license.api.type property.
+    given: $.license.api
+    severity: error
+    then:
+      field: type
+      function: truthy
+    tags:
+      - Legal
+  license-api-type-positive:
+    description: Ensures there is a license.api.type property.
+    message: There is a license.api.type property.
+    given: $.license.api
+    severity: info
+    then:
+      field: type
+      function: falsy
+    tags:
+      - Legal
+  license-api-attribution-negative:
+    description: Ensures there is a license.api.attribution property.
+    message: You MUST HAVE a license.api.attribution property.
+    given: $.license.api
+    severity: error
+    then:
+      field: attribution
+      function: truthy
+    tags:
+      - Legal
+  license-api-attribution-positive:
+    description: Ensures there is a license.api.attribution property.
+    message: There is a license.api.attribution property.
+    given: $.license.api
+    severity: info
+    then:
+      field: attribution
+      function: falsy
+    tags:
+      - Legal
+  license-api-instance-negative:
+    description: Ensures there is a license.api.instance property.
+    message: You MUST HAVE a license.api.instance property.
+    given: $.license.api
+    severity: error
+    then:
+      field: instance
+      function: truthy
+    tags:
+      - Legal
+  license-api-instance-positive:
+    description: Ensures there is a license.api.instance property.
+    message: There is a license.api.instance property.
+    given: $.license.api
+    severity: info
+    then:
+      field: instance
+      function: falsy
+    tags:
+      - Legal

@@ -1,0 +1,423 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LinkedIn Find Profile by VanityName API",
+    "description": "API to retrieve basic profile fields for a LinkedIn member by their vanity name.\n\n**Note:** The use of this API is restricted to those developers approved by LinkedIn \nand subject to applicable data restrictions in their agreements.\n\nThe vanityName is used to represent the public profile URL in the format: \nwww.linkedin.com/in/{vanityName}. Each LinkedIn profile has a unique vanityName.\n\n**Usage Restrictions:**\n- You cannot \"browse members\" by VanityNames\n- Should only be used to identify profiles from known vanityNames for approved use cases\n- Access to profile data is subject to the relevant members' privacy settings\n- Application limit of 500 requests per day\n",
+    "version": "2.0.0",
+    "contact": {
+      "name": "LinkedIn Developer Support",
+      "url": "https://developer.linkedin.com"
+    },
+    "termsOfService": "https://www.linkedin.com/legal/api-terms-of-use"
+  },
+  "servers": [
+    {
+      "url": "https://api.linkedin.com/v2",
+      "description": "LinkedIn API v2 Production Server"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "r_compliance_2l"
+      ]
+    }
+  ],
+  "paths": {
+    "/people": {
+      "get": {
+        "summary": "Find Profile by VanityName",
+        "description": "Returns basic profile fields for the LinkedIn member that matches the vanityName.\nRequires an access token for application authenticated call.\n",
+        "operationId": "getProfileByVanityName",
+        "tags": [
+          "Profiles"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "vanityName"
+              ]
+            },
+            "description": "Query type parameter, must be set to \"vanityName\""
+          },
+          {
+            "name": "vanityName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "a-sample-vanity-name"
+            },
+            "description": "The vanity name of the LinkedIn member to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with profile data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                },
+                "example": {
+                  "elements": [
+                    {
+                      "localizedLastName": "Last",
+                      "lastName": {
+                        "localized": {
+                          "en_US": "Last"
+                        },
+                        "preferredLocale": {
+                          "country": "US",
+                          "language": "en"
+                        }
+                      },
+                      "vanityName": "a-sample-vanity-name",
+                      "firstName": {
+                        "localized": {
+                          "en_US": "First"
+                        },
+                        "preferredLocale": {
+                          "country": "US",
+                          "language": "en"
+                        }
+                      },
+                      "localizedHeadline": "Software Engineer at LinkedIn",
+                      "positions": {
+                        "47301314": {
+                          "localizedCompanyName": "Linkedin",
+                          "created": 1551295846540,
+                          "companyName": {
+                            "localized": {
+                              "en_US": "Linkedin"
+                            },
+                            "preferredLocale": {
+                              "country": "US",
+                              "language": "en"
+                            }
+                          },
+                          "company": "urn:li:organization:12345",
+                          "lastModified": 1551295846540,
+                          "id": 47301314,
+                          "title": {
+                            "localized": {
+                              "en_US": "Software Engineer"
+                            },
+                            "preferredLocale": {
+                              "country": "US",
+                              "language": "en"
+                            }
+                          },
+                          "localizedTitle": "Software Engineer"
+                        }
+                      },
+                      "id": "xo11w_WomY",
+                      "headline": {
+                        "localized": {
+                          "en_US": "Software Engineer at LinkedIn"
+                        },
+                        "preferredLocale": {
+                          "country": "US",
+                          "language": "en"
+                        }
+                      },
+                      "localizedFirstName": "First"
+                    }
+                  ],
+                  "paging": {
+                    "count": 10,
+                    "start": 0,
+                    "links": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Profile not found or personId used with different application",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Application daily limit of 500 exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authentication. Requires r_compliance_2l permission.\nThis is a private permission granted to select developers.\n",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://www.linkedin.com/oauth/v2/authorization",
+            "tokenUrl": "https://www.linkedin.com/oauth/v2/accessToken",
+            "scopes": {
+              "r_compliance_2l": "Compliance permission to allow access of APIs without member involvement"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ProfileResponse": {
+        "type": "object",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profile"
+            }
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "description": "LinkedIn member profile information",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A unique identifying value for the member (personId).\nCan also be referenced as an URN such as urn:li:person:{personId}.\nThis value is linked to your specific application.\n",
+            "example": "xo11w_WomY"
+          },
+          "vanityName": {
+            "type": "string",
+            "description": "The vanity name of the member used for the public profile URL: \nwww.linkedin.com/in/{vanityName}\n",
+            "example": "a-sample-vanity-name"
+          },
+          "firstName": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedFirstName": {
+            "type": "string",
+            "description": "Localized version of the firstName field",
+            "example": "First"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedLastName": {
+            "type": "string",
+            "description": "Localized version of the lastName field",
+            "example": "Last"
+          },
+          "maidenName": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedMaidenName": {
+            "type": "string",
+            "description": "Localized version of the maidenName field"
+          },
+          "headline": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedHeadline": {
+            "type": "string",
+            "description": "Localized version of the headline field",
+            "example": "Software Engineer at LinkedIn"
+          },
+          "profilePicture": {
+            "$ref": "#/components/schemas/ProfilePicture"
+          },
+          "positions": {
+            "type": "object",
+            "description": "Employment history of the member",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Position"
+            }
+          },
+          "positionsOrder": {
+            "type": "array",
+            "description": "Positions intra-section order",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "MultiLocaleString": {
+        "type": "object",
+        "description": "Localizable string object type",
+        "properties": {
+          "localized": {
+            "type": "object",
+            "description": "Localized values keyed by locale",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "en_US": "Example Text"
+            }
+          },
+          "preferredLocale": {
+            "$ref": "#/components/schemas/Locale"
+          }
+        }
+      },
+      "Locale": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "example": "US"
+          },
+          "language": {
+            "type": "string",
+            "example": "en"
+          }
+        }
+      },
+      "ProfilePicture": {
+        "type": "object",
+        "description": "Metadata about the member's picture in the profile",
+        "properties": {
+          "displayImage": {
+            "type": "string",
+            "description": "URN reference to the profile picture"
+          },
+          "displayImageReference": {
+            "type": "object",
+            "description": "Reference information for the display image"
+          }
+        }
+      },
+      "Position": {
+        "type": "object",
+        "description": "Employment position information",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the position",
+            "example": 47301314
+          },
+          "title": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedTitle": {
+            "type": "string",
+            "description": "Localized version of the title field",
+            "example": "Software Engineer"
+          },
+          "company": {
+            "type": "string",
+            "description": "URN reference to the company organization",
+            "example": "urn:li:organization:12345"
+          },
+          "companyName": {
+            "$ref": "#/components/schemas/MultiLocaleString"
+          },
+          "localizedCompanyName": {
+            "type": "string",
+            "description": "Localized version of the companyName field",
+            "example": "Linkedin"
+          },
+          "created": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp when the position was created",
+            "example": 1551295846540
+          },
+          "lastModified": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp when the position was last modified",
+            "example": 1551295846540
+          }
+        }
+      },
+      "Paging": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Number of elements in the current page",
+            "example": 10
+          },
+          "start": {
+            "type": "integer",
+            "description": "Starting index of the current page",
+            "example": 0
+          },
+          "links": {
+            "type": "array",
+            "description": "Pagination links",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "serviceErrorCode": {
+            "type": "integer",
+            "description": "LinkedIn service error code"
+          }
+        }
+      }
+    }
+  }
+}

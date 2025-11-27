@@ -1,0 +1,83 @@
+#	Ruleset name: Experience - Standards - Capabilities
+#	Ruleset version: 1.1
+rules:
+  standards-negative:
+    description: Ensures there is a standards property.
+    message: You MUST HAVE a standards property.
+    given: $
+    severity: error
+    then:
+      field: standards
+      function: truthy
+    tags:
+      - Standards
+  standards-positive:
+    description: Ensures there is a standards property.
+    message: There is a standards property.
+    given: $
+    severity: info
+    then:
+      field: standards
+      function: falsy
+    tags:
+      - Standards
+  standards-name-negative:
+    description: Ensures there is a standards[*].name property.
+    message: You MUST HAVE a standards[*].name property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - Standards
+  standards-name-positive:
+    description: Ensures there is a standards[*].name property.
+    message: There is a standards[*].name property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+    tags:
+      - Standards
+  standards-description-negative:
+    description: Ensures there is a standards[*].description property.
+    message: You MUST HAVE a standards[*].description property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - Standards
+  standards-description-positive:
+    description: Ensures there is a standards[*].description property.
+    message: There is a standards[*].description property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+    tags:
+      - Standards
+  standards-doc-url-negative:
+    description: Ensures there is a standards[*].docUrl property.
+    message: You MUST HAVE a standards[*].docUrl property.
+    given: $.standards[*]
+    severity: error
+    then:
+      field: docUrl
+      function: truthy
+    tags:
+      - Standards
+  standards-doc-url-positive:
+    description: Ensures there is a standards[*].docUrl property.
+    message: There is a standards[*].docUrl property.
+    given: $.standards[*]
+    severity: info
+    then:
+      field: docUrl
+      function: falsy
+    tags:
+      - Standards
