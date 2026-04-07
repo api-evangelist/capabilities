@@ -2,8 +2,7 @@ aid: capabilities
 url: >-
   https://raw.githubusercontent.com/api-evangelist/capabilities/refs/heads/main/apis.yml
 name: Capabilities
-tags:
-  - API
+tags: []
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
