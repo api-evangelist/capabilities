@@ -2,18 +2,29 @@ aid: capabilities
 url: >-
   https://raw.githubusercontent.com/api-evangelist/capabilities/refs/heads/main/apis.yml
 name: Capabilities
-tags: []
-type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-access: 3rd-Party
-created: '2026-03-16'
-modified: '2026-03-16'
-position: Consumer
 description: >-
-  Capabilities provides API capabilities.
+  Capabilities is a generic index entry within the API Evangelist Network
+  used to describe the catalog of reusable API capabilities that emerge
+  across provider profiles. Unlike a company-specific index, this entry
+  serves as a placeholder and cross-reference for capability-level tagging
+  and vocabulary across the network. It is not tied to a single vendor
+  and no public developer API is associated with it.
+type: Index
+x-type: generic
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API Capabilities
+  - Index
+  - Vocabulary
+created: '2026-03-16'
+modified: '2026-04-23'
+specificationVersion: '0.19'
 apis: []
-common: []
+common:
+  - type: Website
+    url: https://apievangelist.com/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
-specificationVersion: '0.19'
