@@ -33,7 +33,7 @@ accessModel:
   source: []
   generated: '2026-07-22'
   method: derived
-position: Consumer
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/capabilities.png
 tags:
