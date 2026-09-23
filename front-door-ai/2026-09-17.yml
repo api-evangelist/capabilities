@@ -1,0 +1,38 @@
+# Front Door AI Index — capabilities — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: capabilities
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: apievangelist.com
+  final_host: apievangelist.com
+  ownership: unresolved
+  owner: null
+  shares_host_with:
+  - analytics
+  - energy-utilities
+  - inbox
+  - orders-api
+  - payments-api
+  - persons-api
+  - power-tools
+  - products-api
+  - use-cases
+  inherited_from: null
+  verdict: scored
+  score: null
+  host_score: 11
+  density: null
+  words: 896
+  tiers:
+    agentic: 4
+    core: 5
+    model: 2
+  ambiguous: 1
+  top_terms:
+    AI: 5
+    MCP: 4
+    ChatGPT: 1
+    Claude: 1
+    agent: 1
