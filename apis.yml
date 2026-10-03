@@ -43,7 +43,23 @@ tags:
 created: '2026-03-16'
 modified: '2026-04-23'
 specificationVersion: '0.23'
-apis: []
+apis:
+- aid: capabilities:capabilities-events-api
+  name: Capabilities Events API
+  description: The Events API from Capabilities — 1 operation(s) for events.
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/capabilities-events-api-openapi.yml
+- aid: capabilities:capabilities-sessions-api
+  name: Capabilities Sessions API
+  description: The Sessions API from Capabilities — 2 operation(s) for sessions.
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/capabilities-sessions-api-openapi.yml
 common:
   - type: Website
     url: https://apievangelist.com/
