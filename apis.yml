@@ -48,6 +48,8 @@ apis:
   name: Capabilities Events API
   description: The Events API from Capabilities — 1 operation(s) for events.
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
