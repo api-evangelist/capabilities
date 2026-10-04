@@ -1,7 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Cvent Events API
-  description: Gets a paginated list of events.
+  title: Capabilities Events API
+  version: '1.0'
+  description: 'Operations tagged Events across 2 of this provider''s published API definitions: event-context-events.json, event-context-events.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api-platform-eur.cvent.com/ea
 - url: https://api-platform.cvent.com/ea
@@ -53,18 +54,26 @@ paths:
       externalDocs:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
+    servers:
+    - url: https://api-platform-eur.cvent.com/ea
+    - url: https://api-platform.cvent.com/ea
 components:
   schemas:
-    event-security-level.json:
-      title: EventSecurityLevel
-      description: Represents the security level used for event registrations.
+    registration-status.json:
+      title: Registration Status
       enum:
-      - Private
-      - Public
-      - Public and Private
+      - Active
+      - Cancelled
+      - Closed
+      - Completed
+      - Deleted
+      - NoRegistrationRequired
+      - Pending
+      - Processing
       type: string
       readOnly: true
-      example: Private
+      description: This is used to denote the registration status for an event.
+      example: Pending
     planner.json2:
       title: Planner
       description: Represents the planner of an event.
@@ -466,61 +475,6 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    registration-status.json:
-      title: Registration Status
-      enum:
-      - Active
-      - Cancelled
-      - Closed
-      - Completed
-      - Deleted
-      - NoRegistrationRequired
-      - Pending
-      - Processing
-      type: string
-      readOnly: true
-      description: This is used to denote the registration status for an event.
-      example: Pending
-    pagination-links.json:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/link.json'
-        self:
-          $ref: '#/components/schemas/link.json'
-        prev:
-          $ref: '#/components/schemas/link.json'
-    paging.json:
-      title: Paging
-      required:
-      - _links
-      type: object
-      description: Represents pagination information for a collection of resources.
-      properties:
-        previousToken:
-          type: string
-          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        nextToken:
-          type: string
-          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        currentToken:
-          type: string
-          description: The pagination token for the current page.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        limit:
-          type: integer
-          description: The number of records to return on the page. Not to exceed 200.
-          example: 100
-        totalCount:
-          type: integer
-          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
-          example: 2
-        _links:
-          $ref: '#/components/schemas/pagination-links.json'
     event-paginated-response:
       title: EventPaginatedResponse
       description: Represents a paginated collection of event objects.
@@ -536,80 +490,6 @@ components:
           items:
             $ref: '#/components/schemas/event'
           description: A collection of event objects.
-    custom-field:
-      title: CustomField
-      description: A Custom Field
-      required:
-      - id
-      - value
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID representing this custom field.
-          format: uuid
-        name:
-          type: string
-          description: The actual text of the custom field.
-          example: What is a your favorite color?
-          readOnly: true
-        type:
-          description: The type of data collected by a custom field.
-          type: string
-          allOf:
-          - title: CustomFieldType
-            enum:
-            - AutoIncrement
-            - ConsentQuestion
-            - Currency
-            - Decimal
-            - Date
-            - DateTime
-            - Email
-            - FileUpload
-            - FreeText
-            - General
-            - MultiChoice
-            - MultiSelect
-            - Number
-            - OpenEndedDateTime
-            - OpenEndedText
-            - SingleChoice
-            - SingleSelect
-            - USPhoneNumber
-            - Unknown
-            type: string
-            description: The type of data collected by a custom field.
-            example: General
-          - readOnly: true
-            example: MultiSelect
-        value:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-            description: A question answer value
-          description: The set of answers or possible answers to a question.
-          example:
-          - Choice C
-          - Choice A
-        order:
-          type: integer
-          description: The order of this question in the bigger list of questions.
-          example: 1
-          readOnly: true
-    venue.json:
-      title: Venue
-      description: An Event Venue
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the venue.
-          maxLength: 300
-          example: Capital Convention Center
-        address:
-          $ref: '#/components/schemas/venue-address.json'
     stakeholder.json:
       title: Stakeholder
       description: Represents an event stakeholder.
@@ -827,29 +707,16 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    event-format.json:
-      title: Event Format
+    event-security-level.json:
+      title: EventSecurityLevel
+      description: Represents the security level used for event registrations.
       enum:
-      - In-person
-      - Virtual
-      - Hybrid
+      - Private
+      - Public
+      - Public and Private
       type: string
-      description: Denotes the format of an event.
-      example: Virtual
-    event-status.json:
-      title: EventStatus
-      description: 'Event status denotes if the event is in the past, present or future. Also can denote if the event was cancelled or deleted. '
       readOnly: true
-      type: string
-      enum:
-      - Upcoming
-      - Ongoing
-      - Completed
-      - Cancelled
-      - Deleted
-      - Processing
-      - Archived
-      example: Upcoming
+      example: Private
     event:
       title: Event
       description: Represents an event.
@@ -1065,17 +932,6 @@ components:
           description: The name of the user who last modified the event.
           readOnly: true
           example: Jane Doe
-    link.json:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
     event-links.json:
       title: EventLinks
       description: Represents the links associated with an event.
@@ -1099,6 +955,143 @@ components:
           href: https://cvent.com
         registration:
           href: https://cvent.com
+    pagination-links.json:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/link.json'
+        self:
+          $ref: '#/components/schemas/link.json'
+        prev:
+          $ref: '#/components/schemas/link.json'
+    custom-field:
+      title: CustomField
+      description: A Custom Field
+      required:
+      - id
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID representing this custom field.
+          format: uuid
+        name:
+          type: string
+          description: The actual text of the custom field.
+          example: What is a your favorite color?
+          readOnly: true
+        type:
+          description: The type of data collected by a custom field.
+          type: string
+          allOf:
+          - title: CustomFieldType
+            enum:
+            - AutoIncrement
+            - ConsentQuestion
+            - Currency
+            - Decimal
+            - Date
+            - DateTime
+            - Email
+            - FileUpload
+            - FreeText
+            - General
+            - MultiChoice
+            - MultiSelect
+            - Number
+            - OpenEndedDateTime
+            - OpenEndedText
+            - SingleChoice
+            - SingleSelect
+            - USPhoneNumber
+            - Unknown
+            type: string
+            description: The type of data collected by a custom field.
+            example: General
+          - readOnly: true
+            example: MultiSelect
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            description: A question answer value
+          description: The set of answers or possible answers to a question.
+          example:
+          - Choice C
+          - Choice A
+        order:
+          type: integer
+          description: The order of this question in the bigger list of questions.
+          example: 1
+          readOnly: true
+    paging.json:
+      title: Paging
+      required:
+      - _links
+      type: object
+      description: Represents pagination information for a collection of resources.
+      properties:
+        previousToken:
+          type: string
+          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        nextToken:
+          type: string
+          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        currentToken:
+          type: string
+          description: The pagination token for the current page.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        limit:
+          type: integer
+          description: The number of records to return on the page. Not to exceed 200.
+          example: 100
+        totalCount:
+          type: integer
+          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
+          example: 2
+        _links:
+          $ref: '#/components/schemas/pagination-links.json'
+    venue.json:
+      title: Venue
+      description: An Event Venue
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the venue.
+          maxLength: 300
+          example: Capital Convention Center
+        address:
+          $ref: '#/components/schemas/venue-address.json'
+    event-status.json:
+      title: EventStatus
+      description: 'Event status denotes if the event is in the past, present or future. Also can denote if the event was cancelled or deleted. '
+      readOnly: true
+      type: string
+      enum:
+      - Upcoming
+      - Ongoing
+      - Completed
+      - Cancelled
+      - Deleted
+      - Processing
+      - Archived
+      example: Upcoming
+    event-format.json:
+      title: Event Format
+      enum:
+      - In-person
+      - Virtual
+      - Hybrid
+      type: string
+      description: Denotes the format of an event.
+      example: Virtual
     event-type.json1:
       title: EventType
       enum:
@@ -1125,7 +1118,28 @@ components:
       type: string
       description: 'Type of event being created. The following event types are not supported: Cvent Webinar, Cvent Essentials.'
       example: Conference
+    link.json:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
   parameters:
+    eventSort:
+      name: sort
+      required: false
+      in: query
+      style: form
+      explode: false
+      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * start\n"
+      schema:
+        type: string
+        example: start:DESC
     token:
       name: token
       in: query
@@ -1139,16 +1153,6 @@ components:
       schema:
         type: string
         example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    eventSort:
-      name: sort
-      required: false
-      in: query
-      style: form
-      explode: false
-      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * start\n"
-      schema:
-        type: string
-        example: start:DESC
     after:
       name: after
       required: false
@@ -1180,24 +1184,6 @@ components:
         format: date-time
         example: '2017-01-02T02:00:00Z'
   responses:
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 403
-            message: Access Forbidden
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 429
-            message: Limit Exceeded
     BadRequest1:
       description: Bad request
       content:
@@ -1216,6 +1202,24 @@ components:
           example:
             code: 401
             message: Unauthorized
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 403
+            message: Access Forbidden
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
@@ -1624,3 +1628,6 @@ components:
       type: http
       scheme: basic
       description: This security scheme is used to indicate that Cvent should use basic auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints.
+x-refined-from:
+- event-context-events.json
+- event-context-events.json

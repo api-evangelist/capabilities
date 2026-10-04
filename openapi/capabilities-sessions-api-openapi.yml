@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Capabilities Sessions API
   version: '1.0'
-  description: 'Operations tagged Sessions across 2 of this provider''s published API definitions: event-context-sessions.json, event-context-speakers.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Sessions across 4 of this provider''s published API definitions: event-context-sessions.json, event-context-speakers.json, event-context-sessions.json, event-context-speakers.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api-platform-eur.cvent.com/ea
 - url: https://api-platform.cvent.com/ea
@@ -89,69 +89,18 @@ paths:
     - url: https://api-platform-eur.cvent.com/ea
     - url: https://api-platform.cvent.com/ea
 components:
-  responses:
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 429
-            message: Limit Exceeded
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 400
-            message: Bad Request
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 403
-            message: Access Forbidden
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 401
-            message: Unauthorized
   schemas:
-    session-location:
-      title: SessionLocation
+    pagination-links.json:
+      title: PaginationLinks
       type: object
-      required:
-      - code
-      - name
-      description: Used to denote a sessions location.
+      description: Represents pagination links for navigating between pages of data.
       properties:
-        id:
-          title: UUID Property
-          description: A string that represents a specified location.
-          type: string
-          format: uuid
-          example: 38db6ae2-0dc3-487b-953e-86d6abbdf7d3
-          readOnly: true
-        code:
-          type: string
-          description: Code / Abbreviation of the location.
-          maxLength: 30
-          example: ConfA
-        name:
-          type: string
-          description: Name of the location.
-          maxLength: 100
-          example: Conference Room A
+        next:
+          $ref: '#/components/schemas/link.json'
+        self:
+          $ref: '#/components/schemas/link.json'
+        prev:
+          $ref: '#/components/schemas/link.json'
     paging.json:
       title: Paging
       required:
@@ -207,17 +156,31 @@ components:
           type: string
           description: A url provided that can be followed for linking
           example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
-    pagination-links.json:
-      title: PaginationLinks
+    session-location:
+      title: SessionLocation
       type: object
-      description: Represents pagination links for navigating between pages of data.
+      required:
+      - code
+      - name
+      description: Used to denote a sessions location.
       properties:
-        next:
-          $ref: '#/components/schemas/link.json'
-        self:
-          $ref: '#/components/schemas/link.json'
-        prev:
-          $ref: '#/components/schemas/link.json'
+        id:
+          title: UUID Property
+          description: A string that represents a specified location.
+          type: string
+          format: uuid
+          example: 38db6ae2-0dc3-487b-953e-86d6abbdf7d3
+          readOnly: true
+        code:
+          type: string
+          description: Code / Abbreviation of the location.
+          maxLength: 30
+          example: ConfA
+        name:
+          type: string
+          description: Name of the location.
+          maxLength: 100
+          example: Conference Room A
     uuid-property:
       title: UUID Property
       description: A string that has to be a format matching the industry standard uuid
@@ -239,6 +202,20 @@ components:
           type: integer
           description: The order of the speaker in a session.
           example: 1
+    category-id-name.json:
+      title: SpeakerCategory
+      description: A defined speaker category.
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid-property'
+        name:
+          type: string
+          description: The name of the speaker category
+          maxLength: 50
+          example: Presenters
     session-speaker-paginated-response:
       title: SessionSpeakerPaginatedResponse
       description: The response from a request to get the list of session speakers.  This includes the paging object as well as the collection of session speakers.
@@ -254,20 +231,6 @@ components:
           items:
             $ref: '#/components/schemas/session-speaker.json'
           description: Collection of a session's speakers.
-    category-id-name.json:
-      title: SpeakerCategory
-      description: A defined speaker category.
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          $ref: '#/components/schemas/uuid-property'
-        name:
-          type: string
-          description: The name of the speaker category
-          maxLength: 50
-          example: Presenters
     session-lite.json:
       required:
       - id
@@ -303,6 +266,43 @@ components:
         type: integer
         default: 100
         example: 100
+  responses:
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 403
+            message: Access Forbidden
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 400
+            message: Bad Request
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 429
+            message: Limit Exceeded
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 401
+            message: Unauthorized
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
@@ -712,5 +712,7 @@ components:
       scheme: basic
       description: This security scheme is used to indicate that Cvent should use basic auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints.
 x-refined-from:
+- event-context-sessions.json
+- event-context-speakers.json
 - event-context-sessions.json
 - event-context-speakers.json

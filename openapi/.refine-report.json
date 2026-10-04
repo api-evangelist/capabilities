@@ -1,13 +1,16 @@
 {
   "provider": "capabilities",
   "sources": [
+    "_original/event-context-events.json",
+    "_original/event-context-sessions.json",
+    "_original/event-context-speakers.json",
     "events/mcp/event-context-sessions.json",
     "events/mcp/event-context-speakers.json",
     "events/mcp/event-context-events.json"
   ],
   "outputs": [
-    "capabilities-sessions-api-openapi.yml",
-    "capabilities-events-api-openapi.yml"
+    "capabilities-events-api-openapi.yml",
+    "capabilities-sessions-api-openapi.yml"
   ],
   "archived": [
     "archived events/mcp/event-context-sessions.json",
@@ -15,6 +18,15 @@
     "archived events/mcp/event-context-events.json"
   ],
   "errors": [
+    "event-context-events.json: dangling $ref: #/components/schemas/error-response",
+    "event-context-events.json: dangling $ref: #/components/schemas/optout-by.json",
+    "event-context-events.json: dangling $ref: #/components/schemas/uuid-property",
+    "event-context-events.json: dangling $ref: #/components/schemas/venue-address.json",
+    "event-context-sessions.json: dangling $ref: #/components/responses/NotFound1",
+    "event-context-sessions.json: dangling $ref: #/components/schemas/error-response",
+    "event-context-speakers.json: dangling $ref: #/components/responses/NotFound1",
+    "event-context-speakers.json: dangling $ref: #/components/schemas/error-response",
+    "event-context-speakers.json: dangling $ref: #/components/schemas/session-id.json",
     "event-context-sessions.json: dangling $ref: #/components/responses/NotFound1",
     "event-context-sessions.json: dangling $ref: #/components/schemas/error-response",
     "event-context-speakers.json: dangling $ref: #/components/responses/NotFound1",
@@ -26,22 +38,36 @@
     "event-context-events.json: dangling $ref: #/components/schemas/venue-address.json"
   ],
   "warnings": [
+    "event-context-events.json: info.version missing",
+    "event-context-sessions.json: info.version missing",
+    "event-context-speakers.json: info.version missing",
     "event-context-sessions.json: info.version missing",
     "event-context-speakers.json: info.version missing",
     "event-context-events.json: info.version missing"
   ],
   "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "discovered stray spec: events/mcp/event-context-sessions.json",
     "discovered stray spec: events/mcp/event-context-speakers.json",
     "discovered stray spec: events/mcp/event-context-events.json",
+    "event-context-events.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "event-context-events.json: declared missing tag: Events",
+    "event-context-sessions.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "event-context-sessions.json: declared missing tag: Sessions",
+    "event-context-speakers.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "event-context-speakers.json: declared missing tag: Sessions",
     "event-context-sessions.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
     "event-context-sessions.json: declared missing tag: Sessions",
     "event-context-speakers.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
     "event-context-speakers.json: declared missing tag: Sessions",
     "event-context-events.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
     "event-context-events.json: declared missing tag: Events",
-    "tag 'Sessions' spans 2 source specs (event-context-sessions.json, event-context-speakers.json): per-path servers applied",
-    "apis.yml register: written (+2 apis, 2 total)"
+    "tag 'Events' spans 2 source specs (event-context-events.json, event-context-events.json): per-path servers applied",
+    "tag 'Sessions' spans 4 source specs (event-context-sessions.json, event-context-speakers.json, event-context-sessions.json, event-context-speakers.json): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "capabilities-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "capabilities-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

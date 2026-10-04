@@ -1,0 +1,2 @@
+# x-archived-from: ../events/mcp/event-context-sessions.json
+# x-archived-on: 2026-10-04

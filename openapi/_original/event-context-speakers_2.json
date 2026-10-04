@@ -1,0 +1,738 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cvent Speakers API",
+    "description": "Get a paginated list of speakers and categories assigned to the provided session ID."
+  },
+  "servers": [
+    {
+      "url": "https://api-platform-eur.cvent.com/ea"
+    },
+    {
+      "url": "https://api-platform.cvent.com/ea"
+    }
+  ],
+  "paths": {
+    "/sessions/{id}/speakers": {
+      "get": {
+        "security": [
+          {
+            "OAuth2.clientCredentials": [
+              "event/speakers:read"
+            ]
+          },
+          {
+            "OAuth2.authorizationCode": [
+              "event/speakers:read"
+            ]
+          }
+        ],
+        "summary": "List Session's Speakers",
+        "description": "Get a paginated list of speakers and categories assigned to the provided session ID.",
+        "operationId": "listSessionSpeakers",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/token"
+          }
+        ],
+        "tags": [
+          "Sessions"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a paginated list of speakers assigned to the session.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/session-speaker-paginated-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest1"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized1"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden1"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound1"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests1"
+          }
+        },
+        "deprecated": false,
+        "externalDocs": {
+          "description": "More about OAuth2 authorization code support for administrators",
+          "url": "#oauth2-auth-code-planner-admin"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "session-speaker-paginated-response": {
+        "title": "SessionSpeakerPaginatedResponse",
+        "description": "The response from a request to get the list of session speakers.  This includes the paging object as well as the collection of session speakers.",
+        "required": [
+          "paging",
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "paging": {
+            "$ref": "#/components/schemas/paging.json"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/session-speaker.json"
+            },
+            "description": "Collection of a session's speakers."
+          }
+        }
+      },
+      "paging.json": {
+        "title": "Paging",
+        "required": [
+          "_links"
+        ],
+        "type": "object",
+        "description": "Represents pagination information for a collection of resources.",
+        "properties": {
+          "previousToken": {
+            "type": "string",
+            "description": "The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "nextToken": {
+            "type": "string",
+            "description": "The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "currentToken": {
+            "type": "string",
+            "description": "The pagination token for the current page.",
+            "example": "1a2b3c4d5e6f7g8h9i10j11k"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of records to return on the page. Not to exceed 200.",
+            "example": 100
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.",
+            "example": 2
+          },
+          "_links": {
+            "$ref": "#/components/schemas/pagination-links.json"
+          }
+        }
+      },
+      "pagination-links.json": {
+        "title": "PaginationLinks",
+        "type": "object",
+        "description": "Represents pagination links for navigating between pages of data.",
+        "properties": {
+          "next": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "self": {
+            "$ref": "#/components/schemas/link.json"
+          },
+          "prev": {
+            "$ref": "#/components/schemas/link.json"
+          }
+        }
+      },
+      "link.json": {
+        "title": "Link",
+        "required": [
+          "href"
+        ],
+        "type": "object",
+        "description": "Represents a link to a related resource.",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "A url provided that can be followed for linking",
+            "example": "?token=90c5f062-76ad-4ea4-aa53-00eb698d9262"
+          }
+        }
+      },
+      "session-speaker.json": {
+        "title": "SessionSpeaker",
+        "description": "A session speaker",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/uuid-property"
+          },
+          "session": {
+            "$ref": "#/components/schemas/session-lite.json"
+          },
+          "category": {
+            "$ref": "#/components/schemas/category-id-name.json"
+          },
+          "order": {
+            "type": "integer",
+            "description": "The order of the speaker in a session.",
+            "example": 1
+          }
+        }
+      },
+      "uuid-property": {
+        "title": "UUID Property",
+        "description": "A string that has to be a format matching the industry standard uuid",
+        "type": "string",
+        "format": "uuid",
+        "example": "04ca6ae2-0dc3-487b-953e-86d6abbdf7d3"
+      },
+      "session-lite.json": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "title": "SessionLite",
+        "description": "The unique identifier of a session.",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/session-id.json"
+          }
+        }
+      },
+      "category-id-name.json": {
+        "title": "SpeakerCategory",
+        "description": "A defined speaker category.",
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/uuid-property"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the speaker category",
+            "maxLength": 50,
+            "example": "Presenters"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "The maximum number of records to return per page.",
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer",
+          "default": 100,
+          "example": 100
+        }
+      },
+      "token": {
+        "name": "token",
+        "in": "query",
+        "description": "The continuation token returned from a previous class. This must be a valid UUID v4 if provided.\nThis will override any other pageable parameters provided.\n",
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "string",
+          "example": "0e28af57-511f-47ab-ae46-46cd1ca51a1a"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest1": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 400,
+              "message": "Bad Request"
+            }
+          }
+        }
+      },
+      "Unauthorized1": {
+        "description": "Bad or expired token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 401,
+              "message": "Unauthorized"
+            }
+          }
+        }
+      },
+      "Forbidden1": {
+        "description": "You do not have access to the resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 403,
+              "message": "Access Forbidden"
+            }
+          }
+        }
+      },
+      "TooManyRequests1": {
+        "description": "Too many requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error-response"
+            },
+            "example": {
+              "code": 429,
+              "message": "Limit Exceeded"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2.authorizationCode": {
+        "type": "oauth2",
+        "description": "OAuth2 Authorization Code Flow",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://api-platform.cvent.com/ea/oauth2/authorize",
+            "tokenUrl": "https://api-platform.cvent.com/ea/oauth2/token",
+            "scopes": {
+              "account/hooks:delete": "Allows the deletion of hooks.",
+              "account/hooks:read": "Allows the reading of hooks.",
+              "account/hooks:write": "Allows the creation/updation of hooks.",
+              "account/user-groups:delete": "Allows deletion for user groups",
+              "account/user-groups:read": "Allows the reading of user groups",
+              "account/user-groups:write": "Allows the writing of user groups",
+              "account/users:delete": "Allows the deletion of User",
+              "account/users:read": "Allows the reading of User, User Group",
+              "account/users:write": "Allows the creation/updating of User",
+              "appointments/appointment-attendees:read": "Allows the reading of appointment attendees and their related entities.",
+              "appointments/appointment-events:read": "Allows the reading of appointment events and their related entities.",
+              "appointments/appointment-types:read": "Allows the reading of appointment types and their related entities.",
+              "appointments/appointments:read": "Allows the reading of appointment and their related entities.",
+              "appointments/appointments:write": "Allows the writing of appointments and their related entities.",
+              "appointments/available-times:read": "Allows the reading of available times.",
+              "appointments/locations:read": "Allows the reading of appointment locations and their related entities.",
+              "attendee-insights/attendee-insights:read": "Allows the reading of engagement scores (attendee insights).",
+              "attendee-insights/scores:read": "Allows the reading of scores.",
+              "attendee-insights/stats:read": "Allows the reading of engagement score (attendee insight) stats.",
+              "budget/budget-items:delete": "Allows the deletion of budget items",
+              "budget/budget-items:read": "Allows the reading of all budget items",
+              "budget/budget-items:write": "Allows creation/updation of budget item",
+              "budget/budget-totals:read": "Allows the reading of all event budget totals",
+              "budget/cards:read": "Allows the reading of cards",
+              "budget/currency-conversion-rate:delete": "Allows deletion of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:read": "Allows reading of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:write": "Allows creation/update of currency conversion rate for currency.",
+              "budget/payments:delete": "Allows deletion of payments.",
+              "budget/payments:read": "Allows reading of payment for budget item.",
+              "budget/payments:write": "Allows creation of payment in a budget item.",
+              "budget/transactions:delete": "Allows delete card transactions.",
+              "budget/transactions:read": "Allows the reading of all card's transactions",
+              "budget/transactions:write": "Allows creation of card transactions.",
+              "compliance/communications:read": "Allows the reading of communication compliance",
+              "compliance/communications:write": "Allows the writing of communication compliance",
+              "email/bounces:read": "Allow the reading of email bounces.",
+              "email/email-status:read": "Allows the reading of email statuses.",
+              "email/emails:read": "Allows the reading of emails.",
+              "eMarketing/campaigns:read": "Allows the reading of campaigns.",
+              "emarketing/emarketing-email-status:read": "Allows the reading of eMarketing email statuses.",
+              "eMarketing/eMarketing-email-templates:read": "Allows the reading of email-templates.",
+              "eMarketing/eMarketing-send-emails:write": "Allows the writing of eMarketing emails.",
+              "event/admission-items:read": "Allows the reading of admission items",
+              "event/air-request:read": "Allow reading the air request or air actual detail for attendees.",
+              "event/attendance-durations:read": "Allows the read of Duration records",
+              "event/attendee-activities-metadata:delete": "Allows the deletion of attendees activities metadata.",
+              "event/attendee-activities-metadata:read": "Allows the reading of attendee activities metadata.",
+              "event/attendee-activities-metadata:write": "Allows the creation/updating of attendees activities metadata.",
+              "event/attendee-activities:read": "Allows the reading of attendee activities.",
+              "event/attendee-activities:write": "Allows the writing of attendee activities.",
+              "event/attendee-credits:read": "Allows the reading of attendee credits.",
+              "event/attendee-links:delete": "Allows the deletion of attendee links",
+              "event/attendee-links:read": "Allows the reading of attendee links",
+              "event/attendee-links:write": "Allows the creation of attendee links",
+              "event/attendee-messages:read": "Allows the reading of attendee messages",
+              "event/attendees:read": "Allows the reading of attendees.",
+              "event/attendees:write": "Allows the creation of an attendee in an event.",
+              "event/audience-segments:read": "Allows the reading of audience segments.",
+              "event/audience-segments:write": "Allows the creation/updating/deletion of audience segments.",
+              "event/contact-groups:read": "Allows the reading of contact groups.",
+              "event/contact-groups:write": "Allows the creation/updating of contact groups.",
+              "event/contact-types:read": "Allows the reading of contact types.",
+              "event/contacts:delete": "Allows the deletion of contacts.",
+              "event/contacts:read": "Allows the reading of contacts.",
+              "event/contacts:write": "Allows the creation/updating of contacts.",
+              "event/contacts:write-sensitive": "Allows the creation/updating of sensitive data related to contacts.",
+              "event/custom-fields:read": "Allows the reading of custom fields",
+              "event/custom-fields:write": "Allows the writing of custom fields",
+              "event/discounts:write": "Allows the writing of discounts",
+              "event/donation-items:read": "Allows the reading of donation items.",
+              "event/event-discounts:read": "Allows the reading of event discounts.",
+              "event/event-discounts:write": "Allows the writing of event discounts.",
+              "event/event-email-status:read": "Allows the reading of event email statuses.",
+              "event/event-emails:read": "Allows the reading of event emails",
+              "event/event-emails:write": "Allows to send event emails.",
+              "event/event-features:read": "Allows the reading of events-features",
+              "event/event-features:write": "Allows updating the event-features",
+              "event/events:read": "Allows the reading of events",
+              "event/events:write": "Allows the creation/updating of events",
+              "event/fee-items:read": "Allows the reading of fee items.",
+              "event/hotel-request:read": "Allow reading the hotel request or housing reservation request detail for attendees.",
+              "event/invitation-lists:read": "Allows the reading of the invitation lists for an event",
+              "event/meeting-request-forms:read": "Allows the reading of meeting request forms.",
+              "event/meeting-requests:read": "Allows the reading of meeting requests.",
+              "event/meeting-requests:write": "Allows the creation/updating of meeting requests.",
+              "event/orders:read": "Allows the reading of orders",
+              "event/players:read": "Allows the reading of players",
+              "event/process-form-submissions:read": "Allows the reading of process form submissions.",
+              "event/program-items:delete": "Allows deletion of session program items",
+              "event/program-items:read": "Allows reading of session program items",
+              "event/program-items:write": "Allows writing of session program items",
+              "event/quantity-items:read": "Allows the reading of quantity items.",
+              "event/quantity-items:write": "Allows the writing of quantity items",
+              "event/registration-paths:read": "Allows the reading of registration paths",
+              "event/registration-types:read": "Allows the reading of registration types",
+              "event/registration-types:write": "Allows the writing of registration types",
+              "event/role-assignments:read": "Allows the reading of event role assignment.",
+              "event/session-attendance:read": "Allows the reading of sessions attendance",
+              "event/session-attendance:write": "Allows the creation/updating of sessions attendance",
+              "event/session-categories:read": "Allows reading of session categories",
+              "event/session-categories:write": "Allows writing of session categories",
+              "event/session-enrollment:delete": "Allows the deletion of session registrations",
+              "event/session-enrollment:read": "Allows the reading of sessions registrations",
+              "event/session-enrollment:write": "Allows the writing of sessions registrations",
+              "event/session-segments:read": "Allows reading of session segments",
+              "event/sessions:delete": "Allows the deletion of a session in an event",
+              "event/sessions:read": "Allows the reading of sessions",
+              "event/sessions:write": "Allows the creation of a session in an event",
+              "event/speaker-categories:read": "Allows reading of speaker categories",
+              "event/speaker-categories:write": "Allows writing of speaker categories",
+              "event/speakers:delete": "Allows the deletion of a speaker in an event",
+              "event/speakers:read": "Allows the reading of speakers",
+              "event/speakers:write": "Allows the creation of a speaker in an event",
+              "event/transactions:read": "Allows the reading of transactions",
+              "event/transactions:write": "Allows the writing of transactions",
+              "event/video-views:read": "Allows reading of video views.",
+              "event/videos:read": "Allows the reading of video data.",
+              "event/videos:write": "Allows the creation/updating of video data.",
+              "event/webcasts:delete": "Allows the deletion of webcast",
+              "event/webcasts:read": "Allows the reading of webcasts",
+              "event/webcasts:write": "Allows the creation of webcast",
+              "event/weblinks:read": "Allows the reading of event weblinks",
+              "events-plus/hubs:read": "Allows the reading of Events+ hub data.",
+              "exhibitor/badges:read": "Allows reading badges",
+              "exhibitor/badges:write": "Allows creating/updating badges",
+              "exhibitor/booth-staff:delete": "Allows deleting booth staff",
+              "exhibitor/booth-staff:read": "Allows reading booth staff",
+              "exhibitor/booth-staff:write": "Allows creating booth staff",
+              "exhibitor/eliterature-requests:read": "Allows reading eliterature document request data",
+              "exhibitor/exhibitor-admins:read": "Allows reading exhibitor admins",
+              "exhibitor/exhibitor-admins:write": "Allows creating/updating exhibitor admins",
+              "exhibitor/exhibitor-answers:read": "Allows reading exhibitor answers",
+              "exhibitor/exhibitor-answers:write": "Allows updating exhibitor answers",
+              "exhibitor/exhibitor-categories:delete": "Allows deleting exhibitor categories",
+              "exhibitor/exhibitor-categories:read": "Allows reading exhibitor categories",
+              "exhibitor/exhibitor-categories:write": "Allows creating/updating exhibitor categories",
+              "exhibitor/exhibitor-contents:delete": "Allows deleting exhibitor content",
+              "exhibitor/exhibitor-contents:read": "Allows reading exhibitor content",
+              "exhibitor/exhibitor-contents:write": "Allows creating/updating exhibitor content",
+              "exhibitor/exhibitor-questions:read": "Allows reading exhibitor questions",
+              "exhibitor/exhibitors:delete": "Allows deleting exhibitors",
+              "exhibitor/exhibitors:read": "Allows reading exhibitors",
+              "exhibitor/exhibitors:write": "Allows creating/updating exhibitors",
+              "exhibitor/lead-qualification-answers:read": "Allows reading Lead Qualification Answers",
+              "exhibitor/lead-qualification-questions:read": "Allows reading Lead Qualification Questions.",
+              "exhibitor/leads:read": "Allows reading leads.",
+              "exhibitor/registration-packs:delete": "Allows deleting registration pack",
+              "exhibitor/registration-packs:read": "Allows reading registration pack",
+              "exhibitor/registration-packs:write": "Allows creating/updating registration pack",
+              "exhibitor/sponsorship-levels:read": "Allows reading sponsorship level",
+              "file/file:read": "Allows the reading of file",
+              "file/file:write": "Allows the uploading of file",
+              "onarrival/signatures:read": "Allows reading signatures.",
+              "remote-printing/badge-print-jobs:read": "Allows reading print jobs.",
+              "remote-printing/badge-print-jobs:write": "Allows creating print jobs.",
+              "remote-printing/badge-printer-pools:read": "Allows reading pools.",
+              "seating/assignments:read": "Allows to read attendee seat assignment information.",
+              "seating/event-seatings:read": "Allows to read event seating.",
+              "seating/seats:read": "Allows to read seat information.",
+              "seating/tables:read": "Allows to read table information.",
+              "survey/questions:read": "Allows the reading of survey questions",
+              "survey/respondents:read": "Allows reading the survey respondents",
+              "survey/responses:read": "Allows reading the survey responses",
+              "survey/standard-survey-email-templates:read": "Allows reading the standalone survey email templates",
+              "survey/standard-survey-email:write": "Allows writing operations on standalone survey emails",
+              "survey/standard-survey-questions:read": "Allows the reading of standalone surveys questions",
+              "survey/standard-survey-respondents:read": "Allows reading the standalone survey respondents",
+              "survey/standard-survey-respondents:write": "Allows write operations on standalone survey respondents",
+              "survey/standard-survey-responses:read": "Allows reading the standalone survey responses",
+              "survey/standard-survey-responses:write": "Allows write operations on standalone surveys respondent's responses",
+              "survey/standard-surveys:read": "Allows the reading of standalone surveys",
+              "survey/survey-questions:read": "Allows the reading of event survey questions",
+              "survey/survey-respondents:read": "Allows reading the event survey respondents",
+              "survey/survey-respondents:write": "Allows write operations on the event survey respondents",
+              "survey/survey-responses:read": "Allows reading the event survey responses",
+              "survey/survey-responses:write": "Allows write operations on the event surveys respondent's responses",
+              "survey/surveys:read": "Allows the reading of event surveys"
+            }
+          }
+        }
+      },
+      "OAuth2.clientCredentials": {
+        "type": "oauth2",
+        "description": "OAuth2 Client Credentials Flow",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api-platform.cvent.com/ea/oauth2/token",
+            "scopes": {
+              "account/hooks:delete": "Allows the deletion of hooks.",
+              "account/hooks:read": "Allows the reading of hooks.",
+              "account/hooks:write": "Allows the creation/updation of hooks.",
+              "account/user-groups:delete": "Allows deletion for user groups",
+              "account/user-groups:read": "Allows the reading of user groups",
+              "account/user-groups:write": "Allows the writing of user groups",
+              "account/users:delete": "Allows the deletion of User",
+              "account/users:read": "Allows the reading of User, User Group",
+              "account/users:write": "Allows the creation/updating of User",
+              "appointments/appointment-attendees:read": "Allows the reading of appointment attendees and their related entities.",
+              "appointments/appointment-events:read": "Allows the reading of appointment events and their related entities.",
+              "appointments/appointment-types:read": "Allows the reading of appointment types and their related entities.",
+              "appointments/appointments:read": "Allows the reading of appointment and their related entities.",
+              "appointments/appointments:write": "Allows the writing of appointments and their related entities.",
+              "appointments/available-times:read": "Allows the reading of availability times.",
+              "appointments/locations:read": "Allows the reading of appointment locations and their related entities.",
+              "attendee-insights/attendee-insights:read": "Allows the reading of engagement scores (attendee insights).",
+              "attendee-insights/scores:read": "Allows the reading of scores.",
+              "attendee-insights/stats:read": "Allows the reading of engagement score (attendee insight) stats.",
+              "budget/budget-items:delete": "Allows the deletion of budget items",
+              "budget/budget-items:read": "Allows the reading of all budget items",
+              "budget/budget-items:write": "Allows creation/updation of budget item",
+              "budget/budget-totals:read": "Allows the reading of all event budget totals",
+              "budget/cards:read": "Allows the reading of cards",
+              "budget/currency-conversion-rate:delete": "Allows deletion of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:read": "Allows reading of currency conversion rate for currency.",
+              "budget/currency-conversion-rate:write": "Allows creation/update of currency conversion rate for currency.",
+              "budget/payments:delete": "Allows deletion of payments.",
+              "budget/payments:read": "Allows reading of payment for budget item.",
+              "budget/payments:write": "Allows creation of payment in a budget item.",
+              "budget/transactions:delete": "Allows delete card transactions.",
+              "budget/transactions:read": "Allows the reading of all card's transactions",
+              "budget/transactions:write": "Allows creation of card transactions.",
+              "bulk/bulk-jobs:read": "Allows the reading of bulk job related entities",
+              "bulk/bulk-jobs:write": "Allows the creation, update and deletion of bulk job related entities",
+              "business-transient/bids:read": "Allows the reading of BT Bid data",
+              "business-transient/proposals:read": "Allows the reading of BT Proposal data",
+              "business-transient/supplier-brands:read": "Allows the reading of a supplier brand or a list of travel supplier brands.",
+              "business-transient/supplier-chains:read": "Allows the reading of a travel supplier chain or a list of travel supplier chains.",
+              "business-transient/supplier-properties:read": "Allows the reading of a travel supplier property or a list of travel supplier properties.",
+              "business-transient/supplier-property-rooms:read": "Allows the reading of a list of travel supplier property rooms.",
+              "business-transient/travel-accounts:read": "Allows the reading of business transient travel account data.",
+              "business-transient/travel-program-questions:read": "Allows the reading of business transient travel program question data.",
+              "business-transient/travel-programs:read": "Allows the reading of business transient travel program data.",
+              "business-transient/travel-supplier-accounts:read": "Allows the reading of business transient travel supplier account data.",
+              "compliance/communications:read": "Allows the reading of communication compliance",
+              "compliance/communications:write": "Allows the writing of communication compliance",
+              "email/bounces:read": "Allow the reading of email bounces.",
+              "email/email-status:read": "Allows the reading of email statuses.",
+              "email/emails:read": "Allows the reading of emails.",
+              "eMarketing/campaigns:read": "Allows the reading of campaigns.",
+              "emarketing/emarketing-email-status:read": "Allows the reading of eMarketing email statuses.",
+              "eMarketing/eMarketing-email-templates:read": "Allows the reading of email-templates.",
+              "eMarketing/eMarketing-send-emails:write": "Allows the writing of eMarketing emails.",
+              "event/admission-items:read": "Allows the reading of admission items",
+              "event/air-request:read": "Allow reading the air request or air actual detail for attendees.",
+              "event/attendance-durations:read": "Allows the read of Duration records",
+              "event/attendee-activities-metadata:delete": "Allows the deletion of attendees activities metadata.",
+              "event/attendee-activities-metadata:read": "Allows the reading of attendee activities metadata.",
+              "event/attendee-activities-metadata:write": "Allows the creation/updating of attendees activities metadata.",
+              "event/attendee-activities:read": "Allows the reading of attendee activities.",
+              "event/attendee-activities:write": "Allows the writing of external attendee activities.",
+              "event/attendee-credits:read": "Allows the reading of attendee credits.",
+              "event/attendee-links:delete": "Allows the deletion of attendee links",
+              "event/attendee-links:read": "Allows the reading of attendee links",
+              "event/attendee-links:write": "Allows the creation of attendee links",
+              "event/attendee-messages:read": "Allows the reading of attendee messages",
+              "event/attendees:read": "Allows the reading of attendees.",
+              "event/attendees:write": "Allows the creation of an attendee in an event.",
+              "event/audience-segments:read": "Allows the reading of audience segments.",
+              "event/audience-segments:write": "Allows the creation/updating/deletion of audience segments.",
+              "event/contact-groups:read": "Allows the reading of contact groups.",
+              "event/contact-groups:write": "Allows the creation/updating of contact groups.",
+              "event/contact-types:read": "Allows the reading of contact types.",
+              "event/contacts:delete": "Allows the deletion of contacts.",
+              "event/contacts:read": "Allows the reading of contacts.",
+              "event/contacts:write": "Allows the creation/updating of contacts.",
+              "event/contacts:write-sensitive": "Allows the creation/updating of sensitive data related to contacts.",
+              "event/custom-fields:read": "Allows the reading of custom fields",
+              "event/custom-fields:write": "Allows the writing of custom fields",
+              "event/discounts:write": "Allows the writing of discounts",
+              "event/donation-items:read": "Allows the reading of donation items.",
+              "event/event-discounts:read": "Allows the reading of event discounts.",
+              "event/event-discounts:write": "Allows the writing of event discounts.",
+              "event/event-email-status:read": "Allows the reading of event email statuses.",
+              "event/event-emails:read": "Allows the reading of event emails",
+              "event/event-emails:write": "Allows to send event emails.",
+              "event/event-features:read": "Allows the reading of events-features",
+              "event/event-features:write": "Allows updating the event-features",
+              "event/events:read": "Allows the reading of events",
+              "event/events:write": "Allows the creation/updating of events",
+              "event/fee-items:read": "Allows the reading of fee items.",
+              "event/hotel-request:read": "Allow reading the hotel request or housing reservation request detail for attendees.",
+              "event/invitation-lists:read": "Allows the reading of the invitation lists for an event",
+              "event/meeting-request-forms:read": "Allows the reading of meeting request forms.",
+              "event/meeting-requests:read": "Allows the reading of meeting requests.",
+              "event/meeting-requests:write": "Allows the creation/updating of meeting requests.",
+              "event/orders:read": "Allows the reading of orders",
+              "event/players:read": "Allows the reading of players",
+              "event/process-form-submissions:read": "Allows the reading of process form submissions.",
+              "event/program-items:delete": "Allows deletion of session program items",
+              "event/program-items:read": "Allows reading of session program items",
+              "event/program-items:write": "Allows writing of session program items",
+              "event/quantity-items:read": "Allows the reading of quantity items.",
+              "event/quantity-items:write": "Allows the writing of quantity items",
+              "event/registration-paths:read": "Allows the reading of registration paths",
+              "event/registration-types:read": "Allows the reading of registration types",
+              "event/registration-types:write": "Allows the writing of registration types",
+              "event/role-assignments:read": "Allows the reading of event role assignment.",
+              "event/session-attendance:read": "Allows the reading of sessions attendance",
+              "event/session-attendance:write": "Allows the creation/updating of sessions attendance",
+              "event/session-categories:read": "Allows reading of session categories",
+              "event/session-categories:write": "Allows writing of session categories",
+              "event/session-enrollment:delete": "Allows the deletion of session registrations",
+              "event/session-enrollment:read": "Allows the reading of sessions registrations",
+              "event/session-enrollment:write": "Allows the writing of sessions registrations",
+              "event/session-segments:read": "Allows reading of session segments",
+              "event/sessions:delete": "Allows the deletion of a session in an event",
+              "event/sessions:read": "Allows the reading of sessions",
+              "event/sessions:write": "Allows the creation of a session in an event",
+              "event/speaker-categories:read": "Allows reading of speaker categories",
+              "event/speaker-categories:write": "Allows writing of speaker categories",
+              "event/speakers:delete": "Allows the deletion of a speaker in an event",
+              "event/speakers:read": "Allows the reading of speakers",
+              "event/speakers:write": "Allows the creation of a speaker in an event",
+              "event/transactions:read": "Allows the reading of transactions",
+              "event/transactions:write": "Allows the writing of transactions",
+              "event/video-views:read": "Allows reading of video views.",
+              "event/videos:read": "Allows the reading of video data.",
+              "event/videos:write": "Allows the creation/updating of video data.",
+              "event/webcasts:delete": "Allows the deletion of webcast",
+              "event/webcasts:read": "Allows the reading of webcasts",
+              "event/webcasts:write": "Allows the creation of webcast",
+              "event/weblinks:read": "Allows the reading of event weblinks",
+              "events-plus/hubs:read": "Allows the reading of Events+ hub data.",
+              "exhibitor/badges:read": "Allows reading badges",
+              "exhibitor/badges:write": "Allows creating/updating badges",
+              "exhibitor/booth-staff:delete": "Allows deleting booth staff",
+              "exhibitor/booth-staff:read": "Allows reading booth staff",
+              "exhibitor/booth-staff:write": "Allows creating booth staff",
+              "exhibitor/eliterature-requests:read": "Allows reading eliterature document request data",
+              "exhibitor/exhibitor-admins:read": "Allows reading exhibitor admins",
+              "exhibitor/exhibitor-admins:write": "Allows creating/updating exhibitor admins",
+              "exhibitor/exhibitor-answers:read": "Allows reading exhibitor answers",
+              "exhibitor/exhibitor-answers:write": "Allows updating exhibitor answers",
+              "exhibitor/exhibitor-categories:delete": "Allows deleting exhibitor categories",
+              "exhibitor/exhibitor-categories:read": "Allows reading exhibitor categories",
+              "exhibitor/exhibitor-categories:write": "Allows creating/updating exhibitor categories",
+              "exhibitor/exhibitor-contents:delete": "Allows deleting exhibitor content",
+              "exhibitor/exhibitor-contents:read": "Allows reading exhibitor content",
+              "exhibitor/exhibitor-contents:write": "Allows creating/updating exhibitor content",
+              "exhibitor/exhibitor-questions:read": "Allows reading exhibitor questions",
+              "exhibitor/exhibitors:delete": "Allows deleting exhibitors",
+              "exhibitor/exhibitors:read": "Allows reading exhibitors",
+              "exhibitor/exhibitors:write": "Allows creating/updating exhibitors",
+              "exhibitor/lead-qualification-answers:read": "Allows reading Lead Qualification Answers",
+              "exhibitor/lead-qualification-questions:read": "Allows reading Lead Qualification Questions.",
+              "exhibitor/leads:read": "Allows reading leads.",
+              "exhibitor/registration-packs:delete": "Allows deleting registration pack",
+              "exhibitor/registration-packs:read": "Allows reading registration pack",
+              "exhibitor/registration-packs:write": "Allows creating/updating registration pack",
+              "exhibitor/sponsorship-levels:read": "Allows reading sponsorship level",
+              "file/file:read": "Allows the reading of file",
+              "file/file:write": "Allows the uploading of file",
+              "housing/connections:write": "Allows the user to connect to the Reglink APIs.",
+              "housing/hotel-room-rates:write": "Allows the user to create/update hotel room rates.",
+              "housing/housing-event-available-nights:read": "Allows the user to read availability information for given event.",
+              "housing/housing-event-hotels:read": "Allows the user to read information about event hotels.",
+              "housing/housing-event-inventory:read": "Allows the user to get information about housing event inventory.",
+              "housing/housing-event-room-types:read": "Allows the user to read information about event room types.",
+              "housing/housing-events:read": "Allows the user to read information about events.",
+              "housing/reservation-requests:delete": "Allows the user to cancel reservation request.",
+              "housing/reservation-requests:read": "Allows the user to read reservation request information.",
+              "housing/reservation-requests:write": "Allows the user to create/update reservation request.",
+              "housing/reservations-link:delete": "Allows the user to remove association from reservation.",
+              "housing/reservations-link:write": "Allows the user to associate reservation to reservation request.",
+              "housing/reservations:delete": "Allows the user to cancel reservation.",
+              "housing/reservations:read": "Allows the user to read reservation details information.",
+              "housing/reservations:write": "Allows the user to create/update reservation.",
+              "onarrival/signatures:read": "Allows reading signatures.",
+              "proposal/proposals:write": "Allows the creation/writing of proposal",
+              "remote-printing/badge-print-jobs:read": "Allows reading print jobs.",
+              "remote-printing/badge-print-jobs:write": "Allows creating print jobs.",
+              "remote-printing/badge-printer-pools:read": "Allows reading pools.",
+              "seating/assignments:read": "Allows to read attendee seat assignment information.",
+              "seating/event-seatings:read": "Allows to read event seating.",
+              "seating/seats:read": "Allows to read seat information.",
+              "seating/tables:read": "Allows to read table information.",
+              "secure-ecommerce/card-tokens:write": "Allows creation of credit card tokens",
+              "survey/questions:read": "Allows the reading of survey questions",
+              "survey/respondents:read": "Allows reading the survey respondents",
+              "survey/responses:read": "Allows reading the survey responses",
+              "survey/standard-survey-email-templates:read": "Allows reading the standalone survey email templates",
+              "survey/standard-survey-email:write": "Allows writing operations on standalone survey emails",
+              "survey/standard-survey-questions:read": "Allows the reading of standalone surveys questions",
+              "survey/standard-survey-respondents:read": "Allows reading the standalone survey respondents",
+              "survey/standard-survey-respondents:write": "Allows write operations on standalone survey respondents",
+              "survey/standard-survey-responses:read": "Allows reading the standalone survey responses",
+              "survey/standard-survey-responses:write": "Allows write operations on standalone surveys respondent's responses",
+              "survey/standard-surveys:read": "Allows the reading of standalone surveys",
+              "survey/survey-questions:read": "Allows the reading of event survey questions",
+              "survey/survey-respondents:read": "Allows reading the event survey respondents",
+              "survey/survey-respondents:write": "Allows write operations on the event survey respondents",
+              "survey/survey-responses:read": "Allows reading the event survey responses",
+              "survey/survey-responses:write": "Allows write operations on the event surveys respondent's responses",
+              "survey/surveys:read": "Allows the reading of event surveys"
+            }
+          }
+        }
+      },
+      "CallbackApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "This security scheme is used to indicate that Cvent should use API Key auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints."
+      },
+      "CallbackBasicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "This security scheme is used to indicate that Cvent should use basic auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints."
+      }
+    }
+  }
+}
