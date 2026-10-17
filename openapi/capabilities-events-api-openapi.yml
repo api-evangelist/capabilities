@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Capabilities Events API
-  version: '1.0'
-  description: 'Operations tagged Events across 2 of this provider''s published API definitions: event-context-events.json, event-context-events.json. Each path carries the servers of the definition it was published in.'
+  title: Cvent Events API
+  description: Gets a paginated list of events.
 servers:
 - url: https://api-platform-eur.cvent.com/ea
 - url: https://api-platform.cvent.com/ea
@@ -54,9 +53,6 @@ paths:
       externalDocs:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
-    servers:
-    - url: https://api-platform-eur.cvent.com/ea
-    - url: https://api-platform.cvent.com/ea
 components:
   schemas:
     registration-status.json:
@@ -74,6 +70,221 @@ components:
       readOnly: true
       description: This is used to denote the registration status for an event.
       example: Pending
+    event:
+      title: Event
+      description: Represents an event.
+      type: object
+      required:
+      - title
+      - format
+      - planners
+      - timezone
+      - languages
+      - type
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The identifier of the event.
+          example: 9463c74e-18c6-401a-a710-ae0f485bf059
+          readOnly: true
+        title:
+          type: string
+          description: Title of the event being organized.
+          maxLength: 300
+          example: Cvent Connect 2020
+        code:
+          type: string
+          description: A system-generated code for this event.
+          maxLength: 18
+          readOnly: true
+          example: R5NP4NJYB3D
+        virtual:
+          type: boolean
+          description: True indicates the event is virtual. DEPRECATED - Refer to the 'format' field for the 'virtual' indicator.
+          example: true
+          deprecated: true
+          readOnly: true
+        format:
+          $ref: '#/components/schemas/event-format.json'
+        description:
+          type: string
+          description: Detailed description of the event.
+          maxLength: 20000
+          example: Cvent annual user conference.
+        start:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date and time when the event starts.
+          example: '2020-02-03T13:00:00.000Z'
+        end:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date and time when the event ends.
+          example: '2020-02-07T17:00:00.000Z'
+        closeAfter:
+          type: string
+          format: date-time
+          description: The event will be closed for registration after this ISO 8601 formatted date and time.
+          example: '2020-02-01T23:59:00.000Z'
+          readOnly: true
+        archiveAfter:
+          type: string
+          format: date-time
+          description: The event will be archived after this ISO 8601 formatted date and time.
+          example: '2020-05-07T12:00:00.000Z'
+          readOnly: true
+        launchAfter:
+          type: string
+          format: date-time
+          description: The event will launch after this ISO 8601 formatted date and time. If the event has not yet launched, this field shows a date of 1/1/1900.
+          example: '2020-01-07T12:00:00.000Z'
+          readOnly: true
+        timezone:
+          type: string
+          description: List of supported [timezones](/docs/rest-api/reference/api-standards#time-zones).
+          maxLength: 29
+          example: America/New_York
+        venues:
+          type: array
+          maxItems: 1
+          items:
+            $ref: '#/components/schemas/venue.json'
+          description: Collection of venues.
+        showVenueLocation:
+          type: boolean
+          description: True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error.
+        showPointOfContact:
+          type: boolean
+          description: True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error.
+        phone:
+          type: string
+          description: The phone number for the event.
+          maxLength: 13
+          example: 555-555-5555
+          readOnly: true
+        note:
+          type: string
+          description: Event note created by planners for internal use.
+          maxLength: 300
+          example: This event will need some coordination with external systems.
+        defaultLocale:
+          type: string
+          description: The event default locale using the IETF language tag format.
+          maxLength: 35
+          example: en-US
+          readOnly: true
+        languages:
+          type: array
+          uniqueItems: true
+          maxItems: 32
+          items:
+            type: string
+            example: en-US
+          description: List of IETF language tags enabled for the event. This field supports reading multiple language tags but supports writing only one language to an event.
+        currency:
+          type: string
+          description: The ISO 4217 standard format currency code used of this event.
+          maxLength: 3
+          example: USD
+          readOnly: true
+        registrationSecurityLevel:
+          $ref: '#/components/schemas/event-security-level.json'
+        status:
+          $ref: '#/components/schemas/registration-status.json'
+        eventStatus:
+          $ref: '#/components/schemas/event-status.json'
+        planningStatus:
+          type: string
+          description: The planner-created planning status for this event. Used for internal tracking purposes.
+          maxLength: 50
+          example: Submitted
+          readOnly: true
+        testMode:
+          type: boolean
+          description: True indicates the event is in test mode.
+          example: false
+          readOnly: true
+        capacity:
+          type: integer
+          description: The maximum amount of attendees that can attend the event. Only used for events with the registration feature.
+          example: 50
+          readOnly: true
+        planners:
+          type: array
+          maxItems: 1
+          items:
+            $ref: '#/components/schemas/planner.json2'
+          description: A collection of contacts representing the event planners.
+        stakeholders:
+          type: array
+          maxItems: 1
+          items:
+            $ref: '#/components/schemas/stakeholder.json'
+          description: A collection of contacts representing event stakeholders.
+          readOnly: true
+        customFields:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/custom-field'
+          description: Collection of custom fields.
+        category:
+          type: object
+          deprecated: true
+          readOnly: true
+          description: The category to which this event belongs (no longer supported).
+          allOf:
+          - title: Lookup
+            description: Lookup response object
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/uuid-property'
+              code:
+                type: string
+                description: Code / Abbreviation of the lookup item.
+                maxLength: 30
+                example: MU
+              name:
+                type: string
+                description: Name of the lookup item.
+                maxLength: 30
+                example: Meet up
+        type:
+          $ref: '#/components/schemas/event-type.json1'
+        _links:
+          $ref: '#/components/schemas/event-links.json'
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
+          readOnly: true
+          example: '2017-01-02T02:00:00Z'
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        meetingRequestId:
+          type: string
+          format: uuid
+          description: The identifier of the meeting request related to the event, if any.
+          readOnly: true
+          example: b566c24e-12a8-452d-c490-ad0e796be093
+        createdBy:
+          type: string
+          maxLength: 100
+          description: The name of the user who created the event.
+          readOnly: true
+          example: John Doe
+        lastModifiedBy:
+          type: string
+          maxLength: 100
+          description: The name of the user who last modified the event.
+          readOnly: true
+          example: Jane Doe
     planner.json2:
       title: Planner
       description: Represents the planner of an event.
@@ -475,21 +686,163 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    event-paginated-response:
-      title: EventPaginatedResponse
-      description: Represents a paginated collection of event objects.
-      required:
-      - data
-      - paging
+    event-links.json:
+      title: EventLinks
+      description: Represents the links associated with an event.
+      type: object
+      readOnly: true
+      properties:
+        invitation:
+          $ref: '#/components/schemas/link.json'
+        agenda:
+          $ref: '#/components/schemas/link.json'
+        summary:
+          $ref: '#/components/schemas/link.json'
+        registration:
+          $ref: '#/components/schemas/link.json'
+      example:
+        invitation:
+          href: https://cvent.com
+        agenda:
+          href: https://cvent.com
+        summary:
+          href: https://cvent.com
+        registration:
+          href: https://cvent.com
+    venue.json:
+      title: Venue
+      description: An Event Venue
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
+        name:
+          type: string
+          description: The name of the venue.
+          maxLength: 300
+          example: Capital Convention Center
+        address:
+          $ref: '#/components/schemas/venue-address.json'
+    pagination-links.json:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/link.json'
+        self:
+          $ref: '#/components/schemas/link.json'
+        prev:
+          $ref: '#/components/schemas/link.json'
+    custom-field:
+      title: CustomField
+      description: A Custom Field
+      required:
+      - id
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID representing this custom field.
+          format: uuid
+        name:
+          type: string
+          description: The actual text of the custom field.
+          example: What is a your favorite color?
+          readOnly: true
+        type:
+          description: The type of data collected by a custom field.
+          type: string
+          allOf:
+          - title: CustomFieldType
+            enum:
+            - AutoIncrement
+            - ConsentQuestion
+            - Currency
+            - Decimal
+            - Date
+            - DateTime
+            - Email
+            - FileUpload
+            - FreeText
+            - General
+            - MultiChoice
+            - MultiSelect
+            - Number
+            - OpenEndedDateTime
+            - OpenEndedText
+            - SingleChoice
+            - SingleSelect
+            - USPhoneNumber
+            - Unknown
+            type: string
+            description: The type of data collected by a custom field.
+            example: General
+          - readOnly: true
+            example: MultiSelect
+        value:
           type: array
+          uniqueItems: true
           items:
-            $ref: '#/components/schemas/event'
-          description: A collection of event objects.
+            type: string
+            description: A question answer value
+          description: The set of answers or possible answers to a question.
+          example:
+          - Choice C
+          - Choice A
+        order:
+          type: integer
+          description: The order of this question in the bigger list of questions.
+          example: 1
+          readOnly: true
+    event-status.json:
+      title: EventStatus
+      description: 'Event status denotes if the event is in the past, present or future. Also can denote if the event was cancelled or deleted. '
+      readOnly: true
+      type: string
+      enum:
+      - Upcoming
+      - Ongoing
+      - Completed
+      - Cancelled
+      - Deleted
+      - Processing
+      - Archived
+      example: Upcoming
+    event-type.json1:
+      title: EventType
+      enum:
+      - Celebration
+      - Conference
+      - CventEssentials
+      - CventWebinar
+      - Dinner
+      - Forum
+      - FundraiserBenefit
+      - Holiday
+      - IncentiveTrip
+      - Meeting
+      - OtherGeneral
+      - PoliticalEvent
+      - Reunion
+      - SaveTheDate
+      - Seminar
+      - SimpleEvent
+      - SportsEvent
+      - TradeShow
+      - TrainingSession
+      - Webinar
+      type: string
+      description: 'Type of event being created. The following event types are not supported: Cvent Webinar, Cvent Essentials.'
+      example: Conference
+    event-format.json:
+      title: Event Format
+      enum:
+      - In-person
+      - Virtual
+      - Hybrid
+      type: string
+      description: Denotes the format of an event.
+      example: Virtual
     stakeholder.json:
       title: Stakeholder
       description: Represents an event stakeholder.
@@ -707,327 +1060,21 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    event-security-level.json:
-      title: EventSecurityLevel
-      description: Represents the security level used for event registrations.
-      enum:
-      - Private
-      - Public
-      - Public and Private
-      type: string
-      readOnly: true
-      example: Private
-    event:
-      title: Event
-      description: Represents an event.
-      type: object
+    event-paginated-response:
+      title: EventPaginatedResponse
+      description: Represents a paginated collection of event objects.
       required:
-      - title
-      - format
-      - planners
-      - timezone
-      - languages
-      - type
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The identifier of the event.
-          example: 9463c74e-18c6-401a-a710-ae0f485bf059
-          readOnly: true
-        title:
-          type: string
-          description: Title of the event being organized.
-          maxLength: 300
-          example: Cvent Connect 2020
-        code:
-          type: string
-          description: A system-generated code for this event.
-          maxLength: 18
-          readOnly: true
-          example: R5NP4NJYB3D
-        virtual:
-          type: boolean
-          description: True indicates the event is virtual. DEPRECATED - Refer to the 'format' field for the 'virtual' indicator.
-          example: true
-          deprecated: true
-          readOnly: true
-        format:
-          $ref: '#/components/schemas/event-format.json'
-        description:
-          type: string
-          description: Detailed description of the event.
-          maxLength: 20000
-          example: Cvent annual user conference.
-        start:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date and time when the event starts.
-          example: '2020-02-03T13:00:00.000Z'
-        end:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date and time when the event ends.
-          example: '2020-02-07T17:00:00.000Z'
-        closeAfter:
-          type: string
-          format: date-time
-          description: The event will be closed for registration after this ISO 8601 formatted date and time.
-          example: '2020-02-01T23:59:00.000Z'
-          readOnly: true
-        archiveAfter:
-          type: string
-          format: date-time
-          description: The event will be archived after this ISO 8601 formatted date and time.
-          example: '2020-05-07T12:00:00.000Z'
-          readOnly: true
-        launchAfter:
-          type: string
-          format: date-time
-          description: The event will launch after this ISO 8601 formatted date and time. If the event has not yet launched, this field shows a date of 1/1/1900.
-          example: '2020-01-07T12:00:00.000Z'
-          readOnly: true
-        timezone:
-          type: string
-          description: List of supported [timezones](/docs/rest-api/reference/api-standards#time-zones).
-          maxLength: 29
-          example: America/New_York
-        venues:
-          type: array
-          maxItems: 1
-          items:
-            $ref: '#/components/schemas/venue.json'
-          description: Collection of venues.
-        showVenueLocation:
-          type: boolean
-          description: True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error.
-        showPointOfContact:
-          type: boolean
-          description: True indicates the venue location is visible to guests for essential events. If used with other event types, the request returns a 400 error.
-        phone:
-          type: string
-          description: The phone number for the event.
-          maxLength: 13
-          example: 555-555-5555
-          readOnly: true
-        note:
-          type: string
-          description: Event note created by planners for internal use.
-          maxLength: 300
-          example: This event will need some coordination with external systems.
-        defaultLocale:
-          type: string
-          description: The event default locale using the IETF language tag format.
-          maxLength: 35
-          example: en-US
-          readOnly: true
-        languages:
-          type: array
-          uniqueItems: true
-          maxItems: 32
-          items:
-            type: string
-            example: en-US
-          description: List of IETF language tags enabled for the event. This field supports reading multiple language tags but supports writing only one language to an event.
-        currency:
-          type: string
-          description: The ISO 4217 standard format currency code used of this event.
-          maxLength: 3
-          example: USD
-          readOnly: true
-        registrationSecurityLevel:
-          $ref: '#/components/schemas/event-security-level.json'
-        status:
-          $ref: '#/components/schemas/registration-status.json'
-        eventStatus:
-          $ref: '#/components/schemas/event-status.json'
-        planningStatus:
-          type: string
-          description: The planner-created planning status for this event. Used for internal tracking purposes.
-          maxLength: 50
-          example: Submitted
-          readOnly: true
-        testMode:
-          type: boolean
-          description: True indicates the event is in test mode.
-          example: false
-          readOnly: true
-        capacity:
-          type: integer
-          description: The maximum amount of attendees that can attend the event. Only used for events with the registration feature.
-          example: 50
-          readOnly: true
-        planners:
-          type: array
-          maxItems: 1
-          items:
-            $ref: '#/components/schemas/planner.json2'
-          description: A collection of contacts representing the event planners.
-        stakeholders:
-          type: array
-          maxItems: 1
-          items:
-            $ref: '#/components/schemas/stakeholder.json'
-          description: A collection of contacts representing event stakeholders.
-          readOnly: true
-        customFields:
-          type: array
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/custom-field'
-          description: Collection of custom fields.
-        category:
-          type: object
-          deprecated: true
-          readOnly: true
-          description: The category to which this event belongs (no longer supported).
-          allOf:
-          - title: Lookup
-            description: Lookup response object
-            type: object
-            properties:
-              id:
-                $ref: '#/components/schemas/uuid-property'
-              code:
-                type: string
-                description: Code / Abbreviation of the lookup item.
-                maxLength: 30
-                example: MU
-              name:
-                type: string
-                description: Name of the lookup item.
-                maxLength: 30
-                example: Meet up
-        type:
-          $ref: '#/components/schemas/event-type.json1'
-        _links:
-          $ref: '#/components/schemas/event-links.json'
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        meetingRequestId:
-          type: string
-          format: uuid
-          description: The identifier of the meeting request related to the event, if any.
-          readOnly: true
-          example: b566c24e-12a8-452d-c490-ad0e796be093
-        createdBy:
-          type: string
-          maxLength: 100
-          description: The name of the user who created the event.
-          readOnly: true
-          example: John Doe
-        lastModifiedBy:
-          type: string
-          maxLength: 100
-          description: The name of the user who last modified the event.
-          readOnly: true
-          example: Jane Doe
-    event-links.json:
-      title: EventLinks
-      description: Represents the links associated with an event.
-      type: object
-      readOnly: true
-      properties:
-        invitation:
-          $ref: '#/components/schemas/link.json'
-        agenda:
-          $ref: '#/components/schemas/link.json'
-        summary:
-          $ref: '#/components/schemas/link.json'
-        registration:
-          $ref: '#/components/schemas/link.json'
-      example:
-        invitation:
-          href: https://cvent.com
-        agenda:
-          href: https://cvent.com
-        summary:
-          href: https://cvent.com
-        registration:
-          href: https://cvent.com
-    pagination-links.json:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/link.json'
-        self:
-          $ref: '#/components/schemas/link.json'
-        prev:
-          $ref: '#/components/schemas/link.json'
-    custom-field:
-      title: CustomField
-      description: A Custom Field
-      required:
-      - id
-      - value
+      - data
+      - paging
       type: object
       properties:
-        id:
-          type: string
-          description: The unique ID representing this custom field.
-          format: uuid
-        name:
-          type: string
-          description: The actual text of the custom field.
-          example: What is a your favorite color?
-          readOnly: true
-        type:
-          description: The type of data collected by a custom field.
-          type: string
-          allOf:
-          - title: CustomFieldType
-            enum:
-            - AutoIncrement
-            - ConsentQuestion
-            - Currency
-            - Decimal
-            - Date
-            - DateTime
-            - Email
-            - FileUpload
-            - FreeText
-            - General
-            - MultiChoice
-            - MultiSelect
-            - Number
-            - OpenEndedDateTime
-            - OpenEndedText
-            - SingleChoice
-            - SingleSelect
-            - USPhoneNumber
-            - Unknown
-            type: string
-            description: The type of data collected by a custom field.
-            example: General
-          - readOnly: true
-            example: MultiSelect
-        value:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
           type: array
-          uniqueItems: true
           items:
-            type: string
-            description: A question answer value
-          description: The set of answers or possible answers to a question.
-          example:
-          - Choice C
-          - Choice A
-        order:
-          type: integer
-          description: The order of this question in the bigger list of questions.
-          example: 1
-          readOnly: true
+            $ref: '#/components/schemas/event'
+          description: A collection of event objects.
     paging.json:
       title: Paging
       required:
@@ -1057,67 +1104,6 @@ components:
           example: 2
         _links:
           $ref: '#/components/schemas/pagination-links.json'
-    venue.json:
-      title: Venue
-      description: An Event Venue
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the venue.
-          maxLength: 300
-          example: Capital Convention Center
-        address:
-          $ref: '#/components/schemas/venue-address.json'
-    event-status.json:
-      title: EventStatus
-      description: 'Event status denotes if the event is in the past, present or future. Also can denote if the event was cancelled or deleted. '
-      readOnly: true
-      type: string
-      enum:
-      - Upcoming
-      - Ongoing
-      - Completed
-      - Cancelled
-      - Deleted
-      - Processing
-      - Archived
-      example: Upcoming
-    event-format.json:
-      title: Event Format
-      enum:
-      - In-person
-      - Virtual
-      - Hybrid
-      type: string
-      description: Denotes the format of an event.
-      example: Virtual
-    event-type.json1:
-      title: EventType
-      enum:
-      - Celebration
-      - Conference
-      - CventEssentials
-      - CventWebinar
-      - Dinner
-      - Forum
-      - FundraiserBenefit
-      - Holiday
-      - IncentiveTrip
-      - Meeting
-      - OtherGeneral
-      - PoliticalEvent
-      - Reunion
-      - SaveTheDate
-      - Seminar
-      - SimpleEvent
-      - SportsEvent
-      - TradeShow
-      - TrainingSession
-      - Webinar
-      type: string
-      description: 'Type of event being created. The following event types are not supported: Cvent Webinar, Cvent Essentials.'
-      example: Conference
     link.json:
       title: Link
       required:
@@ -1129,39 +1115,54 @@ components:
           type: string
           description: A url provided that can be followed for linking
           example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    event-security-level.json:
+      title: EventSecurityLevel
+      description: Represents the security level used for event registrations.
+      enum:
+      - Private
+      - Public
+      - Public and Private
+      type: string
+      readOnly: true
+      example: Private
+  responses:
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 429
+            message: Limit Exceeded
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 401
+            message: Unauthorized
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 400
+            message: Bad Request
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+          example:
+            code: 403
+            message: Access Forbidden
   parameters:
-    eventSort:
-      name: sort
-      required: false
-      in: query
-      style: form
-      explode: false
-      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * start\n"
-      schema:
-        type: string
-        example: start:DESC
-    token:
-      name: token
-      in: query
-      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
-
-        This will override any other pageable parameters provided.
-
-        '
-      style: form
-      explode: true
-      schema:
-        type: string
-        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    after:
-      name: after
-      required: false
-      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
     limit:
       name: limit
       in: query
@@ -1183,43 +1184,38 @@ components:
         type: string
         format: date-time
         example: '2017-01-02T02:00:00Z'
-  responses:
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 400
-            message: Bad Request
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 401
-            message: Unauthorized
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 403
-            message: Access Forbidden
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-          example:
-            code: 429
-            message: Limit Exceeded
+    after:
+      name: after
+      required: false
+      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    token:
+      name: token
+      in: query
+      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
+
+        This will override any other pageable parameters provided.
+
+        '
+      style: form
+      explode: true
+      schema:
+        type: string
+        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+    eventSort:
+      name: sort
+      required: false
+      in: query
+      style: form
+      explode: false
+      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * start\n"
+      schema:
+        type: string
+        example: start:DESC
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
@@ -1628,6 +1624,3 @@ components:
       type: http
       scheme: basic
       description: This security scheme is used to indicate that Cvent should use basic auth when invoking your callback. This scheme is only supported for callback operations, and cannot be used to make calls to Cvent endpoints.
-x-refined-from:
-- event-context-events.json
-- event-context-events.json
